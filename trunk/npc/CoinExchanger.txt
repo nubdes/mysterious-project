@@ -1,0 +1,102 @@
+// Made by Mysterious \\
+// Source: http://eathena.net/board/topic/53517-coin-exchanger/
+// Don't take my creation as your own >.> \\
+// Edit: Z3R0 (Optimization - Easy Customization)
+// Create "Core Code" Code That Does Not Need to Be Change
+// Create "Soft Code" Code That Can Be Changed Easily -> Pushed Into Core Code
+
+prontera,158,173,4	script	Coin Trader	860,{
+	
+	// ----------------------
+	// - Core Code
+	// ----------------------
+	
+	cutin "kafra_08",2;
+	mes "[" + .colors$[1] + .npc_name$ + .colors$[0] + "]";
+	mes "What do you want to do today?";
+	set .@trade_type, select("Coins -> Zeny:Zeny -> Coins");
+	
+	mes "Very well. Here is the list on how much each coin is worth:";
+	for (set .@a, 0; .@a < getarraysize(.coin_id); set .@a, .@a + 1) {
+		mes .colors$[3 + .@a] + getitemname(.coin_id[.@a]) + .colors$[0] + ": " + .coin_to_zeny_format$[.@a] + "z";
+		set .@coin_menu$, .@coin_menu$ + (.@coin_menu$ == "" ? "" : ":") + .colors$[3 + .@a] + getitemname(.coin_id[.@a]) + .colors$[0];
+	}
+
+	mes "Tell me, what coin would you like to exchange?";
+	next;
+
+	set .@coin_choice, select(.@coin_menu$) - 1;
+	
+	next;
+	
+	mes "[" + .colors$[1] + .npc_name$ + .colors$[0] + "]";
+	
+	switch(.@trade_type) {
+		case 1: // Coins -> Zeny
+			mes "How many coins would you like to give up?";
+			input .@amount;
+			if (.@amount <= 0) { // Invalid Number?
+				mes .colors$[2] + "Please Input a Number Greater Than 0";
+				cutin "",255;
+				close;
+			} else if (countitem(.coin_id[.@coin_choice]) < .@amount) {
+				mes .colors$[2] + "I'm sorry, you do not have " + .@amount + " " + getitemname(.coin_id[.@coin_choice]) + (.@amount == 1 ? "" : "s");
+				cutin "",255;
+				close;
+			} else { // Ok! Checks Passed, Let's Trade!
+				set Zeny,Zeny + (.coin_to_zeny[.@coin_choice] * .@amount);
+				delitem .coin_id[.@coin_choice],.@amount;
+				cutin "",255;
+				break;
+			}
+			
+		case 2: // Zeny -> Coins
+			mes "How many coins would you like?";
+			input .@amount;
+			if (.@amount <= 0) { // Invalid Number?
+				mes .colors$[2] + "Please Input a Number Greater Than 0";
+				cutin "",255;
+				close;
+			} else if (!checkweight(.coin_id[.@coin_choice],.@amount)) { // Will it Make Char Overweight?
+				mes .colors$[2] + "I'm Sorry, but you can't carry this due to weight restrictions";
+				cutin "",255;
+				close;
+			} else if (Zeny < .coin_to_zeny[.@coin_choice] * .@amount) {
+				mes .colors$[2] + "I'm sorry, you do not have enough zeny...";
+				cutin "",255;
+				close;
+			} else { // Checks OK! Let's trade!
+				set Zeny, Zeny - (.coin_to_zeny[.@coin_choice] * .@amount);
+				getitem .coin_id[.@coin_choice], .@amount;				
+				cutin "",255;
+			}
+		}
+		mes "[" + .colors$[1] + .npc_name$ + .colors$[0] + "]";
+		mes "Pleasure doing business with you.";
+		close2;
+		cutin "", 255;
+		close;
+
+			// ----------------------
+			// - Soft Code
+			// ----------------------	
+			
+OnInit:
+			// Store NPC Name
+			set .npc_name$, "Coin Master";
+			
+			// Store Colors
+			// default text, npc name, error, coin_type1, coin_type2, coin_type3, coin_type4, etc...
+			// Note: If you plan on adding additional coins, simply add a new color here
+			setarray .colors$[0],"^000000", "^336699", "^550000", "^996633", "^666666", "^FFFF66", "^99CCCC";
+			
+			// Set Coin Item ID's
+			// In Order coin_id1, coin_id2, coin_id3, coin_id4, etc...
+			setarray .coin_id[0],673, 675, 671, 674;
+			
+			// Coin -> Zeny Value
+			setarray .coin_to_zeny[0],1000000,10000000,25000000,200000000;
+			
+			// Currency Formatted String of Zeny
+			setarray .coin_to_zeny_format$[0],"1,000,000","10,000,000","25,000,000","200,000,000";
+}
