@@ -13,12 +13,11 @@
 // With knowledge, you can change it to whatever you want the prize to be (I.e. cashpoints, etc.).
 //===================================================================================================================
 
-splendide,182,199,6	script	Invasion NPC	459,{
+splendide,182,199,6	script	Goblin Invasion  459,{
 
-set .gm,50;//GM Level to access the GM Menu. Default: 50
+set .gm,40;//GM Level to access the GM Menu. Default: 40
 
-	// GM menu 
-	//It allows GMs Level 50 or more to Start and Stop invasions.
+	// GM menu | Game Masters Level 40 or more are allowed to Start and Stop invasions.
 	if (getgmlevel()>.gm) {
 		if (.mobs_left) {
 			mes "[Invasion]";
@@ -50,9 +49,8 @@ set .gm,50;//GM Level to access the GM Menu. Default: 50
 			close2;
 			goto OnStart;
 	}
-	
-	// If a player clicks the NPC, it displays:
-	
+
+	//If a player clicks the NPC, the NPC will tell the player how much Mobs are left on the certain map.
 	mes "[Invasion]";
 	mes .mobs_left+" have invaded "+.Map$[.rand_map]+"!";
 	close;
