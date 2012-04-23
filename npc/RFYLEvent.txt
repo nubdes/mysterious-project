@@ -47,7 +47,7 @@ LMS_Admin:
 	menu "- Start Event",M_RFYL,"- Spectate",M_warp,"- End Event",M_EndEvent,"- No Thanks",M_Leave;
 
 	M_RFYL:
-  next;
+                next;
 		mes "[Minion]";
 		mes "Hold on while I call my master.";
 		close2;
@@ -55,20 +55,20 @@ LMS_Admin:
 		goto StartEvent;
 
 	M_warp:
-  next;
+                next;
 		mes "[Minion]";
 		mes "Very well, I will warp you to the map!";
 		warp "quiz_01",42,369;
 		close;
 
 	M_Leave:
-  next;
+                next;
 		mes "[Minion]";
 		mes "Ok " + strcharinfo(0) +"! Please come back after.";
 		close;
 		
 	M_EndEvent:
-  next;
+                next;
 		mes "[Minion]";
 		mes "Ok master, I will stop the event for you right away!";
 		next;
@@ -110,7 +110,7 @@ StartEvent: // Annoucnement to notify players
 
 	disablenpc "Zombie Master";
 	disablenpc "Present For You";
-  //Round 1
+       //Round 1
 	sleep 10000;
 	monster "quiz_01",42,369,"Zombie",1015,1;
 	sleep 10000;
@@ -237,7 +237,7 @@ rachel,152,146,4	script	Zombie Master	1298,{
     end;
     break;
 	case 2:
-   next;
+    next;
     mes "[ ^0000FFZombie Master^000000 ]";
     mes "Come back when your ready.";
     close;
