@@ -1,6 +1,7 @@
 //Created by Mysterious
-//Topic: http://eathena.net/board/topic/53564-find-the-mushroom/#entry55172
+//Support Topic: http://rathena.org/board/topic/53564-find-the-mushroom/page__p__55172#entry55172
 //Please do not take this script as your own.
+//Note: Major overhaul of this script will done shortly.
 
 splendide,185,200,4	script	Find the Mushroom	1084,{
 
