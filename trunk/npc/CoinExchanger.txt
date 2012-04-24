@@ -1,9 +1,20 @@
-// Made by Mysterious \\
-// Source: http://eathena.net/board/topic/53517-coin-exchanger/
-// Don't take my creation as your own >.> \\
-// Edit: Z3R0 (Optimization - Easy Customization)
-// Create "Core Code" Code That Does Not Need to Be Change
-// Create "Soft Code" Code That Can Be Changed Easily -> Pushed Into Core Code
+//===== eAthena/rAthena Script ======================================= 
+//= Coin Exchanger
+//===== By: ================================================== 
+//= Mysterious
+//===== Current Version: ===================================== 
+//= 1.5
+//===== Compatible With: ===================================== 
+//= eAthena or rAthena SVN 
+//===== Description: ========================================= 
+//= A Run for your Life event (Based for Novices)
+//===== TODO: ================================================
+// - Change more coding
+//===== Additional Comments: =================================
+//= v1.0 - First release [Mysterious]
+//= v1.1 - Overhaul of Entire Script [Mysterious]
+//= v1.1 - Fixed Sentence structures [Mysterious]
+//============================================================
 
 prontera,158,173,4	script	Coin Trader	860,{
 	
