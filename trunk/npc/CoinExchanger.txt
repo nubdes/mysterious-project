@@ -7,13 +7,17 @@
 //===== Compatible With: ===================================== 
 //= eAthena or rAthena SVN 
 //===== Description: ========================================= 
-//= A Run for your Life event (Based for Novices)
+//= Exchange Coins (Mythril, Bronze, Gold, Platinum) into
+//= Zeny and vice versa
 //===== TODO: ================================================
-// - Change more coding
+// - Nothing
 //===== Additional Comments: =================================
 //= v1.0 - First release [Mysterious]
-//= v1.1 - Overhaul of Entire Script [Mysterious]
-//= v1.1 - Fixed Sentence structures [Mysterious]
+//= v1.1 - Fixed a bug [Mysterious]
+//= v1.2 - Fixed Sentence structures [Mysterious]
+//= v1.3 - Fixed a bug where coins wasn't changing properly [Mysterious]
+//= v1.4 - Fixed a Typo [Mysterious]
+//= v1.5 - Fixed a bug where Zeny wasn't changing properly [Mysterious]
 //============================================================
 
 prontera,158,173,4	script	Coin Trader	860,{
