@@ -3,7 +3,7 @@
 //===== By: ================================================== 
 //= Mysterious
 //===== Current Version: ===================================== 
-//= 1.5
+//= 1.8
 //===== Compatible With: ===================================== 
 //= eAthena or rAthena SVN 
 //===== Description: ========================================= 
@@ -24,6 +24,7 @@
 //= v1.5 - Fixed a bug where Zeny wasn't changing properly [Mysterious]
 //= v1.6 - New sentence structure and added Friendly messages [Mysterious]
 //= v1.7 - Made sure the NPC checks the players Zeny before converting coins to zeny [Mysterious]
+//= v1.8 - Added more Friendly Messages [Mysterious]
 //============================================================
 
 prontera,158,173,4	script	Coin Trader	860,{
@@ -124,9 +125,9 @@ prontera,158,173,4	script	Coin Trader	860,{
 			setarray .coin_id[0],673, 675, 671, 674;
 			
 			// Coin -> Zeny Value
-      // Change the Value you want the coins to be worth
+                        // Change the Value you want the coins to be worth | Order: Bronze Coin, Gold Coin, Platinum Coin, Mithril Coin
 			setarray .coin_to_zeny[0],1000000,10000000,25000000,200000000;
 			
-			// Currency Formatted String of Zeny
+			// Currency Formatted String of Zeny | Order: Bronze Coin, Gold Coin, Platinum Coin, Mithril Coin
 			setarray .coin_to_zeny_format$[0],"1,000,000","10,000,000","25,000,000","200,000,000";
 }
