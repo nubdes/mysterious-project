@@ -101,6 +101,7 @@ prontera,158,173,4	script	Coin Trader	860,{
 
 
 		L_FullZeny:
+                        next;
                         mes "[" + .colors$[1] + .npc_name$ + .colors$[0] + "]";
                         mes "I'm sorry, but I can't allow you to exchange Coins into Zeny when you have over 1.8b zeny.";
                         close;
