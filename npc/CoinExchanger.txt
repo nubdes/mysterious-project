@@ -65,7 +65,7 @@ prontera,158,173,4	script	Coin Trader	860,{
 				cutin "",255;
 				close;
 			} else { // Ok! Checks Passed, Let's Trade!
-        if(Zeny >= 1800000000) goto L_FullZeny; //Checks to see if the player has more than 1.8b
+                                if(Zeny >= 1800000000) goto L_FullZeny; //Checks to see if the player has more than 1.8b
 				set Zeny,Zeny + (.coin_to_zeny[.@coin_choice] * .@amount);
 				delitem .coin_id[.@coin_choice],.@amount;
 				cutin "",255;
@@ -101,9 +101,9 @@ prontera,158,173,4	script	Coin Trader	860,{
 
 
 		L_FullZeny:
-        mes "[" + .colors$[1] + .npc_name$ + .colors$[0] + "]";
-        mes "I'm sorry, but I can't allow you to exchange Coins into Zeny when you have over 1.8b zeny.";
-        close;
+                        mes "[" + .colors$[1] + .npc_name$ + .colors$[0] + "]";
+                        mes "I'm sorry, but I can't allow you to exchange Coins into Zeny when you have over 1.8b zeny.";
+                        close;
 
 			// ----------------------
 			// - Soft Code
