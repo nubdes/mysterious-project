@@ -11,8 +11,8 @@
 //= Zeny and vice versa
 //===== Other Information: ===================================
 // The script is written to have a Soft Code and a Hard code
-// Hard code contains Currencies, Colours, etc.
-// Soft code is the NPC itself.
+// Soft code contains Currencies, Colours, etc.
+// Core code is the NPC itself.
 //===== TODO: ================================================
 // - Nothing
 //===== Additional Comments: =================================
@@ -23,6 +23,7 @@
 //= v1.4 - Fixed a Typo [Mysterious]
 //= v1.5 - Fixed a bug where Zeny wasn't changing properly [Mysterious]
 //= v1.6 - New sentence structure and added Friendly messages [Mysterious]
+//= v1.7 - Made sure the NPC checks the players Zeny before converting coins to zeny [Mysterious]
 //============================================================
 
 prontera,158,173,4	script	Coin Trader	860,{
@@ -64,6 +65,7 @@ prontera,158,173,4	script	Coin Trader	860,{
 				cutin "",255;
 				close;
 			} else { // Ok! Checks Passed, Let's Trade!
+        if(Zeny >= 1800000000) goto L_FullZeny; //Checks to see if the player has more than 1.8b
 				set Zeny,Zeny + (.coin_to_zeny[.@coin_choice] * .@amount);
 				delitem .coin_id[.@coin_choice],.@amount;
 				cutin "",255;
@@ -96,6 +98,12 @@ prontera,158,173,4	script	Coin Trader	860,{
 		close2;
 		cutin "", 255;
 		close;
+
+
+		L_FullZeny:
+        mes "[" + .colors$[1] + .npc_name$ + .colors$[0] + "]";
+        mes "I'm sorry, but I can't allow you to exchange Coins into Zeny when you have over 1.8b zeny.";
+        close;
 
 			// ----------------------
 			// - Soft Code
