@@ -3,7 +3,7 @@
 //===== By: ================================================== 
 //= Mysterious
 //===== Current Version: ===================================== 
-//= 3.0
+//= 3.1
 //===== Compatible With: ===================================== 
 //= eAthena / rAthena SVN
 //===== Description: ========================================= 
@@ -31,22 +31,22 @@
 //= 2.8 | Fixed event status checked [Mysterious]
 //= 2.9 | Fixed Credits, Description, Notes [Mysterious]
 //= 3.0 | Fully Functional with Rewritten script [Mysterious]
+//= 3.1 | Added more Friendly messages [Mysterious]
 //============================================================ 
-prontera,132,168,5	script	Find the Mushroom	1084,{
+xxxx,xxx,xxx,x	script	Find the Mushroom	1084,{
 if((.Status ) == 0) {
 	
 	mes "[ Find The Mushroom ]";
 	mes "There is no event at the moment!";
 } else {
 	mes "There are "+.Mushroom+"s left in "+.Map$+" now!";
-	mes "Find and Kill the mushrooms to gain 1 x Event Ticket!";
+	mes "Find and Kill the mushrooms to gain <Prize>!";
 }
 close;
 
 OnMinute10:
-	set .Spawn,rand(1,10);
-	// Random Maps
-	set $@ran, rand(1,4);
+	set .Spawn,rand(1,10); //How much Mushrooms should we spawn?
+	set $@ran, rand(1,4); //Which map should we spawn Mushrooms in?
 	if ($@ran == 4) set .Map$,"izlude";
 	if ($@ran == 3) set .Map$,"geffen";
 	if ($@ran == 2) set .Map$,"morocc";
@@ -55,13 +55,13 @@ OnMinute10:
 	monster .Map$,0,0,"Please don't kill me!",1084,.Spawn,strnpcinfo(0)+"::OnMobKilled";
 	announce "Find the Mushroom : Total of "+.Spawn+" Mushrooms have been Spawned in "+.Map$+"!",0;
 	sleep2 10000;
-	announce "Find the Mushroom : Every single Mushroom you kill will give you 1 x Event Ticket!",0;
+	announce "Find the Mushroom : Every single Mushroom you kill will give you <Prize>!",0;
 	sleep2 10000;
 	end;
 
 OnMobKilled:
 	set .Spawn,.Spawn - 1;
-	getitem 7711,1;
+	getitem ID,AMOUNT; //Add the ItemID and Amount you wish to give as a prize. To had more prizes, just add more getitem ID,AMOUNT;
 	if( .Spawn ) announce "[ "+strcharinfo(0)+" ] has killed 1 Mushroom. There are now "+.Spawn+" Mushroom(s) left.",bc_map;
 	else {
 		announce "Find the Mushroom Event has ended. All the Mushrooms have been Killed.",0;
