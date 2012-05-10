@@ -3,7 +3,7 @@
 //===== By: ================================================== 
 //= Mysterious
 //===== Current Version: ===================================== 
-//= 2.1
+//= 2.2
 //===== Compatible With: ===================================== 
 //= eAthena or rAthena SVN 
 //===== Description: ========================================= 
@@ -14,6 +14,7 @@
 //= v1.0 - First release [Mysterious]
 //= v2.0 - Overhaul of Entire Script [Mysterious]
 //= v2.1 - Fixed Sentence structures [Mysterious]
+//= v2.1 - Fixed a Typo and made it obvious what players had to change [Mysterious]
 //============================================================ 
 
 // Mapflags for the Map
@@ -38,7 +39,7 @@ OnInit:
 	disablenpc "Present For You";
 }
 
-rachel,152,144,4	script	Zombie Minion	1015,{
+xxx,xxx,xxx,xxx	script	Zombie Minion	1015,{
 
 if (getgmlevel() >= 40) goto LMS_Admin;
 	mes "[Minion]";
@@ -89,7 +90,7 @@ LMS_Admin:
 		sleep 180000;
 		enablenpc "Zombie Minion";
 
-StartEvent: // Annoucnement to notify players
+StartEvent: // Announcement to notify all players
 	announce "Zombie Vs. Novice event Will begin in 3 minutes. Head East/North",0;
 	killmonsterall "quiz_01";
 	sleep 55000;
@@ -226,7 +227,7 @@ quiz_01,42,378,3	script	Present For You	72,{
 	end;
 }
 
-rachel,152,146,4	script	Zombie Master	1298,{
+xxxx,xxx,xxx,xxx	script	Zombie Master	1298,{
 	if (BaseLevel > 1) goto L_ClassLevel;
 	if (class == 0) goto L_Event;
 	if (class > 0) goto L_ClassLevel;
