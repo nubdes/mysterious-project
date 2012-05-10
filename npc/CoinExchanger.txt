@@ -3,7 +3,7 @@
 //===== By: ================================================== 
 //= Mysterious
 //===== Current Version: ===================================== 
-//= 1.8
+//= 1.9
 //===== Compatible With: ===================================== 
 //= eAthena or rAthena SVN 
 //===== Description: ========================================= 
@@ -25,6 +25,7 @@
 //= v1.6 - New sentence structure and added Friendly messages [Mysterious]
 //= v1.7 - Made sure the NPC checks the players Zeny before converting coins to zeny [Mysterious]
 //= v1.8 - Added more Friendly Messages [Mysterious]
+//= v1.9 - Just changed a sentence structure [Mysterious]
 //============================================================
 
 prontera,158,173,4	script	Coin Trader	860,{
@@ -35,7 +36,7 @@ prontera,158,173,4	script	Coin Trader	860,{
 	
 	cutin "kafra_08",2;
 	mes "[" + .colors$[1] + .npc_name$ + .colors$[0] + "]";
-	mes "What do you want to do today?";
+	mes "What would you like to do today?";
 	set .@trade_type, select("- Coins -> Zeny:- Zeny -> Coins");
 	
 	mes "Very well. Here is the list on how much each coin is worth:";
