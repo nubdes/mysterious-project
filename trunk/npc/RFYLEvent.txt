@@ -3,7 +3,7 @@
 //===== By: ================================================== 
 //= Mysterious
 //===== Current Version: ===================================== 
-//= 2.2
+//= 2.5
 //===== Compatible With: ===================================== 
 //= eAthena or rAthena SVN 
 //===== Description: ========================================= 
@@ -14,7 +14,10 @@
 //= v1.0 - First release [Mysterious]
 //= v2.0 - Overhaul of Entire Script [Mysterious]
 //= v2.1 - Fixed Sentence structures [Mysterious]
-//= v2.1 - Fixed a Typo and made it obvious what players had to change [Mysterious]
+//= v2.2 - Fixed a Typo and made it obvious what players had to change [Mysterious]
+//= v2.3 - Removed unnecessary 'next;' thanks to soUPas [Mysterious]
+//= v2.4 - Fixed an issue where the prize giver was showing up when not supposed to [Mysterious]
+//= v2.5 - Added Friendly Messages [Mysterious]
 //============================================================ 
 
 // Mapflags for the Map
@@ -228,9 +231,9 @@ quiz_01,42,378,3	script	Present For You	72,{
 }
 
 xxxx,xxx,xxx,xxx	script	Zombie Master	1298,{
-	if (BaseLevel > 1) goto L_ClassLevel;
-	if (class == 0) goto L_Event;
-	if (class > 0) goto L_ClassLevel;
+	if (BaseLevel > 1) goto L_ClassLevel; //Change '1' to your desired level
+	if (class == 0) goto L_Event; //Checks if the player is a Novice, if so, proceeds into the event.
+	if (class > 0) goto L_ClassLevel; //Checks if the Player is NOT a Novice. If they aren't, they are not allowed to participate.
 
  L_Event:
 	mes "[ ^0000FFZombie Master^000000 ]";
@@ -251,13 +254,12 @@ xxxx,xxx,xxx,xxx	script	Zombie Master	1298,{
     break;
 
  L_ClassLevel:
- next;
 	mes "[ ^0000FFZombie Master^000000 ]";
 	mes "Sorry, but it seems you are not a Novice and Level 1.";
 	close;
 }
 	OnInit:
 	disablenpc "Zombie Master";
-	disablenpc "Prize";
+	disablenpc "Present For You";
 	end;
 }
