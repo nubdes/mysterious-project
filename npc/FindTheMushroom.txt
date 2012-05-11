@@ -3,7 +3,7 @@
 //===== By: ================================================== 
 //= Mysterious
 //===== Current Version: ===================================== 
-//= 3.2
+//= 3.3
 //===== Compatible With: ===================================== 
 //= eAthena / rAthena SVN
 //===== Description: ========================================= 
@@ -33,7 +33,7 @@
 //= 3.0 | Fully Functional with Rewritten script [Mysterious]
 //= 3.1 | Added more Friendly messages [Mysterious]
 //= 3.2 | Fixed a Typo :< [Mysterious]
-//= 3.2 | Made it clear that this script is Automatic and the other is Manual [Mysterious]
+//= 3.3 | Made it clear that this script is Automatic and the other is Manual [Mysterious]
 //============================================================ 
 xxxx,xxx,xxx,x	script	Find the Mushroom	1084,{
 if((.Status ) == 0) {
