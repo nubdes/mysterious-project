@@ -1,9 +1,9 @@
 //===== rAthena Script ======================================= 
-//= Find the Mushroom
+//= Find the Mushroom (Manual)
 //===== By: ================================================== 
 //= Mysterious
 //===== Current Version: ===================================== 
-//= 3.2
+//= 3.3
 //===== Compatible With: ===================================== 
 //= eAthena / rAthena SVN
 //===== Description: ========================================= 
@@ -33,6 +33,7 @@
 //= 3.0 | Fully Functional with Rewritten script [Mysterious]
 //= 3.1 | Added more Friendly messages [Mysterious]
 //= 3.2 | Fixed a Typo :< [Mysterious]
+//= 3.3 | Beginning to change it to Manual Start [Mysterious]
 //============================================================ 
 xxxx,xxx,xxx,x	script	Find the Mushroom	1084,{
 if((.Status ) == 0) {
