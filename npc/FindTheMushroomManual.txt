@@ -3,7 +3,7 @@
 //===== By: ================================================== 
 //= Mysterious
 //===== Current Version: ===================================== 
-//= 3.5
+//= 3.6
 //===== Compatible With: ===================================== 
 //= eAthena / rAthena SVN
 //===== Description: ========================================= 
@@ -36,14 +36,15 @@
 //= 3.3 | Beginning to change it to Manual Start [Mysterious]
 //= 3.4 | Made the script into Manual Start [Mysterious]
 //= 3.5 | Fixed a Loop [Mysterious]
+//= 3.6 | Fixed spacing [Mysterious]
 //============================================================ 
 xxxx,xxx,xxx,x	script	Find the Mushroom	1084,{
 
 set $mingm,40; //Minimum GM level to access NPC and change settings Note: You can set 'getgmlevel' to 'getgroupid' as well.
 
 	mes "[ Find The Mushroom ]";
-  mes "What can I do for you?";
-  if (getgmlevel() >= $mingm) {
+	mes "What can I do for you?";
+	if (getgmlevel() >= $mingm) {
 	menu "- View Event",M_Status,"- Start Event",M_Begin;
 	}
 	menu "- View Event",M_Status;
@@ -63,7 +64,7 @@ M_Begin:
 if((.Status ) == 0) goto M_Begin2;
 
 	mes "[ Find The Mushroom ]";
-  mes "Sorry, but there's already an event taking place!";
+	mes "Sorry, but there's already an event taking place!";
 	mes "There are "+.Mushroom+"s left in "+.Map$+" now!";
 	mes "Find and Kill the mushrooms to gain <Prize>!";
 	close;
