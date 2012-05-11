@@ -3,7 +3,7 @@
 //===== By: ================================================== 
 //= Forgot who now.. =/ | Being revised by Mysterious
 //===== Current Version: ===================================== 
-//= 1.5
+//= 1.7
 //===== Compatible With: ===================================== 
 //= eAthena or rAthena SVN 
 //===== Description: ========================================= 
@@ -20,6 +20,9 @@
 //= v1.4 - Reorganized parts [Mysterious]
 //= v1.5 - Edited Credits [Mysterious]
 //= v1.6 - Organized SQL DB Creation [Mysterious]
+//= v1.7 - Fixed more issues [Mysterious]
+//= v1.8 - Fixed more spacing [Mysterious]
+//= v1.9 - Fixed Sentence structures [Mysterious]
 //============================================================
 // =========== Create SQL Tables ========
 /*
@@ -390,9 +393,7 @@ L_ST3:
 		end;
 		
 		
-///// TOP LIST
-
-	
+// Top of the list
 L_tl:
 	mes nn$;
 	mes "Order by:";
@@ -429,6 +430,7 @@ TL_k:
 		}
 		close;
 		end;
+
 TL_n:
 	query_sql ("SELECT count(name) FROM bountyladder",@rows);
 	next;
@@ -464,16 +466,12 @@ L_stl:
 	close;
 	end;
 
-	
-		
-
-//////GM MENU
-
+// Staff Menu
 L_GM:	
 	next;
 	mes nn$;
-	mes "What do you want?";
-	menu "Add bounty",GM_addbounty,"Edit bounty",GM_edit,"Delete bounty",GM_delbounty,"Delete all bounties",GM_delallb;
+	mes "Hey there! What would you like to do?";
+	menu "- Add bounty",GM_addbounty,"- Edit bounty",GM_edit,"- Delete bounty",GM_delbounty,"- Delete all bounties",GM_delallb;
 
 
 GM_delbounty:
@@ -489,7 +487,7 @@ GM_delbounty:
 		mes "^DF0101"+.@id[.@i]+"^000000# ^FA5858"+@name$[.@i]+"^000000  "+@bounty[.@i]+"";
 		}
 		mes " ";
-		mes "Input his her ID who do you want to delete.";
+		mes "Please input the ID you wish to delete:";
 		input .@ida;
 		if (query_sql ("SELECT name FROM bountys WHERE id="+.@ida+"") == 0) {
 		next;
@@ -510,21 +508,21 @@ GM_delbounty:
 		mes "^04B404Itemname(ID)^000000: "+getitemname(@iid)+"("+@iid+")";
 		mes "^04B404Itemamount^000000: "+@iat+"";
 		next;
-		mes "Now verify the delete,input the choosed bounty name:";
+		mes "Please choose a name:";
 		input @verify$;
 		if (@verify$ != @name$) {
 		next;
 		mes nn$;
-		mes "The verify is incorrect!";
+		mes "Sorry, but that's a wrong name.";
 		close;
 		end;
 		}
 		if (@verify$ == @name$) {
 		next;
 		mes nn$;
-		mes "The verify is correct.";
+		mes "Thank you.";
 		query_sql ("DELETE FROM bountys WHERE id="+.@ida+"");
-		mes ""+@verify$+" is deleted";
+		mes "Name: "+@verify$+" has been deleted.";
 		close;
 		end;
 		}
@@ -533,17 +531,16 @@ GM_delbounty:
 GM_delallb:
 	next;
 	mes nn$;
-	mes "Are you sure in deleting all bounties?";
-	menu "Yes",-,"No",L_no;
+	mes "Are you sure you want to delete all bounties?";
+	menu "- Yes",-,"- No",L_no;
 	next;
 	mes nn$;
 	query_sql ("DELETE FROM bountys");
-	mes "All bounties deleted!";
+	mes "All bounties have been deleted.";
 	close;
 	end;
 
 
-	
 GM_edit:
 	query_sql ("SELECT count(name) FROM bountys",.@rows);
 	next;
@@ -557,12 +554,12 @@ GM_edit:
 		mes "^DF0101"+.@id[.@i]+"^000000# ^FA5858"+@name$[.@i]+"^000000  "+@bounty[.@i]+"";
 		}
 		mes " ";
-		mes "Input his her ID who do you want to edit.";
+		mes "Please input the ID of the Bounty you wish to edit:";
 		input .@ida;
 		if (query_sql ("SELECT name FROM bountys WHERE id="+.@ida+"") == 0) {
 		next;
 		mes nn$;
-		mes "Sorry i'm not found "+.@ida+" Bounty ID.";
+		mes "Sorry, but I couldn't find "+.@ida+" ID.";
 		close;
 		end;
 		}
@@ -578,11 +575,11 @@ GM_edit:
 		mes "^04B404Itemname(ID)^000000: "+getitemname(@iid)+"("+@iid+")";
 		mes "^04B404Itemamount^000000: "+@iat+"";
 		mes " ";
-		mes "What do you want to change?";
-		menu "Bounty",GM_editbounty,"Reason",GM_editreason,"Description",GM_editdes,"BaseExp",GM_editbexp,"JobExp",GM_editjexp,"Itemid",GM_edititemid,"Itemamount",GM_edititemat,"Rechange all",-;
+		mes "What would you like to change?";
+		menu "- Bounty",GM_editbounty,"- Reason",GM_editreason,"- Description",GM_editdes,"- BaseExp",GM_editbexp,"- JobExp",GM_editjexp,"- Item ID",GM_edititemid,"- Item Amount",GM_edititemat,"- Change Settings Together",-;
 		next;
-		mes "Now input the bounty:";
-		mes "Input 0 if you don't want zeny reward.";
+		mes "Now input the bounty (How much Zeny):";
+		mes "Input '0' if you don't want Zeny as a reward.";
 		input @r;	
 		next;
 		mes "Now input the reason:";		
@@ -590,21 +587,21 @@ GM_edit:
 		mes "Now input the description:";	
 		input @d$;
 		next;
-		mes "Now input the BaseExp.";
-		mes "Input 0 if you don't want BaseExp reward.";
+		mes "Now input the BaseExp:";
+		mes "Note: Please input ' 0 ' if you don't want to give BaseEXP as a reward.";
 		input @bxp;
 		next;
-		mes "Now input the JobExp.";
-		mes "Input 0 if you don't want JobExp reward.";
+		mes "Now input the JobExp:";
+		mes "Note: Please input ' 0 ' if you don't want to give JobEXP as a reward.";
 		input @jxp;
 		next;
-		mes "Now input the itemid.";
-		mes "Input lesser than 501 if you don't want Item Reward reward.";
+		mes "Now input the itemid:";
+		mes "Note: Please input less than ' 541 ' if you don't want to give an Item as a reward.";
 		input @iid;
 		next;
 		if (@iid >= 1) {
-		mes "Now input the reward amount of "+@iid+" itemid.";
-		mes "If you input 0 it's automatically setted to 1.";
+		mes "How much should I give out of "+@iid+"?";
+		mes "If you input ' 0 ', I'll automatically give out 1.";
 		input @iat;
 		if (@iat == 0) {set @iat,1;
 		next;
@@ -620,63 +617,60 @@ GM_edit:
 		mes "^04B404Itemname(ID)^000000: "+getitemname(@iid)+"("+@iid+")";
 		mes "^04B404DItemamount^000000: "+@iat+"";
 		mes " ";
-		mes "This is ok?";
-		menu "Yes",-,"No",L_no;
+		mes "Is everything fine?";
+		menu "- Yes",-,"- No",L_no;
 		query_sql ("UPDATE bountys SET des='"+@d$+"',reason='"+@rea$+"',bounty="+@r+",basexp="+@bxp+",jobexp="+@jxp+",itemid="+@iid+",itemat="+@iat+" WHERE id="+.@ida+"");
 		close;
 		end;
 
 GM_editbounty:
-		next;	
-		mes nn$;		
-		mes "Input a new Bounty.";
+		next; 
+		mes nn$; 
+		mes "Now input the bounty (How much Zeny):";
+		mes "Please input '0' if you dont to set Zeny as a reward.";
 		input @r;
-		mes "^04B404Bounty^000000: "+@r+"";	
+		mes "^04B404Bounty^000000: "+@r+""; 
 		mes nn$;
-		mes "This is ok?";
+		mes "Is this okay?";
 		menu "Yes",-,"No",L_no;
 		query_sql ("UPDATE bountys SET bounty="+@r+" WHERE id="+.@ida+"");
 		close;
 		end;
 		
-		
-		
 GM_editreason:
 		next;	
 		mes nn$;		
-		mes "Input a new Reason.";	
+		mes "Please input a reason:";	
 		input @rea$;
 		mes "^04B404Reason^000000: "+@rea$+"";	
 		mes nn$;
-		mes "This is ok?";
+		mes "Is this okay?";
 		menu "Yes",-,"No",L_no;		
-		query_sql ("UPDATE bountys SET reason="+@rea$+" WHERE id="+.@ida+"");	
+		query_sql ("UPDATE bountys SET reason="+@rea$+" WHERE id="+.@ida+""); 
 		close;
-		end;		
-		
-		
+		end; 
+ 
 GM_editdes:
-		next;	
+		next; 
 		mes nn$;		
-		mes "Input a new Description.";	
+		mes "Please enter a description:"; 
 		input @des$;
 		mes "^04B404Description^000000: "+@des$+"";
 		mes nn$;
-		mes "This is ok?";
+		mes "Is this okay?";
 		menu "Yes",-,"No",L_no;		
-		query_sql ("UPDATE bountys SET des="+@des$+" WHERE id="+.@ida+"");	
+		query_sql ("UPDATE bountys SET des="+@des$+" WHERE id="+.@ida+""); 
 		close;
-		end;		
-		
-		
+		end; 
+ 
 GM_editbexp:
 		next;
 		mes nn$;		
-		mes "Input a new BaseExp.";	
+		mes "Please input your desired BaseEXP:";	
 		input @bexp;
 		mes "^04B404BaseExp^000000: "+@bexp+"";	
 		mes nn$;
-		mes "This is ok?";
+		mes "Is this okay?";
 		menu "Yes",-,"No",L_no;		
 		query_sql ("UPDATE bountys SET basexp="+@bexp+" WHERE id="+.@ida+"");			
 		close;
@@ -685,53 +679,46 @@ GM_editbexp:
 GM_editjexp:
 		next;
 		mes nn$;		
-		mes "Input a new JobExp.";	
+		mes "Please input your desired JobEXP:";
 		input @jexp;
-		mes "^04B404JobExp^000000: "+@jexp+"";	
+		mes "^04B404JobExp^000000: "+@jexp+"";
 		mes nn$;
-		mes "This is ok?";
-		menu "Yes",-,"No",L_no;		
-		query_sql ("UPDATE bountys SET jobxp="+@jexp+" WHERE id="+.@ida+"");	
+		mes "Is this okay?";
+		menu "Yes",-,"No",L_no;
+		query_sql ("UPDATE bountys SET jobxp="+@jexp+" WHERE id="+.@ida+""); 
 		close;
 		end;		
-		
-		
+ 
 GM_edititemid:
-		next;	
-		mes nn$;		
-		mes "Input a new ItemID.";	
+		next; 
+		mes nn$; 
+		mes "Please input your desired Item:";
 		input @iid;
-		mes "^04B404Itemname(ID)^000000: "+@iid+"";		
+		mes "^04B404Itemname(ID)^000000: "+@iid+""; 
 		mes nn$;
-		mes "This is ok?";
+		mes "Is this okay?";
 		menu "Yes",-,"No",L_no;		
-		query_sql ("UPDATE bountys SET itemid="+@iid+" WHERE id="+.@ida+"");	
+		query_sql ("UPDATE bountys SET itemid="+@iid+" WHERE id="+.@ida+""); 
 		close;
 		end;		
-		
-		
+ 
 GM_edititemat:
-		next;	
+		next; 
 		mes nn$;
-		mes "Input a new Itemamount.";	
+		mes "How much of the item would you like to give?"; 
 		input @itemat;
-		mes "^04B404Iteamamount^000000: "+@itemat+"";	
+		mes "^04B404Iteamamount^000000: "+@itemat+""; 
 		mes nn$;
-		mes "This is ok?";
+		mes "Is this okay?";
 		menu "Yes",-,"No",L_no;		
 		query_sql ("UPDATE bountys SET itemat="+@itemat+" WHERE id="+.@ida+"");
 		close;
 		end;
-		
-		
-
-		
+ 
 GM_addbounty:
 	next;
 	mes nn$;
-	mes "^FF0000WARNING^000000:Do not use quotes in description and in reason like: ";
-	mes "^FF0000He's a noob^000000 <<< This is bad";   
-	mes "^04B404He is a noob^000000  <<< This is good.";
+	mes "^FF0000WARNING^000000: Please do not add quotations in your around the characters name!";
 	next;
 	mes "Insert his/her name:";
 	input @pname$;
@@ -739,13 +726,13 @@ GM_addbounty:
 	if (query_sql ("SELECT char_id FROM `char` WHERE name='"+escape_sql(@pname$)+"'") == 0) {
 	next;
 	mes nn$;
-	mes "Sorry i'm not found ^04B404"+@pname$+"^000000";
+	mes "Sorry, I couldn't find ^04B404"+@pname$+"^000000.";
 	close;
 	end;
 	}
 	next;
-	mes "Now input the bounty:";
-	mes "Input 0 if you don't want zeny reward.";
+	mes "Now input the bounty (How much Zeny):";
+	mes "Input 0 if you don't want zeny as a reward.";
 	input @r;	
 	next;
 	mes "Now input the reason:";		
@@ -786,7 +773,7 @@ GM_addbounty:
 		mes "^04B404Itemamount^000000: "+@iat+"";
 		mes " ";
 		mes nn$;
-		mes "It's ok?";
+		mes "Is this fine?";
 		menu "Yes",-,"No",GM_addbountyno;
 		query_sql ("SELECT char_id FROM `char` WHERE name='"+escape_sql(@pname$)+"'",@cid);
 		query_sql ("INSERT bountys (char_id,name,bounty,onoff,des,reason,id,basexp,jobxp,itemid,itemat) VALUES ("+@cid+",'"+escape_sql(@pname$)+"',"+@r+",1,'"+escape_sql(@d$)+"','"+escape_sql(@rea$)+"',"+.@ikk+","+@bxp+","+@jxp+","+@iid+","+@iat+")");
@@ -794,19 +781,15 @@ GM_addbounty:
 		end;
 		}
 		
-			next;
+		 next;
 		mes nn$;
-		mes "Sorry there is a bounty on "+@pname$+" head.";
+		mes "Sorry there is a bounty on "+@pname$+"'s head.";
 		close;
 		end;
-	
-
-
-	
-
+ 
 GM_maxzeny:
 	mes nn$;
-	mes "What is the max zeny on your server?";
+	mes "What is your current Maximum of Zeny in the server?";
 	input .@new;
 	if (.@new == 0) {
 	next;
@@ -818,8 +801,7 @@ GM_maxzeny:
 	set $maxzeny,.@new;
 	goto L_GM;		
 		
-		
-		
+
 GM_addbountyno:
 	next;
 	mes nn$;
@@ -830,13 +812,12 @@ L_no:
 	close;
 	end;	
 
-////// ANOTHER LABELS	
+// Labels
 OnPCKillEvent:
 	set @name2$,rid2name(killedrid);
 	query_sql ("SELECT bounty,name,basexp,jobxp,itemid,itemat FROM bountys WHERE name='"+escape_sql(@name2$)+"'",@bountyr,@name$,@bexp,@jexp,@iid,@iamount);
 	query_sql ("SELECT target1,target2,target3 FROM bountyladder WHERE char_id="+getcharid(0)+"",@t1$,@t2$,@t3$);
-	
-	
+ 
 	if (@t1$ == @name2$)	{
 	if (@bexp >= 1) {dispbottom "You have earned "+@bexp+" BaseExp.";set JobExp,JobExp+@jexp;}
 	if (@jexp >= 1) {dispbottom "You have earned "+@jexp+" JobExp.";set BaseExp,BaseExp+@bexp;}
@@ -849,8 +830,7 @@ OnPCKillEvent:
 	announce "[Bounty Hunter]:"+@name$+" killed by "+strcharinfo(0)+".",bc_all;
 	end;
 	}
-	
-	
+ 
 	else if (@t2$ == @name2$) {
 
 	if (@bexp >= 1) {dispbottom "You have earned "+@bexp+" BaseExp.";set JobExp,JobExp+@jexp;}
@@ -863,8 +843,7 @@ OnPCKillEvent:
 	query_sql ("UPDATE bountyladder SET target2='Empty'");
 	announce "[Bounty Hunter]:"+@name$+" killed by "+strcharinfo(0)+".",bc_all;
 	}
-	
-	
+ 
 	else if (@t3$ == @name2$) {
 	if (@bexp >= 1) {dispbottom "You have earned "+@bexp+" BaseExp.";set JobExp,JobExp+@jexp;}
 	if (@jexp >= 1) {dispbottom "You have earned "+@jexp+" JobExp.";set BaseExp,BaseExp+@bexp;}
@@ -877,13 +856,10 @@ OnPCKillEvent:
 	query_sql ("UPDATE bountyladder SET target3='Empty'");
 	announce "[Bounty Hunter]:"+@name$+" killed by "+strcharinfo(0)+".",bc_all;
 	}
-	
-	
+ 
 	else if (@t1 != @enemy$ & @t2 != @enemy$ & @t3 != @enemy$) {
 	end;
 	}
 
-
-
-	/// END CURLY
+// End Bracket
 	}
