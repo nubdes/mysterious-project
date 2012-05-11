@@ -1,7 +1,9 @@
 //===== eAthena/rAthena Script ======================================= 
 //= MvP Room
-//===== By: ================================================== 
-//= Soul | Being revised by Mysterious
+//===== Template By: ================================================== 
+//= Soul
+//===== Script Overhaul By: ================================================== 
+//= Mysterious
 //===== Current Version: ===================================== 
 //= 2.0
 //===== Compatible With: ===================================== 
@@ -23,9 +25,11 @@
 //= v1.8 - Missed a typo [Mysterious]
 //= v1.9 - Organized the script a little more [Mysterious]
 //= v2.0 - Fixed and implemented proper duplicates [Mysterious]
+//= v2.1 - Fixed Credits [Mysterious]
+//= v2.2 - Fixed spacing between NPCs [Mysterious]
 //============================================================
 
-prontera,144,101,5	script	MvP Room	971,{
+prontera,144,101,5	script  MvP Room	971,{
 	mes "[ MvP Room ]";
 	mes "Hello there!";
 	mes "Would you like to test out the MvP Room?";
@@ -259,8 +263,8 @@ pvp_n_4-2,96,106,5	duplicate(MvP Master)	MvP Master#4-2	766
 pvp_n_5-2,96,106,5	duplicate(MvP Master)	MvP Master#5-2	766
 
 //Duplicated Healers
-pvp_n_1-2,98,106,5	duplicate(Healer)	Healer#1	914
-pvp_n_3-2,98,106,5	 duplicate(Healer)	Healer#2  914
+pvp_n_1-2,98,106,5  duplicate(Healer)	Healer#1	914
+pvp_n_3-2,98,106,5	duplicate(Healer)	Healer#2  914
 pvp_n_4-2,98,106,5	duplicate(Healer)	Healer#3	914
 pvp_n_5-2,98,106,5  duplicate(Healer)	Healer#4	914
 
