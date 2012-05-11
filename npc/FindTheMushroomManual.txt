@@ -34,8 +34,21 @@
 //= 3.1 | Added more Friendly messages [Mysterious]
 //= 3.2 | Fixed a Typo :< [Mysterious]
 //= 3.3 | Beginning to change it to Manual Start [Mysterious]
+//= 3.4 | Made the script into Manual Start [Mysterious]
+//= 3.5 | Fixed a Loop [Mysterious]
 //============================================================ 
 xxxx,xxx,xxx,x	script	Find the Mushroom	1084,{
+
+set $mingm,40; //Minimum GM level to access NPC and change settings Note: You can set 'getgmlevel' to 'getgroupid' as well.
+
+	mes "[ Find The Mushroom ]";
+  mes "What can I do for you?";
+  if (getgmlevel() >= $mingm) {
+	menu "- View Event",M_Status,"- Start Event",M_Begin;
+	}
+	menu "- View Event",M_Status;
+   
+M_Status:
 if((.Status ) == 0) {
 	
 	mes "[ Find The Mushroom ]";
@@ -46,7 +59,16 @@ if((.Status ) == 0) {
 }
 close;
 
-OnMinute10:
+M_Begin:
+if((.Status ) == 0) goto M_Begin2;
+
+	mes "[ Find The Mushroom ]";
+  mes "Sorry, but there's already an event taking place!";
+	mes "There are "+.Mushroom+"s left in "+.Map$+" now!";
+	mes "Find and Kill the mushrooms to gain <Prize>!";
+	close;
+
+M_Begin2:
 	set .Spawn,rand(1,10); //How much Mushrooms should we spawn?
 	set $@ran, rand(1,4); //Which map should we spawn Mushrooms in?
 	if ($@ran == 4) set .Map$,"izlude";
