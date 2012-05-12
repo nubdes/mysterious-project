@@ -5,7 +5,7 @@
 //===== Script Overhaul By: ================================================== 
 //= Mysterious
 //===== Current Version: ===================================== 
-//= 1.1
+//= 1.3
 //===== Compatible With: ===================================== 
 //= eAthena or rAthena SVN 
 //===== Description: ========================================= 
@@ -16,18 +16,16 @@
 //===== Additional Comments: =================================
 //= v1.0 - First release [Ace]
 //= v1.1 - Fixed Credits [Mysterious]
+//= v1.2 - Fixed some sentences [Mysterious]
+//= v1.3 - Removed unnecessary things [Mysterious]
+//= v1.4 - Fixed Duplicates [Mysterious]
+//= v1.5 - Moved Mapflags [Mysterious]
 //============================================================
-
-pvp_n_1-3	mapflag	nomemo
-pvp_n_1-3	mapflag	noreturn
-pvp_n_1-3	mapflag	restricted	6
-
 prontera,163,195,4	script	Juggernaut	810,{
 
-//Alba's disabler --------------------------------------------------------------
-// GM level 99 menu.
-if (getgmlevel() == 99) {
-  mes "[Juggernaut GM Setup]";
+// === Staff Menu
+if (getgmlevel() == 99) { // Change '99' to your desired level
+  mes "[ Juggernaut ]";
   mes "You can choose to enable/disable and/or warp out players. Status:";
   if (.offline) {
     mes "^E00000OFFLINE^000000";
@@ -43,9 +41,9 @@ if (getgmlevel() == 99) {
   }
 }
 
-// If the NPC is offline, close.
+// Player view: Juggernaut is Offline
 if (.offline) {
-  mes "[The Juggernaut]";
+  mes "[ The Juggernaut ]";
   mes "Sorry, but I'm disabled at the moment.";
   close;
 }
@@ -65,7 +63,7 @@ if (@jugguser == 0)
 
 if ($@juggend == 1)
 	{
-	mes "[The Juggernaut]";
+	mes "[ The Juggernaut ]";
 	mes "Welcome to the Juggernaut.";
 	mes "";
 	mes "A game just ended please try again in 5 seconds.";
@@ -79,14 +77,13 @@ mes "";
 mes "There are "+@jugguser+" players currently in the game.";
 mes "";
 mes "Would you like to join?";
-menu "Yes",yes,"No",-;
-
-mes " ";
-mes "Come back when you get some balls!";
+menu "Yes",M_Yes,"No",-;
+next;
+mes "[ The Juggernaut ]";
+mes "Please come back when you like.";
 close;
 
-yes:
-
+M_Yes:
 set @ijugg, getarraysize($@juggernaut);
 setarray $@juggernaut[@ijugg], getcharid(3);
 
@@ -136,7 +133,6 @@ percentheal 100,100;
 end;
 
 OnPCDieEvent:
-
 getmapxy(@checkmap$,@checkx,@checky,0);
 if (@checkmap$ == "pvp_n_1-3")
 {
@@ -147,7 +143,7 @@ set @heal, 0;
 	{
 	set _juggernaut$, "-";
 	set #juggdeath, #juggdeath + 1;
-	mapannounce "pvp_n_1-3", "The Juggernaut has fallen",0;
+	mapannounce "pvp_n_1-3", "The Juggernaut has fallen!",0;
 	}
 
 	set #nonjuggdeath, nonjuggdeath + 1;
@@ -203,7 +199,6 @@ percentheal 100,100;
 end;
 
 OnPCLogoutEvent:
-
 getmapxy(@checkmap$,@checkx,@checky,0);
 if (@checkmap$ == "pvp_n_1-3")
 {
@@ -241,7 +236,6 @@ end;
 end;
 
 OnEventGameOverJugg:
-
 set .@ijugg, getarraysize($@juggernaut);
 set .@jugg, 0;
 
@@ -633,7 +627,7 @@ set $@pk, playerattached();
 		set $@juggend, 1;
 		set $@juggtaken, 0;
 		set @jugkill, 0;
-		mapannounce "pvp_n_1-3", ""+_juggernaut$+" has won the game, NOW GET OUT!!",0;
+		mapannounce "pvp_n_1-3", "Juggernaut: "+_juggernaut$+" has won the game!",0;
 		set _juggernaut$, "-";
 
 		donpcevent "Juggernaut::OnEventGameOverJugg";
@@ -674,12 +668,12 @@ if (@heal == 0)
 
 -	script	leave_jugg::escape_jugg	780,{
 
-mes "Would you like to leave Juggernaut?";
+mes "[ The Juggernaut ]";
+mes "Would you like to leave the Juggernaut event?";
 
-menu "No",no,"Yes",yes,"Cancel",-;
-close;
+menu "No",M_No,"Yes",M_Yes;
 
-yes:
+M_Yes:
 save #originmap$, (#originx), (#originy);
 
 if (_juggernaut$ == strcharinfo(0))
@@ -715,7 +709,8 @@ for (; @i < getarraysize($@juggernaut); set @i, @i+1) {
 warp #originmap$, (#originx), (#originy);
 end;
 
-no:
+M_No:
+mes "[ The Juggernaut ]";
 mes "Ok, carry on.";
 close;
 }
@@ -834,37 +829,31 @@ percentheal 100,100;
 end;
 }
 
-//pvp_n_1-3,116,83,5	duplicate(jugg_healer)	Healer	829
-//pvp_n_1-3,115,116,5	duplicate(jugg_healer)	Healer	829
-//pvp_n_1-3,138,108,5	duplicate(jugg_healer)	Healer	829
-//pvp_n_1-3,100,146,5	duplicate(jugg_healer)	Healer	829
-//pvp_n_1-3,83,116,5	duplicate(jugg_healer)	Healer	829
-//pvp_n_1-3,60,106,5	duplicate(jugg_healer)	Healer	829
-//pvp_n_1-3,83,83,5	duplicate(jugg_healer)	Healer	829
-//pvp_n_1-3,100,52,5	duplicate(jugg_healer)	Healer	829
-pvp_n_1-3,103,52,5	duplicate(escape_jugg)	Leave Game	780
-pvp_n_1-3,140,92,5	duplicate(escape_jugg)	Leave Game	780
-pvp_n_1-3,96,140,5	duplicate(escape_jugg)	Leave Game	780
-pvp_n_1-3,59,92,5	duplicate(escape_jugg)	Leave Game	780
-pvp_n_1-3,53,98,4	duplicate(Grendal)	Repair NPC	813
-pvp_n_1-3,93,59,4	duplicate(Grendal)	Repair NPC	813
-pvp_n_1-3,147,99,4	duplicate(Grendal)	Repair NPC	813
-pvp_n_1-3,107,138,4	duplicate(Grendal)	Repair NPC	813
-morocc,164,97,4	duplicate(Juggernaut_client)	Juggernaut	810
-geffen,128,62,4	duplicate(Juggernaut_client)	Juggernaut	810
-payon,175,107,4	duplicate(Juggernaut_client)	Juggernaut	810
-alberta,122,58,4	duplicate(Juggernaut_client)	Juggernaut	810
-izlude,131,120,4	duplicate(Juggernaut_client)	Juggernaut	810
-aldebaran,135,119,4	duplicate(Juggernaut_client)	Juggernaut	810
-comodo,204,153,4	duplicate(Juggernaut_client)	Juggernaut	810
-yuno,150,179,4	duplicate(Juggernaut_client)	Juggernaut	810
-amatsu,111,149,4	duplicate(Juggernaut_client)	Juggernaut	810
-gonryun,157,125,4	duplicate(Juggernaut_client)	Juggernaut	810
-umbala,133,132,4	duplicate(Juggernaut_client)	Juggernaut	810
-louyang,219,104,4	duplicate(Juggernaut_client)	Juggernaut	810
-ayothaya,203,174,4	duplicate(Juggernaut_client)	Juggernaut	810
-einbroch,241,209,4	duplicate(Juggernaut_client)	Juggernaut	810
-lighthalzen,157,100,4	duplicate(Juggernaut_client)	Juggernaut	810
-hugel,113,71,4	duplicate(Juggernaut_client)	Juggernaut	810
-rachel,110,144,4	duplicate(Juggernaut_client)	Juggernaut	810
-veins,217,129,4	duplicate(Juggernaut_client)	Juggernaut	810
+// ====== Mapflags
+pvp_n_1-3	mapflag	nomemo
+pvp_n_1-3	mapflag	noreturn
+pvp_n_1-3	mapflag	restricted	6
+
+// ====== Duplicates
+//pvp_n_1-3,116,83,5	duplicate(jugg_healer)	Healer#1	829
+//pvp_n_1-3,115,116,5	duplicate(jugg_healer)	Healer #2  829
+//pvp_n_1-3,138,108,5	duplicate(jugg_healer)	Healer #3  829
+//pvp_n_1-3,100,146,5	duplicate(jugg_healer)	Healer#4	829
+//pvp_n_1-3,83,116,5	duplicate(jugg_healer)	Healer#5	829
+//pvp_n_1-3,60,106,5	duplicate(jugg_healer)	Healer#6	829
+//pvp_n_1-3,83,83,5	duplicate(jugg_healer)	Healer#7	829
+//pvp_n_1-3,100,52,5	duplicate(jugg_healer)	Healer#8	829
+pvp_n_1-3,103,52,5	duplicate(escape_jugg)	Leave Game#1	780
+pvp_n_1-3,140,92,5	duplicate(escape_jugg)	Leave Game#2	780
+pvp_n_1-3,96,140,5	duplicate(escape_jugg)	Leave Game #3  780
+pvp_n_1-3,59,92,5	duplicate(escape_jugg)	Leave Game#4	780
+pvp_n_1-3,53,98,4	duplicate(Grendal)	Repair NPC#1	813
+pvp_n_1-3,93,59,4	duplicate(Grendal)	Repair NPC#2	813
+pvp_n_1-3,147,99,4	duplicate(Grendal)	Repair NPC #3  813
+pvp_n_1-3,107,138,4	duplicate(Grendal)	Repair NPC #4  813
+// Main Warper
+morocc,164,97,4	duplicate(Juggernaut_client)	Juggernaut #1  810
+geffen,128,62,4	duplicate(Juggernaut_client)	Juggernaut #2  810
+payon,175,107,4	duplicate(Juggernaut_client)	Juggernaut #3  810
+alberta,122,58,4	duplicate(Juggernaut_client)	Juggernaut #4  810
+izlude,131,120,4	duplicate(Juggernaut_client)	Juggernaut #5  810
