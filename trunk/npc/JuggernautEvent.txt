@@ -1,14 +1,22 @@
-//-------------------------- Juggernaut for eAthena ----------------------------
-//------------------------------------------------------------------------------
-//---------------------- Special Thanks ----------------------------------------
-//- Albaron (helped ALOT with my server and this script)----------------------
-//- Zaya (teaching me the basics)-----------------------------------------------
-//- eAthena Forums (searching for hours on end for my answers)------------------
-//- Lance (http://up.martint.net/_files/ctf.txt - gave me alot of inspiration)--
-//- The F**king Manual ---------------------------------------------------------
-//------- Scripted by Ace (for questions e-mail aceofjordan@hotmail.com)--------
-//------------------------------------------------------------------------------
-//- This Script Has Been Modified For VRO Beta Testing -------------------------
+//===== eAthena/rAthena Script ======================================= 
+//= Juggernaut Event
+//===== Template By: ================================================== 
+//= Ace
+//===== Script Overhaul By: ================================================== 
+//= Mysterious
+//===== Current Version: ===================================== 
+//= 1.1
+//===== Compatible With: ===================================== 
+//= eAthena or rAthena SVN 
+//===== Description: ========================================= 
+//= A player will be selected to be the "Juggernaut" while the rest of the players
+//= have to all team together to take that Juggernaut down and be awarded.
+//===== TODO: ================================================
+// - Revise whole script
+//===== Additional Comments: =================================
+//= v1.0 - First release [Ace]
+//= v1.1 - Fixed Credits [Mysterious]
+//============================================================
 
 pvp_n_1-3	mapflag	nomemo
 pvp_n_1-3	mapflag	noreturn
