@@ -120,7 +120,7 @@ StartEvent: // Announcement to notify all players
 	announce "Zombie Vs. Novice event has now begun!",0,0x00FF00;
 
 	disablenpc "Zombie Master";
-	disablenpc "Present For You";
+	//disablenpc "Present For You"; <-- Not sure why this was needed?
        //Round 1
 	sleep 10000;
 	monster "quiz_01",42,369,"Zombie",1015,1;
