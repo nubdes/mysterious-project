@@ -5,7 +5,7 @@
 //===== Revised By: ================================================== 
 //= Mysterious
 //===== Current Version: ===================================== 
-//= 1.5
+//= 1.6
 //===== Compatible With: ===================================== 
 //= eAthena or rAthena SVN 
 //===== Description: ========================================= 
@@ -19,9 +19,10 @@
 //= v1.3 - Fixed Setences [Mysterious]
 //= v1.4 - Fixed alignments [Mysterious]
 //= v1.5 - Fixed Typos and Sentences [Mysterious]
+//= v1.6 - Sorta combined all "Settings" into one category  (More easy to read) [Mysterious]
 //============================================================
 
-// Mapflags
+// ==== Mapflags ==== \\
 prt_are01	mapflag	pvp
 prt_are01	mapflag	nomemo
 prt_are01	mapflag	noreturn
@@ -47,16 +48,17 @@ prontera,161,193,6	script	Capture The Flag::CTF	108,{
 
 M_begin:
 
+// ==== Configuration Settings ==== \\
 set @team, 0;
 set @heal, 0;
 set charhp, Hp;
 set charsp, Sp;
 
-//gets players hair color, body color, and save point
+// What's the dyes the players are wearing?
 set hair, getlook(6);
 set body, getlook(7);
 
-//counts users on map
+// How many players are currently on the map?
 set @mapuser, getmapusers ("prt_are01");
 set @hmapuser, getmapusers ("pvp_2vs2");
 set @smapuser, getmapusers ("pvp_y_5-2");
@@ -68,6 +70,7 @@ getmapxy(originmap$,originx,originy,0,strcharinfo(0));
 
 set @blueteam$, "^0066FFBlue Team^000000";
 set @redteam$, "^FF0000Red Team^000000";
+// ==== End Configuration Settings ==== \\
 
 mes "[Capture The Flag]";
 mes "Please select your desired gametype:";
