@@ -5,7 +5,7 @@
 //===== Revised By: ================================================== 
 //= Mysterious
 //===== Current Version: ===================================== 
-//= 1.4
+//= 1.5
 //===== Compatible With: ===================================== 
 //= eAthena or rAthena SVN 
 //===== Description: ========================================= 
@@ -18,6 +18,7 @@
 //= v1.2 - Removed a lot of comments and replaced with /* *\ 's [Mysterious]
 //= v1.3 - Fixed Setences [Mysterious]
 //= v1.4 - Fixed alignments [Mysterious]
+//= v1.5 - Fixed Typos and Sentences [Mysterious]
 //============================================================
 
 // Mapflags
@@ -82,7 +83,7 @@ mes "[ Classic CTF ]";
 if ($@redwin == 1 || $@bluewin == 1)
   {
     mes "";
-    mes "Please wait 1 minute while I clean the battlefield.";
+    mes "Please wait a minute while I clean the battlefield.";
     close2;
     sleep2 45000;
     set $@redwin, 0;
@@ -158,7 +159,7 @@ if (@team == 2)
 set $@redqt, $@redqt +1;
 
 // ======= Red Team ====== \\
-*/ Remove this and on line 307 if you want to enable
+*/ Remove this and on line 311 if you want to enable
 // Changes the player's dyes, warps the player, and saves the player to CTF map
 if (Sex == 1)
   {
@@ -318,7 +319,7 @@ if (@team == 1)
 set $@blueqt, $@blueqt +1;
 
 // ======= Blue Team ====== \\
-*/ Remove this and on line 366 if you want to enable
+*/ Remove this and on line 369 if you want to enable
 // Changes the player's dyes, warps the player, and saves the player to CTF map
 if (Sex == 1)
   {
@@ -399,18 +400,18 @@ end;
 
 // If the map is full, no more players are allowed in.
 if (@hmapuser >= 24)
-{
-goto hfullmsgclassic;
-}
+  {
+    goto hfullmsgclassic;
+  }
 
 if ($@hredqt < 0)
 {
-set $@hredqt, 0;
+  set $@hredqt, 0;
 }
 
 if ($@hblueqt < 0)
 {
-set $@hblueqt, 0;
+  set $@hblueqt, 0;
 }
 
 mes "The "+@redteam$+" has "+$@hredqt+"/12 Players.";
@@ -728,18 +729,18 @@ end;
 
 // If room is full, don't allow anymore players.
 if (@smapuser >= 24)
-{
-goto sfullmsgclassic;
-}
+  {
+    goto sfullmsgclassic;
+  }
 
 if ($@sredqt < 0)
 {
-set $@sredqt, 0;
+  set $@sredqt, 0;
 }
 
 if ($@sblueqt < 0)
 {
-set $@sblueqt, 0;
+  set $@sblueqt, 0;
 }
 
 mes "The "+@redteam$+" has "+$@sredqt+"/12 Players.";
@@ -1199,8 +1200,7 @@ mes "[Neutral Flag CTF]";
 if ($@nredwin == 1 || $@nbluewin == 1)
 {
 mes "";
-mes "Please wait 1 minute.";
-mes "Cleaning battle ground...";
+mes "Please wait a minute while I clean the battlefield.";
 close2;
 
 sleep2 45000;
@@ -5822,8 +5822,7 @@ mes "[Classic CTF]";
 if ($@redwin == 1 || $@bluewin == 1)
 {
 mes "";
-mes "Please wait 1 minute.";
-mes "Cleaning battle ground...";
+mes "Please wait a minute while I clean the battlefield.";
 close2;
 
 sleep2 45000;
@@ -6127,8 +6126,7 @@ mes "[Hardcore CTF]";
 if ($@hredwin == 1 || $@hbluewin == 1)
 {
 mes "";
-mes "Please wait 1 minute.";
-mes "Cleaning battle ground...";
+mes "Please wait a minute while I clean the battlefield.";
 close2;
 
 sleep2 45000;
@@ -6460,8 +6458,7 @@ mes "[Single Flag CTF]";
 if ($@sredwin == 1 || $@sbluewin == 1)
 {
 mes "";
-mes "Please wait 1 minute.";
-mes "Cleaning battle ground...";
+mes "Please wait a minute while I clean the battlefield.";
 close2;
 
 sleep2 45000;
@@ -6800,8 +6797,7 @@ mes "[Neutral Flag CTF]";
 if ($@nredwin == 1 || $@nbluewin == 1)
 {
 mes "";
-mes "Please wait 1 minute.";
-mes "Cleaning battle ground...";
+mes "Please wait a minute while I clean the battlefield.";
 close2;
 
 sleep2 45000;
