@@ -1,0 +1,302 @@
+Index: map/clif.c
+===================================================================
+--- map/clif.c	(revision 15820)
++++ map/clif.c	(working copy)
+@@ -1352,6 +1352,8 @@
+ 				//New Mounts are not complaint to the original method, so we gotta tell this guy that he is mounting.
+ 				clif_status_load_notick(&sd->bl,SI_ALL_RIDING,2,1,0,0);
+ 			}
++			if( sd->sc.data[SC_ON_PUSH_CART] ) // [FE]
++				clif_status_load_notick(&sd->bl, SC_ON_PUSH_CART, 2, sd->sc.data[SC_ON_PUSH_CART]->val1, 0, 0);
+ 		}
+ 		break;
+ 	case BL_MOB:
+@@ -3985,6 +3987,8 @@
+ 		//New Mounts are not complaint to the original method, so we gotta tell this guy that I'm mounting.
+ 		clif_status_load_single(sd->fd,dstsd->bl.id,SI_ALL_RIDING,2,1,0,0);
+ 	}
++	if( dstsd->sc.data[SC_ON_PUSH_CART] ) // [FE]
++		clif_status_load_single(sd->fd, dstsd->bl.id, SC_ON_PUSH_CART, 2, dstsd->sc.data[SC_ON_PUSH_CART]->val1, 0, 0);
+ 	if( (sd->status.party_id && dstsd->status.party_id == sd->status.party_id) || //Party-mate, or hpdisp setting.
+ 		(sd->bg_id && sd->bg_id == dstsd->bg_id) || //BattleGround
+ 		pc_has_permission(sd, PC_PERM_VIEW_HPMETER)
+@@ -10401,7 +10405,8 @@
+ 	/**
+ 	 * Attempts to remove these options when this function is called (will remove all available)
+ 	 **/
+-	pc_setoption(sd,sd->sc.option&~(OPTION_CART|OPTION_RIDING|OPTION_FALCON|OPTION_DRAGON|OPTION_MADOGEAR));
++	pc_setoption(sd,sd->sc.option&~(OPTION_RIDING|OPTION_FALCON|OPTION_DRAGON|OPTION_MADOGEAR));
++	pc_setcart(sd, 0); //Cart is not an option now, but this is needed to remove cart from equip window
+ }
+ 
+ 
+Index: map/pc.c
+===================================================================
+--- map/pc.c	(revision 15820)
++++ map/pc.c	(working copy)
+@@ -515,9 +515,9 @@
+ 	if(!battle_config.save_clothcolor)
+ 		sd->status.clothes_color=0;
+ 
+-  	//Only copy the Cart/Peco/Falcon options, the rest are handled via 
++  	//Only copy the Peco/Falcon options, the rest are handled via 
+ 	//status change load/saving. [Skotlex]
+-	sd->status.option = sd->sc.option&(OPTION_CART|OPTION_FALCON|OPTION_RIDING|OPTION_DRAGON|OPTION_WUG|OPTION_MADOGEAR|OPTION_MOUNTING);
++	sd->status.option = sd->sc.option&(OPTION_FALCON|OPTION_RIDING|OPTION_DRAGON|OPTION_WUG|OPTION_MADOGEAR|OPTION_MOUNTING);
+ 		
+ 	if (sd->sc.data[SC_JAILED])
+ 	{	//When Jailed, do not move last point.
+@@ -993,6 +993,8 @@
+ 		
+ 	pc_setinventorydata(sd);
+ 	pc_setequipindex(sd);
++	if (sd->sc.data[SC_ON_PUSH_CART])
++		pc_setcart(sd, sd->sc.data[SC_ON_PUSH_CART]->val1);
+ 
+ 	status_change_init(&sd->bl);
+ 	if (pc_can_use_command(sd, "hide", COMMAND_ATCOMMAND))
+@@ -5863,8 +5865,6 @@
+ 		i = sd->sc.option;
+ 		if( i&OPTION_RIDING && pc_checkskill(sd, KN_RIDING) )
+ 			i &= ~OPTION_RIDING;
+-		if( i&OPTION_CART && pc_checkskill(sd, MC_PUSHCART) )
+-			i &= ~OPTION_CART;
+ 		if( i&OPTION_FALCON && pc_checkskill(sd, HT_FALCON) )
+ 			i &= ~OPTION_FALCON;
+ 		if( i&OPTION_DRAGON && pc_checkskill(sd, RK_DRAGONTRAINING) )
+@@ -5880,6 +5880,8 @@
+ 		if( i != sd->sc.option )
+ 			pc_setoption(sd, i);
+ 
++		if( sd->sc.data[SC_ON_PUSH_CART] && pc_checkskill(sd, MC_PUSHCART) )
++			pc_setcart(sd, 0);
+ 		if( merc_is_hom_active(sd->hd) && pc_checkskill(sd, AM_CALLHOMUN) )
+ 			merc_hom_vaporize(sd, 0);
+ 	}
+@@ -6812,12 +6814,10 @@
+ 	pc_calc_skilltree(sd);
+ 	clif_skillinfoblock(sd);
+ 
+-	//Remove peco/cart/falcon
++	//Remove peco/falcon
+ 	i = sd->sc.option;
+ 	if(i&OPTION_RIDING && !pc_checkskill(sd, KN_RIDING))
+ 		i&=~OPTION_RIDING;
+-	if(i&OPTION_CART && !pc_checkskill(sd, MC_PUSHCART))
+-		i&=~OPTION_CART;
+ 	if(i&OPTION_FALCON && !pc_checkskill(sd, HT_FALCON))
+ 		i&=~OPTION_FALCON;
+ 	if( i&OPTION_DRAGON && !pc_checkskill(sd,RK_DRAGONTRAINING) )
+@@ -6831,6 +6831,10 @@
+ 	if(i != sd->sc.option)
+ 		pc_setoption(sd, i);
+ 
++	//Remove cart
++	if(sd->sc.data[SC_ON_PUSH_CART] && !pc_checkskill(sd, MC_PUSHCART))
++		pc_setcart(sd, 0);
++
+ 	if(merc_is_hom_active(sd->hd) && !pc_checkskill(sd, AM_CALLHOMUN))
+ 		merc_hom_vaporize(sd, 0);
+ 	
+@@ -6966,20 +6970,6 @@
+ 		status_calc_pc(sd,0);
+ 	}
+ 
+-	if(type&OPTION_CART && !(p_type&OPTION_CART))
+-  	{ //Cart On
+-		clif_cartlist(sd);
+-		clif_updatestatus(sd, SP_CARTINFO);
+-		if(pc_checkskill(sd, MC_PUSHCART) < 10)
+-			status_calc_pc(sd,0); //Apply speed penalty.
+-	} else
+-	if(!(type&OPTION_CART) && p_type&OPTION_CART)
+-	{ //Cart Off
+-		clif_clearcart(sd->fd);
+-		if(pc_checkskill(sd, MC_PUSHCART) < 10)
+-			status_calc_pc(sd,0); //Remove speed penalty.
+-	}
+-
+ 	if (type&OPTION_MOUNTING && !(p_type&OPTION_MOUNTING) && !pc_cant_newmount(sd) ) {
+ 		clif_status_load_notick(&sd->bl,SI_ALL_RIDING,2,1,0,0);
+ 		status_calc_pc(sd,0); 
+@@ -7065,22 +7055,29 @@
+  *------------------------------------------*/
+ int pc_setcart(struct map_session_data *sd,int type)
+ {
+-	int cart[6] = {0x0000,OPTION_CART1,OPTION_CART2,OPTION_CART3,OPTION_CART4,OPTION_CART5};
+-	int option;
+-
+ 	nullpo_ret(sd);
+ 
+-	if( type < 0 || type > 5 )
++	if( type < 0 || type > MAX_CART_TYPE )
+ 		return 1;// Never trust the values sent by the client! [Skotlex]
+ 
+ 	if( pc_checkskill(sd,MC_PUSHCART) <= 0 )
+ 		return 1;// Push cart is required
+ 
+-	// Update option
+-	option = sd->sc.option;
+-	option &= ~OPTION_CART;// clear cart bits
+-	option |= cart[type]; // set cart
+-	pc_setoption(sd, option);
++	//New cart setting [FatalEror]
++	if( type == 0 && sd->sc.data[SC_ON_PUSH_CART] ) { // Remove cart
++		clif_clearcart(sd->fd);
++		status_change_end(&sd->bl, SC_ON_PUSH_CART, INVALID_TIMER);
++		if(pc_checkskill(sd, MC_PUSHCART) < 10)
++			status_calc_pc(sd,0); //Recalc speed penalty.
++	} else {
++		if( !sd->sc.data[SC_ON_PUSH_CART] )
++			clif_cartlist(sd);
++		clif_updatestatus(sd, SP_CARTINFO);
++		sc_start(&sd->bl, SC_ON_PUSH_CART, 100, type, 0);
++		clif_status_load_notick(&sd->bl, SC_ON_PUSH_CART, 2, type, 0, 0);
++		if(pc_checkskill(sd, MC_PUSHCART) < 10)
++			status_calc_pc(sd,0); //Recalc speed penalty.
++	}
+ 
+ 	return 0;
+ }
+Index: map/pc.h
+===================================================================
+--- map/pc.h	(revision 15820)
++++ map/pc.h	(working copy)
+@@ -26,6 +26,9 @@
+ //For Warlock
+ #define MAX_SPELLBOOK 10
+ 
++//For Merchant class
++#define MAX_CART_TYPE 9
++
+ struct weapon_data {
+ 	int atkmods[3];
+ 	// all the variables except atkmods get zero'ed in each call of status_calc_pc
+@@ -608,7 +611,7 @@
+ #define pc_ishiding(sd)       ( (sd)->sc.option&(OPTION_HIDE|OPTION_CLOAK|OPTION_CHASEWALK) )
+ #define pc_iscloaking(sd)     ( !((sd)->sc.option&OPTION_CHASEWALK) && ((sd)->sc.option&OPTION_CLOAK) )
+ #define pc_ischasewalk(sd)    ( (sd)->sc.option&OPTION_CHASEWALK )
+-#define pc_iscarton(sd)       ( (sd)->sc.option&OPTION_CART )
++#define pc_iscarton(sd)       ( (sd)->sc.data[SC_ON_PUSH_CART] )
+ #define pc_isfalcon(sd)       ( (sd)->sc.option&OPTION_FALCON )
+ #define pc_isriding(sd)       ( (sd)->sc.option&OPTION_RIDING )
+ #define pc_isinvisible(sd)    ( (sd)->sc.option&OPTION_INVISIBLE )
+Index: map/script.c
+===================================================================
+--- map/script.c	(revision 15820)
++++ map/script.c	(working copy)
+@@ -7479,7 +7479,7 @@
+ 		flag = script_getnum(st,3);
+ 	else if( !option ){// Request to remove everything.
+ 		flag = 0;
+-		option = OPTION_CART|OPTION_FALCON|OPTION_RIDING;
++		option = OPTION_FALCON|OPTION_RIDING;
+ 	}
+ 	if( flag ){// Add option
+ 		if( option&OPTION_WEDDING && !battle_config.wedding_modifydisplay )
+@@ -7487,6 +7487,7 @@
+ 		else if ( option&OPTION_MOUNTING && pc_cant_newmount(sd) )
+ 			option &= ~OPTION_MOUNTING;
+ 		pc_setoption(sd, sd->sc.option|option);
++		//pc_setcart(sd, type); //Cart is not an option now, should I add this line?
+ 	} else// Remove option
+ 		pc_setoption(sd, sd->sc.option&~option);
+ 
+Index: map/skill.c
+===================================================================
+--- map/skill.c	(revision 15820)
++++ map/skill.c	(working copy)
+@@ -5972,7 +5972,7 @@
+ 				case SC_REFRESH:		case SC_STONEHARDSKIN:	case SC_VITALITYACTIVATION:
+ 				case SC_FIGHTINGSPIRIT:	case SC_ABUNDANCE:		case SC__SHADOWFORM:
+ 				case SC_LEADERSHIP:		case SC_GLORYWOUNDS:	case SC_SOULCOLD:
+-				case SC_HAWKEYES:		case SC_GUILDAURA:
++				case SC_HAWKEYES:		case SC_GUILDAURA:		case SC_ON_PUSH_CART:
+ 					continue;
+ 				/**
+ 				 * bugreport:4888 these songs may only be dispelled if you're not in their song area anymore
+Index: map/status.c
+===================================================================
+--- map/status.c	(revision 15820)
++++ map/status.c	(working copy)
+@@ -812,6 +812,7 @@
+ 	StatusIconChangeTable[SC_PETROLOGY] = SI_PETROLOGY;
+ 	StatusIconChangeTable[SC_CURSED_SOIL] = SI_CURSED_SOIL;
+ 	StatusIconChangeTable[SC_UPHEAVAL] = SI_UPHEAVAL;
++	StatusIconChangeTable[SC_ON_PUSH_CART] = SI_ON_PUSH_CART;
+ 
+ 	//Other SC which are not necessarily associated to skills.
+ 	StatusChangeFlagTable[SC_ASPDPOTION0] = SCB_ASPD;
+@@ -6706,6 +6707,7 @@
+ 		case SC_READYCOUNTER:
+ 		case SC_READYTURN:
+ 		case SC_DODGE:
++		case SC_ON_PUSH_CART:
+ 			tick = -1;
+ 			break;
+ 
+@@ -8093,6 +8095,7 @@
+ 		case SC_FOOD_DEX_CASH:
+ 		case SC_FOOD_INT_CASH:
+ 		case SC_FOOD_LUK_CASH:
++		case SC_ON_PUSH_CART:
+ 			continue;
+ 
+ 		}
+@@ -9707,6 +9710,7 @@
+ 			case SC_ABUNDANCE:
+ 			case SC_CURSEDCIRCLE_ATKER:
+ 			case SC_CURSEDCIRCLE_TARGET:
++			case SC_ON_PUSH_CART:
+ 				continue;
+ 				
+ 			//Debuffs that can be removed.
+Index: map/status.h
+===================================================================
+--- map/status.h	(revision 15820)
++++ map/status.h	(working copy)
+@@ -592,6 +592,8 @@
+ 	SC_SOULCOLD, //510
+ 	SC_HAWKEYES,
+ 	SC_ODINS_POWER,
++
++	SC_ON_PUSH_CART = 673,
+ 	SC_MAX, //Automatically updated max, used in for's to check we are within bounds.
+ } sc_type;
+ 
+@@ -1176,6 +1178,7 @@
+ 	SI_ODINS_POWER = 583,
+ 	SI_ALL_RIDING = 613,//awesome 571-613 gap, we're missing quite a few stuff here.
+ 	SI_SITTING = 622,
++	SI_ON_PUSH_CART = 673,
+ 	SI_MAX,
+ };
+ 
+@@ -1271,14 +1274,14 @@
+ 	OPTION_SIGHT     = 0x00000001,
+ 	OPTION_HIDE      = 0x00000002,
+ 	OPTION_CLOAK     = 0x00000004,
+-	OPTION_CART1     = 0x00000008,
++	OPTION_UNUSED1   = 0x00000008,
+ 	OPTION_FALCON    = 0x00000010,
+ 	OPTION_RIDING    = 0x00000020,
+ 	OPTION_INVISIBLE = 0x00000040,
+-	OPTION_CART2     = 0x00000080,
+-	OPTION_CART3     = 0x00000100,
+-	OPTION_CART4     = 0x00000200,
+-	OPTION_CART5     = 0x00000400,
++	OPTION_UNUSED2   = 0x00000080,
++	OPTION_UNUSED3   = 0x00000100,
++	OPTION_UNUSED4   = 0x00000200,
++	OPTION_UNUSED5   = 0x00000400,
+ 	OPTION_ORCISH    = 0x00000800,
+ 	OPTION_WEDDING   = 0x00001000,
+ 	OPTION_RUWACH    = 0x00002000,
+@@ -1297,7 +1300,6 @@
+ 	OPTION_DRAGON5   = 0x04000000,
+ 	OPTION_MOUNTING  = 0x08000000,//dull name (cuz ind named it :/)
+ 	// compound constants
+-	OPTION_CART      = OPTION_CART1|OPTION_CART2|OPTION_CART3|OPTION_CART4|OPTION_CART5,
+ 	OPTION_DRAGON    = OPTION_DRAGON1|OPTION_DRAGON2|OPTION_DRAGON3|OPTION_DRAGON4|OPTION_DRAGON5,
+ 	OPTION_MASK      = ~OPTION_INVISIBLE,
+ };
