@@ -5,7 +5,7 @@
 //===== Revised By: ================================================== 
 //= Mysterious
 //===== Current Version: ===================================== 
-//= 1.1
+//= 1.4
 //===== Compatible With: ===================================== 
 //= eAthena or rAthena SVN 
 //===== Description: ========================================= 
@@ -15,6 +15,9 @@
 //===== Additional Comments: =================================
 //= v1.0 - First release [Ace]
 //= v1.1 - Just fixed credits [Mysterious]
+//= v1.2 - Removed a lot of comments and replaced with /* *\ 's [Mysterious]
+//= v1.3 - Fixed Setences [Mysterious]
+//= v1.4 - Fixed alignments [Mysterious]
 //============================================================
 
 // Mapflags
@@ -41,7 +44,7 @@ pvp_y_7-1	mapflag	restricted	5
 
 prontera,161,193,6	script	Capture The Flag::CTF	108,{
 
-begin:
+M_begin:
 
 set @team, 0;
 set @heal, 0;
@@ -66,37 +69,32 @@ set @blueteam$, "^0066FFBlue Team^000000";
 set @redteam$, "^FF0000Red Team^000000";
 
 mes "[Capture The Flag]";
-mes "Please select your desired gametype.";
+mes "Please select your desired gametype:";
 
-menu "Classic CTF "+@mapuser+"/24",ctfclassic,"Classic GvG CTF "+@gmapuser+"/24",classicgvg,"Hardcore CTF "+@hmapuser+"/24",ctfhardcore,"Single Flag CTF "+@smapuser+"/24",ctfsingle,"Neutral Flag CTF "+@nmapuser+"/24",ctfneutral,"Prontera Neutral Flag "+@nnmapuser+"/24",pronteraneutral,"Your Stats",pstats,"Player Ranks",rank,"Rules",rules,"Cancel",-;
+menu "Classic CTF "+@mapuser+"/24",M_ctfclassic,"Classic GvG CTF "+@gmapuser+"/24",M_classicgvg,"Hardcore CTF "+@hmapuser+"/24",M_ctfhardcore,"Single Flag CTF "+@smapuser+"/24",M_ctfsingle,"Neutral Flag CTF "+@nmapuser+"/24",M_ctfneutral,"Prontera Neutral Flag "+@nnmapuser+"/24",M_pronteraneutral,"Your Stats",M_pstats,"Player Ranks",M_rank,"Rules",M_rules,"Cancel",-;
 
-mes "Hope to see you soon.";
+mes "Please come back when you feel like it!";
 close;
 
-ctfclassic:
-
+M_ctfclassic:
 next;
-mes "[Classic CTF]";
-
+mes "[ Classic CTF ]";
 if ($@redwin == 1 || $@bluewin == 1)
-{
-mes "";
-mes "Please wait 1 minute.";
-mes "Cleaning battle ground...";
-close2;
+  {
+    mes "";
+    mes "Please wait 1 minute while I clean the battlefield.";
+    close2;
+    sleep2 45000;
+    set $@redwin, 0;
+    set $@bluewin, 0;
+    end;
+  }
 
-sleep2 45000;
-
-set $@redwin, 0;
-set $@bluewin, 0;
-end;
-}
-
-//makes player unable to join the game due to full room
+// If the map is full, no more players are allowed in.
 if (@mapuser >= 24)
-{
-goto fullmsgclassic;
-}
+  {
+    goto fullmsgclassic;
+  }
 
 if ($@redqt < 0)
 {
@@ -111,18 +109,18 @@ set $@blueqt, 0;
 mes "The "+@redteam$+" has "+$@redqt+"/12 Players.";
 mes "The "+@blueteam$+" has "+$@blueqt+"/12 Players.";
 mes " ";
-mes "What team would you like to join?";
+mes "Please choose a team:";
 
-menu "Blue Team",bt,"Red Team",rt,"Cancel",-;
+menu "Blue Team",M_bt,"Red Team",M_rt,"Cancel",-;
 close;
 
-bt:
+M_bt:
 if ($@blueqt >= 12)
 	{
 	next;
 	mes "The "+@blueteam$+" is full";
 	next;
-	goto begin;
+	goto M_begin;
 	}
 
 mapannounce "prt_are01", ""+strcharinfo(0)+" has joined the Blue Team.",0;
@@ -131,13 +129,13 @@ set teamname, @blueteam$;
 goto okclassic;
 end;
 
-rt:
+M_rt:
 if ($@redqt >= 12)
 	{
 	next;
 	mes "The "+@redteam$+" is full";
 	next;
-	goto begin;
+	goto M_begin;
 	}
 
 mapannounce "prt_are01", ""+strcharinfo(0)+" has joined the Red Team.",0;
@@ -159,156 +157,158 @@ if (@team == 2)
 {
 set $@redqt, $@redqt +1;
 
-//changes character sprite palletes, warps, and saves player to CTF map "^^color^^"
-//if (Sex == 1)
-//	{
-//	if (Class == Job_Thief || Class == Job_Monk || Class == Job_Acolyte || Class == Job_Assassin || Class == Job_Rogue || Class == Job_Assassin_Cross || Class == Job_Priest || Class == Job_Knight || Class == Job_High_Wizard)
-//		{
-//		setlook 6,6;
-//		setlook 7,2;
-//		}
-//
-//	if (Class == Novice || Class == Job_Swordsman || Class == Job_Archer || Class == Job_Merchant)
-//		{
-//		setlook 6,6;
-//		setlook 7,1;
-//		}
-//
-//	if (Class == SuperNovice || Class == Job_Paladin)
-//		{
-//		setlook 6,6;
-//		setlook 7,58;
-//		}
-//
-//	if (Class == Job_Crusader || Class == Job_Stalker || Class == Job_Blacksmith)
-//		{
-//		setlook 6,6;
-//		setlook 7,146;
-//		}
-//
-//	if (Class == Job_High_Priest || Class == Job_Champion)
-//		{
-//		setlook 6,6;
-//		setlook 7,66;
-//		}
-//
-//	if (Class == Job_Alchem || Class == Job_Lord_Knight || Class == Job_Wizard || Class == Job_Bard || Class == Job_Clown || Class == Job_Hunter || Class == Job_Sniper || Class == Job_Taekwon || Class == Job_Star_Gladiator)
-//		{
-//		setlook 6,6;
-//		setlook 7,42;
-//		}
-//
-//	if (Class == Job_Creator)
-//		{
-//		setlook 6,6;
-//		setlook 7,14;
-//		}
-//
-//	if (Class == Job_Sage)
-//		{
-//		setlook 6,6;
-//		setlook 7,18;
-//		}
-//
-//	if (Class == Job_Professor || Class == Job_Mage)
-//		{
-//		setlook 6,6;
-//		setlook 7,39;
-//		}
-//
-//	if (Class == Job_Whitesmith)
-//		{
-//		setlook 6,6;
-//		setlook 7,62;
-//		}
-//
-//	if (Class == Job_Soul_Linker)
-//		{
-//		setlook 6,6;
-//		setlook 7,122;
-//		}
-//
-//	if (Class == Job_Gunslinger)
-//		{
-//		setlook 6,6;
-//		setlook 7,26;
-//		}
-//	}
+// ======= Red Team ====== \\
+*/ Remove this and on line 307 if you want to enable
+// Changes the player's dyes, warps the player, and saves the player to CTF map
+if (Sex == 1)
+  {
+  if (Class == Job_Thief || Class == Job_Monk || Class == Job_Acolyte || Class == Job_Assassin || Class == Job_Rogue || Class == Job_Assassin_Cross || Class == Job_Priest || Class == Job_Knight || Class == Job_High_Wizard)
+		{
+  	setlook 6,6;
+		setlook 7,2;
+  	}
 
-//if (Sex == 0)
-//	{
-//	if (Class == Novice ||  Class == Job_Thief || Class == Job_Acolyte || Class == Job_SuperNovice || Class == Job_Assassin || Class == Job_Rogue || Class == Job_Assassin_Cross || Class == Job_Priest)
-//		{
-//		setlook 6,6;
-//		setlook 7,2;
-//		}
-//
-//	if (Class == Job_Crusader || Class == Job_Merchant)
-//		{
-//		setlook 6,6;
-//		setlook 7,18;
-//		}
-//
-//	if (Class == Job_Monk || Class == Job_Knight || Class == Job_Lord_Knight || Class == Job_Whitesmith || Class == Job_Hunter || Class == Job_Sniper || Class == Job_Soul_Linker || Class == Job_Taekwon || Class == Job_Star_Gladiator || Class == Job_Mage || Class == Job_Swordsman)
-//		{
-//		setlook 6,6;
-//		setlook 7,42;
-//		}
-//
-//	if (Class == Job_High_Priest)
-//		{
-//		setlook 6,6;
-//		setlook 7,0;
-//		}
-//
-//	if (Class == Job_Champion || Class == Job_Creator || Class == Job_Sage || Class == Job_Professor)
-//		{
-//		setlook 6,6;
-//		setlook 7,14;
-//		}
-//
-//	if (Class == Job_Alchem || Class == Job_Wizard || Class == Job_High_Wizard)
-//		{
-//		setlook 6,6;
-//		setlook 7,66;
-//		}
-//
-//	if (Class == Job_Paladin || Class == Job_Blacksmith)
-//		{
-//		setlook 6,6;
-//		setlook 7,58;
-//		}
-//	if (Class == Job_Dancer)
-//		{
-//		setlook 6,6;
-//		setlook 7,153;
-//		}
-//
-//	if (Class == Job_Gypsy)
-//		{
-//		setlook 6,6;
-//		setlook 7,47;
-//		}
-//
-//	if (Class == Job_Stalker)
-//		{
-//		setlook 6,6;
-//		setlook 7,157;
-//		}
-//
-//	if (Class == Job_Archer)
-//		{
-//		setlook 6,6;
-//		setlook 7,26;
-//		}
-//
-//	if (Class == Job_Gunslinger)
-//		{
-//		setlook 6,6;
-//		setlook 7,26;
-//		}
-//	}
+	if (Class == Novice || Class == Job_Swordsman || Class == Job_Archer || Class == Job_Merchant)
+  	{
+		setlook 6,6;
+  	setlook 7,1;
+  	}
 
+	if (Class == SuperNovice || Class == Job_Paladin)
+  	{
+		setlook 6,6;
+  	setlook 7,58;
+		}
+
+	if (Class == Job_Crusader || Class == Job_Stalker || Class == Job_Blacksmith)
+  	{
+  	setlook 6,6;
+  	setlook 7,146;
+  	}
+
+  if (Class == Job_High_Priest || Class == Job_Champion)
+		{
+		setlook 6,6;
+		setlook 7,66;
+  	}
+
+  if (Class == Job_Alchem || Class == Job_Lord_Knight || Class == Job_Wizard || Class == Job_Bard || Class == Job_Clown || Class == Job_Hunter || Class == Job_Sniper || Class == Job_Taekwon || Class == Job_Star_Gladiator)
+  	{
+  	setlook 6,6;
+		setlook 7,42;
+  	}
+
+  if (Class == Job_Creator)
+		{
+  	setlook 6,6;
+  	setlook 7,14;
+		}
+
+	if (Class == Job_Sage)
+		{
+		setlook 6,6;
+		setlook 7,18;
+  	}
+
+	if (Class == Job_Professor || Class == Job_Mage)
+		{
+  	setlook 6,6;
+		setlook 7,39;
+		}
+
+	if (Class == Job_Whitesmith)
+  	{
+  	setlook 6,6;
+		setlook 7,62;
+		}
+
+	if (Class == Job_Soul_Linker)
+		{
+		setlook 6,6;
+		setlook 7,122;
+		}
+
+	if (Class == Job_Gunslinger)
+		{
+		setlook 6,6;
+		setlook 7,26;
+		}
+	}
+
+if (Sex == 0)
+	{
+	if (Class == Novice ||  Class == Job_Thief || Class == Job_Acolyte || Class == Job_SuperNovice || Class == Job_Assassin || Class == Job_Rogue || Class == Job_Assassin_Cross || Class == Job_Priest)
+		{
+		setlook 6,6;
+		setlook 7,2;
+		}
+
+	if (Class == Job_Crusader || Class == Job_Merchant)
+		{
+		setlook 6,6;
+		setlook 7,18;
+		}
+
+	if (Class == Job_Monk || Class == Job_Knight || Class == Job_Lord_Knight || Class == Job_Whitesmith || Class == Job_Hunter || Class == Job_Sniper || Class == Job_Soul_Linker || Class == Job_Taekwon || Class == Job_Star_Gladiator || Class == Job_Mage || Class == Job_Swordsman)
+  	{
+		setlook 6,6;
+		setlook 7,42;
+		}
+
+	if (Class == Job_High_Priest)
+		{
+		setlook 6,6;
+		setlook 7,0;
+		}
+
+  if (Class == Job_Champion || Class == Job_Creator || Class == Job_Sage || Class == Job_Professor)
+		{
+  	setlook 6,6;
+  	setlook 7,14;
+  	}
+
+	if (Class == Job_Alchem || Class == Job_Wizard || Class == Job_High_Wizard)
+		{
+		setlook 6,6;
+  	setlook 7,66;
+  	}
+
+	if (Class == Job_Paladin || Class == Job_Blacksmith)
+		{
+		setlook 6,6;
+		setlook 7,58;
+  	}
+  if (Class == Job_Dancer)
+  	{
+  	setlook 6,6;
+  	setlook 7,153;
+  	}
+
+	if (Class == Job_Gypsy)
+  	{
+  	setlook 6,6;
+		setlook 7,47;
+  	}
+
+  if (Class == Job_Stalker)
+		{
+  	setlook 6,6;
+  	setlook 7,157;
+  	}
+
+  if (Class == Job_Archer)
+  	{
+		setlook 6,6;
+		setlook 7,26;
+		}
+
+  if (Class == Job_Gunslinger)
+  	{
+  	setlook 6,6;
+  	setlook 7,26;
+  	}
+  }
+/*
 save "prt_are01",268,150;
 warp "prt_are01",268,150;
 }
@@ -317,53 +317,56 @@ if (@team == 1)
 {
 set $@blueqt, $@blueqt +1;
 
-// "^^color^^"
-//if (Sex == 1)
-//	{
-//	if (Class == Job_Thief || Class == Job_Acolyte || Class == Job_SuperNovice || Class == Job_Assassin || Class == Job_Priest || Class == Job_Monk || Class == Job_Assassin_Cross || Class == Job_High_Priest || Class == Job_Champion)
-//		{
-//		setlook 6,5;
-//		setlook 7,1;
-//		}
-//
-//	if (Class == Job_Merchant || Class == Job_Swordsman)
-//		{
-//		setlook 6,5;
-//		setlook 7,2;
-//		}
-//
-//	if (Class == Job_Archer || Class == Job_Mage || Class == Job_Knight || Class == Job_Wizard || Class == Job_Hunter || Class == Job_Crusader || Class == Job_High_Wizard || Class == Job_Sniper || Class == Job_Paladin || Class == Job_Stalker || Class == Job_Clown || Class == Job_Taekwon || Class == Job_Ninja || Class == Job_Gunslinger || Class == Job_Star_Gladiator || Class == Job_Blacksmith || Class == Job_Whitesmith || Class == Job_Soul_Linker)
-//		{
-//		setlook 6,5;
-//		setlook 7,43;
-//		}
-//	}
+// ======= Blue Team ====== \\
+*/ Remove this and on line 366 if you want to enable
+// Changes the player's dyes, warps the player, and saves the player to CTF map
+if (Sex == 1)
+  {
+	if (Class == Job_Thief || Class == Job_Acolyte || Class == Job_SuperNovice || Class == Job_Assassin || Class == Job_Priest || Class == Job_Monk || Class == Job_Assassin_Cross || Class == Job_High_Priest || Class == Job_Champion)
+		{
+  	setlook 6,5;
+  	setlook 7,1;
+		}
 
-//if (Sex == 0)
-//	{
-//	if (Class == Job_Thief || Class == Job_Acolyte || Class == Job_SuperNovice || Class == Job_Assassin || Class == Job_Priest || Class == Job_Monk || Class == Job_Assassin_Cross)
-//		{
-//		setlook 6,5;
-//		setlook 7,1;
-//		}
-//
-//	if (Class == Job_Archer)
-//		{
-//		setlook 6,5;
-//		setlook 7,0;
-//		}
-//
-//	if (Class == Job_Mage || Class == Job_Knight || Class == Job_Hunter || Class == Job_Crusader || Class == Job_High_Wizard || Class == Job_Sniper || Class == Job_Paladin || Class == Job_Stalker || Class == Job_Gypsy || Class == Job_Taekwon || Class == Job_Ninja || Class == Job_Gunslinger || Class == Job_Star_Gladiator || Class == Job_Blacksmith || Class == Job_Whitesmith || Class == Job_Soul_Linker || Class == Job_High_Priest || Class == Job_Champion || Class == Job_Merchant || Class == Job_Swordsman || Class == Job_Dancer)
-//		{
-//		setlook 6,5;
-//		setlook 7,43;
-//		}
-//	if (Class == Job_Wizard)
-//		{
-//		setlook 6,5;
-//		setlook 7,67;
-//		}
-//	}
+  if (Class == Job_Merchant || Class == Job_Swordsman)
+  	{
+  	setlook 6,5;
+		setlook 7,2;
+		}
+
+	if (Class == Job_Archer || Class == Job_Mage || Class == Job_Knight || Class == Job_Wizard || Class == Job_Hunter || Class == Job_Crusader || Class == Job_High_Wizard || Class == Job_Sniper || Class == Job_Paladin || Class == Job_Stalker || Class == Job_Clown || Class == Job_Taekwon || Class == Job_Ninja || Class == Job_Gunslinger || Class == Job_Star_Gladiator || Class == Job_Blacksmith || Class == Job_Whitesmith || Class == Job_Soul_Linker)
+  	{
+  	setlook 6,5;
+  	setlook 7,43;
+		}
+  }
+
+if (Sex == 0)
+	{
+	if (Class == Job_Thief || Class == Job_Acolyte || Class == Job_SuperNovice || Class == Job_Assassin || Class == Job_Priest || Class == Job_Monk || Class == Job_Assassin_Cross)
+		{
+		setlook 6,5;
+  	setlook 7,1;
+		}
+
+  if (Class == Job_Archer)
+  	{
+  	setlook 6,5;
+  	setlook 7,0;
+  	}
+
+	if (Class == Job_Mage || Class == Job_Knight || Class == Job_Hunter || Class == Job_Crusader || Class == Job_High_Wizard || Class == Job_Sniper || Class == Job_Paladin || Class == Job_Stalker || Class == Job_Gypsy || Class == Job_Taekwon || Class == Job_Ninja || Class == Job_Gunslinger || Class == Job_Star_Gladiator || Class == Job_Blacksmith || Class == Job_Whitesmith || Class == Job_Soul_Linker || Class == Job_High_Priest || Class == Job_Champion || Class == Job_Merchant || Class == Job_Swordsman || Class == Job_Dancer)
+  	{
+  	setlook 6,5;
+		setlook 7,43;
+  	}
+  if (Class == Job_Wizard)
+		{
+  	setlook 6,5;
+		setlook 7,67;
+		}
+	}
+/*
 
 save "prt_are01",30,150;
 warp "prt_are01",30,150;
@@ -379,26 +382,22 @@ mes "Sorry both teams are full try another CTF arena.";
 close;
 end;
 
-ctfhardcore:
-
+M_ctfhardcore:
 next;
 mes "[Hardcore CTF]";
 
 if ($@hredwin == 1 || $@hbluewin == 1)
 {
 mes "";
-mes "Please wait 1 minute.";
-mes "Cleaning battle ground...";
+mes "Please wait a minute till I clean the battlefield.";
 close2;
-
 sleep2 45000;
-
 set $@hredwin, 0;
 set $@hbluewin, 0;
 end;
 }
 
-//makes player unable to join the game due to full room
+// If the map is full, no more players are allowed in.
 if (@hmapuser >= 24)
 {
 goto hfullmsgclassic;
@@ -419,16 +418,16 @@ mes "The "+@blueteam$+" has "+$@hblueqt+"/12 Players.";
 mes " ";
 mes "What team would you like to join?";
 
-menu "Blue Team",hbt,"Red Team",hrt,"Cancel",-;
+menu "Blue Team",M_hbt,"Red Team",M_hrt,"Cancel",-;
 close;
 
-hbt:
+M_hbt:
 if ($@hblueqt >= 12)
 	{
 	next;
 	mes "The "+@blueteam$+" is full";
 	next;
-	goto begin;
+	goto M_begin;
 	}
 
 mapannounce "pvp_2vs2", ""+strcharinfo(0)+" has joined the Blue Team.",0;
@@ -437,13 +436,13 @@ set teamname, @blueteam$;
 goto okhardcore;
 end;
 
-hrt:
+M_hrt:
 if ($@hredqt >= 12)
 	{
 	next;
 	mes "The "+@redteam$+" is full";
 	next;
-	goto begin;
+	goto M_begin;
 	}
 
 mapannounce "pvp_2vs2", ""+strcharinfo(0)+" has joined the Red Team.",0;
@@ -712,26 +711,22 @@ close;
 
 close;
 
-ctfsingle:
-
+M_ctfsingle:
 next;
 mes "[Single Flag CTF]";
 
 if ($@sredwin == 1 || $@sbluewin == 1)
 {
 mes "";
-mes "Please wait 1 minute.";
-mes "Cleaning battle ground...";
+mes "Please wait a minute till I clean the battlefield.";
 close2;
-
 sleep2 45000;
-
 set $@sredwin, 0;
 set $@sbluewin, 0;
 end;
 }
 
-//makes player unable to join the game due to full room
+// If room is full, don't allow anymore players.
 if (@smapuser >= 24)
 {
 goto sfullmsgclassic;
@@ -761,7 +756,7 @@ if ($@sblueqt >= 12)
 	next;
 	mes "The "+@blueteam$+" is full";
 	next;
-	goto begin;
+	goto M_begin;
 	}
 
 mapannounce "pvp_y_5-2", ""+strcharinfo(0)+" has joined the Blue Team.",0;
@@ -776,7 +771,7 @@ if ($@sredqt >= 12)
 	next;
 	mes "The "+@redteam$+" is full";
 	next;
-	goto begin;
+	goto M_begin;
 	}
 
 mapannounce "pvp_y_5-2", ""+strcharinfo(0)+" has joined the Red Team.",0;
@@ -1196,7 +1191,7 @@ mes "Sorry both teams are full try another CTF arena.";
 close;
 end;
 
-ctfneutral:
+M_ctfneutral:
 
 next;
 mes "[Neutral Flag CTF]";
@@ -1245,7 +1240,7 @@ if ($@nblueqt >= 12)
 	next;
 	mes "The "+@blueteam$+" is full";
 	next;
-	goto begin;
+	goto M_begin;
 	}
 
 mapannounce "tha_t10", ""+strcharinfo(0)+" has joined the Blue Team.",0;
@@ -1260,7 +1255,7 @@ if ($@nredqt >= 12)
 	next;
 	mes "The "+@redteam$+" is full";
 	next;
-	goto begin;
+	goto M_begin;
 	}
 
 mapannounce "tha_t10", ""+strcharinfo(0)+" has joined the Red Team.",0;
@@ -1502,7 +1497,7 @@ mes "Sorry both teams are full try another CTF arena.";
 close;
 end;
 
-classicgvg:
+M_classicgvg:
 
 next;
 mes "[Classic GvG CTF]";
@@ -1537,7 +1532,7 @@ if ($@gblueqt >= 12)
 	next;
 	mes "The "+@blueteam$+" is full";
 	next;
-	goto begin;
+	goto M_begin;
 	}
 
 mapannounce "poring_w02", ""+strcharinfo(0)+" has joined the Blue Team.",0;
@@ -1552,7 +1547,7 @@ if ($@gredqt >= 12)
 	next;
 	mes "The "+@redteam$+" is full";
 	next;
-	goto begin;
+	goto M_begin;
 	}
 
 mapannounce "poring_w02", ""+strcharinfo(0)+" has joined the Red Team.",0;
@@ -1796,7 +1791,7 @@ close;
 
 close;
 
-pronteraneutral:
+M_pronteraneutral:
 
 next;
 mes "[Prontera Neutral Flag]";
@@ -1831,7 +1826,7 @@ if ($@nnblueqt >= 12)
 	next;
 	mes "The "+@blueteam$+" is full";
 	next;
-	goto begin;
+	goto M_begin;
 	}
 
 mapannounce "pvp_y_7-1", ""+strcharinfo(0)+" has joined the Blue Team.",0;
@@ -1846,7 +1841,7 @@ if ($@nnredqt >= 12)
 	next;
 	mes "The "+@redteam$+" is full";
 	next;
-	goto begin;
+	goto M_begin;
 	}
 
 mapannounce "pvp_y_7-1", ""+strcharinfo(0)+" has joined the Red Team.",0;
@@ -2087,10 +2082,9 @@ mes "Sorry both teams are full try another CTF arena.";
 close;
 end;
 
-rules:
-
+M_rules:
 mes "What do you want to know about?";
-menu "Common Rules",crrules,"Classic CTF",crules,"Hardcore CTF",hrules,"Single Flag CTF",srules,"Back",begin;
+menu "Common Rules",crrules,"Classic CTF",crules,"Hardcore CTF",hrules,"Single Flag CTF",srules,"Back",M_begin;
 close;
 
 crrules:
@@ -2099,29 +2093,28 @@ next;
 mes "The object of Capture the Flag is to steal the opposing team's flag and returning it to your base while having your flag still at your base.";
 mes "Each gametype plays in a similar way.  The flags will cast agility down on the flag carrier every 5 seconds and will also follow the carriers like pets would (when they have the flag).  Each game of Capture the Flag will end with the first team that achieves 5 flag captures.";
 next;
-menu "Common Rules",crrules,"Classic CTF",crules,"Hardcore CTF",hrules,"Single Flag CTF",srules,"Back",begin;
+menu "Common Rules",crrules,"Classic CTF",crules,"Hardcore CTF",hrules,"Single Flag CTF",srules,"Back",M_begin;
 close;
 
 crules:
 next;
 mes "Classic CTF is the most basic of Capture the Flag games.  PvP is on and each team must play offense and defense to win.  The flags are both on touch return.";
-menu "Common Rules",crrules,"Classic CTF",crules,"Hardcore CTF",hrules,"Single Flag CTF",srules,"Back",begin;
+menu "Common Rules",crrules,"Classic CTF",crules,"Hardcore CTF",hrules,"Single Flag CTF",srules,"Back",M_begin;
 close;
 
 hrules:
 next;
 mes "Hardcore CTF is similar to Classic CTF but with some minor tweaks.  GvG is on, each team has to play offensively and defensively, and the flag will silence the flag carrier along with agility down every 5 seconds.  The flags are both on touch return.";
-menu "Common Rules",crrules,"Classic CTF",crules,"Hardcore CTF",hrules,"Single Flag CTF",srules,"Back",begin;
+menu "Common Rules",crrules,"Classic CTF",crules,"Hardcore CTF",hrules,"Single Flag CTF",srules,"Back",M_begin;
 close;
 
 srules:
 next;
 mes "Single Flag CTF is the most complicated out of the three gametypes.  PvP is on for this gametype.  Instead of having to play offense and defense all at once there are 3 minute rounds where one team is on offense and the other is on defense.  The flags are NOT on touch return in this gametype, instead they are on 30 second respawn times.";
-menu "Common Rules",crrules,"Classic CTF",crules,"Hardcore CTF",hrules,"Single Flag CTF",srules,"Back",begin;
+menu "Common Rules",crrules,"Classic CTF",crules,"Hardcore CTF",hrules,"Single Flag CTF",srules,"Back",M_begin;
 close;
 
-pstats:
-
+M_pstats:
 set #kdr, #kills - #death;
 set @kdr, kills - death;
 set #rate, ( ((#win * 25) - (#lose *25)) + ((#kills * 4) - (#death *4)) + (#spree * 10)  + (#multikill * 30) + (#fcapt * 5) + (#ftaken - #fdrop) + (#freturn * 3) );
@@ -2176,8 +2169,8 @@ mes "Overall Rating: "+#rate+"";
 close;
 end;
 
-rank:
-mes "Not Implemented yet.";
+M_rank:
+mes "System isn't implemented yet.";
 close;
 
 //Player kill, death, and log in/outs
@@ -6127,8 +6120,7 @@ mes "Sorry both teams are full try another CTF arena.";
 close;
 end;
 
-ctfhardcore:
-
+M_ctfhardcore:
 next;
 mes "[Hardcore CTF]";
 
@@ -7690,8 +7682,7 @@ mes "Sorry both teams are full try another CTF arena.";
 close;
 end;
 
-rules:
-
+M_rules:
 mes "What do you want to know about?";
 menu "Common Rules",crrules,"Classic CTF",crules,"Hardcore CTF",hrules,"Single Flag CTF",srules,"Back",begin;
 close;
