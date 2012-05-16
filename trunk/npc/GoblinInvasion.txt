@@ -3,7 +3,7 @@
 //===== By: ================================================== 
 //= Mysterious
 //===== Current Version: ===================================== 
-//= 1.5
+//= 1.6
 //===== Compatible With: ===================================== 
 //= eAthena or rAthena SVN 
 //===== Description: ========================================= 
@@ -18,6 +18,7 @@
 //= v1.3 - Added Proper Notes [Mysterious]
 //= v1.4 - Made it obvious on what players have to change [Mysterious]
 //= v1.5 - Proper Sentence Structures and Typos fixed [Mysterious]
+//= v1.6 - Fixed mobs not counting down properly [Mysterious]
 //============================================================ 
 
 xxx,xxx,xxx,xxx	script	Goblin Invasion  459,{
@@ -80,18 +81,18 @@ OnStart:
 	announce "[ Rune-Midgard Guard ]: We have trouble here in the fabulous town known as " + .Map$ + "!", bc_all;
 	sleep2 5000;
 	announce "[ Rune-Midgard Guard ]: Everyone, we need your help to get rid of these Goblins!", bc_all;
-	monster .Map$,0,0,"Goblin",1258,250,"Invasion NPC::OnMyMobDead";
+	monster .Map$,0,0,"Goblin",1258,250,"Goblin Invasion::OnMyMobDead";
 	set .mobs_left, 250;
 	end;
 	
 	
 OnTimer1805000:	// 30 minutes later, kills all the mobs.
-	killmonster .Map$,"Invasion NPC::OnMyMobDead";
+	killmonster .Map$,"Goblin Invasion::OnMyMobDead";
 	set .mobs_left, 0;
 
 OnStop://When the event is stopped by a GM, or all monsters dead.
-	killmonster .Map$,"Invasion NPC::OnMyMobDead";
-	killmonster .Map$,"Invasion NPC::OnSpecialMobDead";
+	killmonster .Map$,"Goblin Invasion::OnMyMobDead";
+	killmonster .Map$,"Goblin Invasion::OnSpecialMobDead";
 	announce "It seems that "+strcharinfo(0)+" has ended the Invasion!",bc_all;
 	end;
 
@@ -99,7 +100,7 @@ OnMyMobDead: //When a Goblin is killed
 	set .mobs_left, .mobs_left-1;
 	if (.mobs_left==0) {
 		announce "[ Rune-Midgard Guard ]: The Goblin Leader has spawned in " + .Map$ + "!", bc_all;
-		monster .Map$,0,0,"Goblin Leader",1299,1,"Invasion NPC::OnSpecialMobDead";
+		monster .Map$,0,0,"Goblin Leader",1299,1,"Goblin Invasion::OnSpecialMobDead";
 
 	} else {
 		announce "["+.mobs_left+"/250] Goblins left.",bc_map;
@@ -109,7 +110,7 @@ OnMyMobDead: //When a Goblin is killed
 OnSpecialMobDead:
 		announce strcharinfo(0)+" has fought off the Goblin Invasion and has been awarded a worthy prize!", bc_all;
 		getitem .ItemID,5; //Change the [5] to the amount you wish to hand out.
-		donpcevent "Invasion NPC::OnStop";
+		donpcevent "Goblin Invasion::OnStop";
 	}
 	end;
 
