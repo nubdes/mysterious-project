@@ -1,20 +1,20 @@
-//===== eAthena Script =======================================
+//===== eAthena/rAthena Script =======================================
+//= Weapon Forger
 //===== Template by: =========================================
 //= Pang Cake
 //===== Modified by: =========================================
 //= Mysterious
 //===== Current Version: =====================================
-//= 1.10
+//= 1.2
 //===== Compatible With: =====================================
-//= eAthena SVN
+//= eAthena / rAthena SVN
 //===== Description: =========================================
-//= This NPC forges NAMELESS weapons, and can incorporate
-//  element stones and star crumbs.
-//  The forge chance is adjustable by changing the
-//  CHANCE MODIFICATION settings.
-//===== Version Info: ========================================
+//= This NPC forges NAMELESS weapons, and can incorporate element stones and star crumbs.
+//= The forge chance is adjustable by changing the formula below.
+//===== Additional Comments: ========================================
 //= v1.0 - Initial release [Pang Cake]
 //= v1.1 - Fixed a couple of things [Mysterious]
+//= v1.2 - Proper disclaimer [Mysterious]
 //============================================================
 prontera,155,172,4	script	The Forger	813,{
 
