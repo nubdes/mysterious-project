@@ -12,6 +12,7 @@
 //===== Additional Comments: =================================
 //= 1.0 | First release [Mysterious]
 //= 1.1 | Changed a few things [Mysterious]
+//============================================================
 xxx,xxx,xxx,xxx  script	xxx	xxx,{
 OnPCDieEvent:
         warp "<yourmap>",xxx,xxx;
