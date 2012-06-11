@@ -1,0 +1,31 @@
+deadmap,0,0,1	script	DEADMAP	50,{
+OnPCDieEvent:
+        warp "deadmap",50,25;
+	sleep2 1000;
+	announce "Hey "+strcharinfo(0)+", you are dead! You will respawn in 13 Seconds!",bc_blue|bc_self;
+	sleep2 3000;
+	announce "10",bc_blue|bc_self;
+	sleep2 1000;
+	announce "9",bc_blue|bc_self;
+	sleep2 1000;
+	announce "8",bc_blue|bc_self;
+	sleep2 1000;
+	announce "7",bc_blue|bc_self;
+	sleep2 1000;
+	announce "6",bc_blue|bc_self;
+	sleep2 1000;
+	announce "5",bc_blue|bc_self;
+	sleep2 1000;
+	announce "4",bc_blue|bc_self;
+	sleep2 1000;
+	announce "3",bc_blue|bc_self;
+	sleep2 1000;
+	announce "2",bc_blue|bc_self;
+	sleep2 1000;
+	announce "1",bc_blue|bc_self;
+	sleep2 1000;
+	announce "You will respawn now!",bc_blue|bc_self;
+        atcommand "!alive "+strcharinfo(0);
+	sleep2 1000;
+	atcommand "!load "+strcharinfo(0);
+}
