@@ -5,7 +5,7 @@
 //===== Revised By: ================================================== 
 //= Mysterious
 //===== Current Version: ===================================== 
-//= 1.6
+//= 1.7
 //===== Compatible With: ===================================== 
 //= eAthena or rAthena SVN 
 //===== Description: ========================================= 
@@ -7774,6 +7774,8 @@ close;
   }
 }
 }
+
+// ================== Duplicates ========================
 //prt_are01,29,150,5	duplicate(blue_ctf_healer)	Healer	829
 //prt_are01,270,150,4	duplicate(red_ctf_healer)	Healer	829
 //pvp_2vs2,14,39,5	duplicate(blue_ctf_healer)	Healer	829
