@@ -5,7 +5,7 @@
 //===== Modified by: =========================================
 //= Mysterious
 //===== Current Version: =====================================
-//= 1.2
+//= 1.3
 //===== Compatible With: =====================================
 //= eAthena / rAthena SVN
 //===== Description: =========================================
@@ -15,6 +15,7 @@
 //= v1.0 - Initial release [Pang Cake]
 //= v1.1 - Fixed a couple of things [Mysterious]
 //= v1.2 - Proper disclaimer [Mysterious]
+//= v1.3 - Made it more optimized [Mysterious]
 //===== Things to do: ========================================
 //= Add more optimization
 //= Make it so that players can create elemental stones
