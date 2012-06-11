@@ -39,7 +39,7 @@ OnPCDieEvent:
 	announce "1",bc_blue|bc_self;
 	sleep2 1000;
 	announce "Respawning..",bc_blue|bc_self;
-  atcommand "@alive "+strcharinfo(0);
+        atcommand "@alive "+strcharinfo(0);
 	sleep2 1000;
 	atcommand "@load "+strcharinfo(0);
 }
