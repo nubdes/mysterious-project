@@ -20,6 +20,7 @@
 //= v1.4 - Fixed alignments [Mysterious]
 //= v1.5 - Fixed Typos and Sentences [Mysterious]
 //= v1.6 - Sorta combined all "Settings" into one category  (More easy to read) [Mysterious]
+//= v1.7 - Fixed duplicate NPCs and missing end brackets [Mysterious]
 //============================================================
 
 // ==== Mapflags ==== \\
@@ -7769,9 +7770,10 @@ rank:
 mes "Not Implemented yet.";
 close;
 
-end;
+  end;
+  }
 }
-
+}
 //prt_are01,29,150,5	duplicate(blue_ctf_healer)	Healer	829
 //prt_are01,270,150,4	duplicate(red_ctf_healer)	Healer	829
 //pvp_2vs2,14,39,5	duplicate(blue_ctf_healer)	Healer	829
@@ -7785,50 +7787,50 @@ end;
 //pvp_y_7-1,29,211,4	duplicate(blue_ctf_healer)	Healer	829
 //pvp_y_7-1,282,211,4	duplicate(red_ctf_healer)	Healer	829
 prt_are01,28,164,5	duplicate(escape_npc)	Leave CTF	780
-prt_are01,271,164,4	duplicate(escape_npc)	Leave CTF	780
-pvp_2vs2,9,39,5	duplicate(escape_npc)	Leave CTF	780
-pvp_2vs2,70,39,4	duplicate(escape_npc)	Leave CTF	780
-pvp_y_5-2,44,140,5	duplicate(escape_npc)	Leave CTF	780
-pvp_y_5-2,213,144,4	duplicate(escape_npc)	Leave CTF	780
-tha_t10,167,101,4	duplicate(escape_npc)	Leave CTF	780
-tha_t10,90,159,4	duplicate(escape_npc)	Leave CTF	780
-poring_w02,29,183,5	duplicate(escape_npc)	Leave CTF	780
-poring_w02,173,183,4	duplicate(escape_npc)	Leave CTF	780
-pvp_y_7-1,33,211,4	duplicate(escape_npc)	Leave CTF	780
-pvp_y_7-1,277,211,4	duplicate(escape_npc)	Leave CTF	780
+prt_are01,271,164,4	duplicate(escape_npc)	Leave CTF#1	780
+pvp_2vs2,9,39,5	duplicate(escape_npc)	Leave CTF #2  780
+pvp_2vs2,70,39,4	duplicate(escape_npc)	Leave CTF #3  780
+pvp_y_5-2,44,140,5	duplicate(escape_npc)	Leave CTF #4  780
+pvp_y_5-2,213,144,4	duplicate(escape_npc)	Leave CTF#5	780
+tha_t10,167,101,4	duplicate(escape_npc)	Leave CTF #6  780
+tha_t10,90,159,4	duplicate(escape_npc)	Leave CTF #7  780
+poring_w02,29,183,5	duplicate(escape_npc)	Leave CTF #8  780
+poring_w02,173,183,4	duplicate(escape_npc)	Leave CTF #9  780
+pvp_y_7-1,33,211,4	duplicate(escape_npc)	Leave CTF #10  780
+pvp_y_7-1,277,211,4	duplicate(escape_npc)	Leave CTF #11  780
 prt_are01,28,136,5	duplicate(Grendal)	Repair NPC	813
-prt_are01,271,136,4	duplicate(Grendal)	Repair NPC	813
-pvp_2vs2,7,39,5	duplicate(Grendal)	Repair NPC	813
-pvp_2vs2,72,39,4	duplicate(Grendal)	Repair NPC	813
-pvp_y_5-2,44,135,5	duplicate(Grendal)	Repair NPC	813
-pvp_y_5-2,213,123,4	duplicate(Grendal)	Repair NPC	813
-tha_t10,90,163,4	duplicate(Grendal)	Repair NPC	813
-tha_t10,167,105,4	duplicate(Grendal)	Repair NPC	813
-poring_w02,26,183,5	duplicate(Grendal)	Repair NPC	813
-poring_w02,170,183,4	duplicate(Grendal)	Repair NPC	813
-pvp_y_7-1,31,211,4	duplicate(Grendal)	Repair NPC	813
-pvp_y_7-1,279,211,4	duplicate(Grendal)	Repair NPC	813
+prt_are01,271,136,4	duplicate(Grendal)	Repair NPC#1	813
+pvp_2vs2,7,39,5	duplicate(Grendal)	Repair NPC #2  813
+pvp_2vs2,72,39,4	duplicate(Grendal)	Repair NPC #3  813
+pvp_y_5-2,44,135,5	duplicate(Grendal)	Repair NPC #4  813
+pvp_y_5-2,213,123,4	duplicate(Grendal)	Repair NPC#5	813
+tha_t10,90,163,4	duplicate(Grendal)	Repair NPC#6	813
+tha_t10,167,105,4	duplicate(Grendal)	Repair NPC #7  813
+poring_w02,26,183,5	duplicate(Grendal)	Repair NPC #8  813
+poring_w02,170,183,4	duplicate(Grendal)	Repair NPC #9  813
+pvp_y_7-1,31,211,4	duplicate(Grendal)	Repair NPC #10  813
+pvp_y_7-1,279,211,4	duplicate(Grendal)	Repair NPC#11	813
 poring_w02,19,176,4	duplicate(left_warper)	Left Warp	836
-poring_w02,163,176,4	duplicate(left_warper)	Left Warp	836
+poring_w02,163,176,4	duplicate(left_warper)	Left Warp# 1  836
 poring_w02,32,176,8	duplicate(right_warper)	Right Warp	836
-poring_w02,176,176,8	duplicate(right_warper)	Right Warp	836
+poring_w02,176,176,8	duplicate(right_warper)	Right Warp #1  836
 pvp_y_7-1,272,211,4	duplicate(red_warper)	Blue Base Gate	723¦2
 pvp_y_7-1,40,211,4	duplicate(blue_warper)	Red Base Gate	723¦2
 morocc,160,97,6	duplicate(CTFclient)	Capture The Flag	108
-geffen,112,64,6	duplicate(CTFclient)	Capture The Flag	108
-payon,179,104,6	duplicate(CTFclient)	Capture The Flag	108
-alberta,115,63,6	duplicate(CTFclient)	Capture The Flag	108
-izlude,127,118,6	duplicate(CTFclient)	Capture The Flag	108
-aldebaran,145,119,6	duplicate(CTFclient)	Capture The Flag	108
-comodo,202,150,6	duplicate(CTFclient)	Capture The Flag	108
-yuno,151,183,6	duplicate(CTFclient)	Capture The Flag	108
-amatsu,105,149,6	duplicate(CTFclient)	Capture The Flag	108
-gonryun,156,122,6	duplicate(CTFclient)	Capture The Flag	108
-umbala,126,136,6	duplicate(CTFclient)	Capture The Flag	108
-louyang,213,104,6	duplicate(CTFclient)	Capture The Flag	108
-ayothaya,212,174,6	duplicate(CTFclient)	Capture The Flag	108
-einbroch,245,205,6	duplicate(CTFclient)	Capture The Flag	108
-lighthalzen,167,102,6	duplicate(CTFclient)	Capture The Flag	108
-hugel,109,75,6	duplicate(CTFclient)	Capture The Flag	108
-rachel,112,141,6	duplicate(CTFclient)	Capture The Flag	108
-veins,211,129,6	duplicate(CTFclient)	Capture The Flag	108
+geffen,112,64,6	duplicate(CTFclient)	Capture The Flag #1  108
+payon,179,104,6	duplicate(CTFclient)	Capture The Flag#2	108
+alberta,115,63,6	duplicate(CTFclient)	Capture The Flag #3  108
+izlude,127,118,6	duplicate(CTFclient)	Capture The Flag #4  108
+aldebaran,145,119,6	duplicate(CTFclient)	Capture The Flag #5  108
+comodo,202,150,6	duplicate(CTFclient)	Capture The Flag#6	108
+yuno,151,183,6	duplicate(CTFclient)	Capture The Flag #7  108
+amatsu,105,149,6	duplicate(CTFclient)	Capture The Flag#8	108
+gonryun,156,122,6	duplicate(CTFclient)	Capture The Flag #9  108
+umbala,126,136,6	duplicate(CTFclient)	Capture The Flag #10  108
+louyang,213,104,6	duplicate(CTFclient)	Capture The Flag#11	108
+ayothaya,212,174,6	duplicate(CTFclient)	Capture The Flag #12  108
+einbroch,245,205,6	duplicate(CTFclient)	Capture The Flag #13  108
+lighthalzen,167,102,6	duplicate(CTFclient)	Capture The Flag#14	108
+hugel,109,75,6	duplicate(CTFclient)	Capture The Flag #15  108
+rachel,112,141,6	duplicate(CTFclient)	Capture The Flag#16	108
+veins,211,129,6	duplicate(CTFclient)	Capture The Flag #17  108
