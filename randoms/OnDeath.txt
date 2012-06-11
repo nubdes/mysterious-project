@@ -1,8 +1,22 @@
-deadmap,0,0,1	script	DEADMAP	50,{
+//===== rAthena Script ======================================= 
+//= OnDeath
+//===== By: ================================================== 
+//= Mysterious
+//===== Current Version: ===================================== 
+//= 1.1
+//===== Compatible With: ===================================== 
+//= eAthena / rAthena SVN
+//===== Description: ========================================= 
+//= Basically, when a player dies, they will warp to the map you specify
+//= then there will be a countdown before they can go back to their saved spot.
+//===== Additional Comments: =================================
+//= 1.0 | First release [Mysterious]
+//= 1.1 | Changed a few things [Mysterious]
+xxx,xxx,xxx,xxx  script	xxx	xxx,{
 OnPCDieEvent:
-        warp "deadmap",50,25;
+        warp "<yourmap>",xxx,xxx;
 	sleep2 1000;
-	announce "Hey "+strcharinfo(0)+", you are dead! You will respawn in 13 Seconds!",bc_blue|bc_self;
+	announce "Hey "+strcharinfo(0)+", it seems you have died! Don't worry, you'll spawn in 13 Seconds!",bc_blue|bc_self;
 	sleep2 3000;
 	announce "10",bc_blue|bc_self;
 	sleep2 1000;
@@ -24,8 +38,8 @@ OnPCDieEvent:
 	sleep2 1000;
 	announce "1",bc_blue|bc_self;
 	sleep2 1000;
-	announce "You will respawn now!",bc_blue|bc_self;
-        atcommand "!alive "+strcharinfo(0);
+	announce "Respawning..",bc_blue|bc_self;
+  atcommand "@alive "+strcharinfo(0);
 	sleep2 1000;
-	atcommand "!load "+strcharinfo(0);
+	atcommand "@load "+strcharinfo(0);
 }
