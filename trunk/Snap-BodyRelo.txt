@@ -2,10 +2,8 @@
 //= Body Relocation / Snap
 //===== By: ================================================== 
 //= Special thanks to NANORAY
-//===== Current Version: ===================================== 
-//= 1.9
 //===== Compatible With: ===================================== 
-//= eAthena or rAthena SVN 
+//= Tested for rAthena SVN
 //===== Description: ========================================= 
 //= Body Relocation / Snap problem fix for 2012+ clients
 //===== Additional Comments: =================================
