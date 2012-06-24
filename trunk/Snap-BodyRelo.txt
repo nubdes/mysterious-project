@@ -1,4 +1,17 @@
-Location: skill.c
+//===== eAthena/rAthena Script ======================================= 
+//= Body Relocation / Snap
+//===== By: ================================================== 
+//= Special thanks to NANORAY
+//===== Current Version: ===================================== 
+//= 1.9
+//===== Compatible With: ===================================== 
+//= eAthena or rAthena SVN 
+//===== Description: ========================================= 
+//= Body Relocation / Snap problem fix for 2012+ clients
+//===== Additional Comments: =================================
+// Enjoy!
+//============================================================
+Source file: skill.c
 
 Find:
 case MO_BODYRELOCATION:
