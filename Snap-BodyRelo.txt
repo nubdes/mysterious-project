@@ -20,7 +20,7 @@ case MO_BODYRELOCATION:
       if (sd) skill_blockpc_start (sd, MO_EXTREMITYFIST, 2000);
   }
 
-Remove the comment //beside	 clif_slide(src, src->x, src->y); //Poseffect is the one that makes the char snap on the client...
+Remove the comment ( // ) beside	 //clif_slide(src, src->x, src->y); //Poseffect is the one that makes the char snap on the client...
 
 Doing so, will result in:
 
