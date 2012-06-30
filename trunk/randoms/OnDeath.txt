@@ -1,5 +1,5 @@
 //===== eAthena/rAthena Script ======================================= 
-//= OnDeath
+//= OnDeath Script
 //===== By: ================================================== 
 //= Mysterious
 //===== Current Version: ===================================== 
@@ -10,8 +10,8 @@
 //= Basically, when a player dies, they will warp to the map you specify
 //= then there will be a countdown before they can go back to their saved spot.
 //===== Additional Comments: =================================
-//= 1.0 | First release [Mysterious]
-//= 1.1 | Changed a few things [Mysterious]
+//= 1.0 - First release [Mysterious]
+//= 1.1 - Changed a few things [Mysterious]
 //============================================================
 xxx,xxx,xxx,xxx  script	xxx	xxx,{
 OnPCDieEvent:
