@@ -5,7 +5,9 @@
 //===== Compatible With: ===================================== 
 //= Tested for rAthena SVN
 //===== Description: ========================================= 
-//= Body Relocation / Snap problem fix for 2012+ clients
+//= Body Relocation
+//===== Additional Information: ==============================
+//= This fix is for the Snap problem caused in the new 2012+ clients
 //===== Additional Comments: =================================
 // Enjoy!
 //============================================================
