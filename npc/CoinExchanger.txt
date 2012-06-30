@@ -13,6 +13,7 @@
 // The script is written to have a Soft Code and a Hard code
 // Soft code contains Currencies, Colours, etc.
 // Core code is the NPC itself.
+// Note: Must have knowledge in scripting if you wish to change the code around
 //===== TODO: ================================================
 // - Nothing
 //===== Additional Comments: =================================
@@ -109,7 +110,7 @@ prontera,158,173,4	script	Coin Trader	860,{
                         close;
 
 			// ----------------------
-			// - Soft Code
+			// - Soft Code / Configurations
 			// ----------------------	
 			
                   OnInit:
