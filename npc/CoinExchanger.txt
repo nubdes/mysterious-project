@@ -13,18 +13,19 @@
 // The script is written to have a Soft Code and a Hard code
 // Soft code contains Currencies, Colours, etc.
 // Core code is the NPC itself.
-// Note: Must have knowledge in scripting if you wish to change the code around
+// Note: Must have knowledge in scripting if you wish to change
+// the code around
 //===== TODO: ================================================
 // - Nothing
 //===== Additional Comments: =================================
 //= v1.0 - First release [Mysterious]
 //= v1.1 - Fixed a bug [Mysterious]
 //= v1.2 - Fixed Sentence structures [Mysterious]
-//= v1.3 - Fixed a bug where coins wasn't changing properly [Mysterious]
+//= v1.3 - Fixed coins to change properly[Mysterious]
 //= v1.4 - Fixed a Typo [Mysterious]
 //= v1.5 - Fixed a bug where Zeny wasn't changing properly [Mysterious]
-//= v1.6 - New sentence structure and added Friendly messages [Mysterious]
-//= v1.7 - Made sure the NPC checks the players Zeny before converting coins to zeny [Mysterious]
+//= v1.6 - Friendly Messages + New Structure [Mysterious]
+//= v1.7 - NPC checks coins + zeny before conversion [Mysterious]
 //= v1.8 - Added more Friendly Messages [Mysterious]
 //= v1.9 - Just changed a sentence structure [Mysterious]
 //============================================================
