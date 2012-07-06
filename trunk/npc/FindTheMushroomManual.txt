@@ -1,12 +1,12 @@
-//===== eAthena/rAthena Script ======================================= 
+//===== eAthena/rAthena Script ===============================
 //= Find the Mushroom (Manual)
-//===== By: ================================================== 
+//===== By: ==================================================
 //= Mysterious
 //===== Current Version: ===================================== 
 //= 3.6
 //===== Compatible With: ===================================== 
 //= eAthena / rAthena SVN
-//===== Description: ========================================= 
+//===== Description: =========================================
 //= Find the Mushroom - random amount of Mushrooms spawns in random maps.
 //= Players need to find these mushrooms and kill them to gain prizes!
 //===== Additional Comments: =================================
