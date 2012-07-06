@@ -1,12 +1,12 @@
-//===== eAthena/rAthena Script ======================================= 
+//===== eAthena/rAthena Script ===============================
 //= Bounty Hunter
-//===== By: ================================================== 
+//===== By: ==================================================
 //= Forgot who now.. =/ | Being revised by Mysterious
-//===== Current Version: ===================================== 
+//===== Current Version: =====================================
 //= 1.9
-//===== Compatible With: ===================================== 
+//===== Compatible With: =====================================
 //= eAthena or rAthena SVN 
-//===== Description: ========================================= 
+//===== Description: =========================================
 //= Place a bounty on a Player while using a SQL Table
 //===== Other Information: ===================================
 // There's a Ladder included
