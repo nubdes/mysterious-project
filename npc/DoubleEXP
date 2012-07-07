@@ -1,0 +1,61 @@
+//SCRIPT BY SNORKY - WEEKEND DOUBLE EXP WITH ANNOUNCES - FINAL VERSION 03/10/2011
+//YOU CAN EDIT EXP / DAYS / ANNOUNCES AS YOU WANT !
+
+
+//FLOAT EXP RATES
+
+-	script	FloatingRates	-1,{
+	
+
+OnInit:
+OnClock0000:
+	if(gettime(4)==6  || gettime(4)==0 ) {
+	setbattleflag("base_exp_rate", 6000 );
+	setbattleflag("job_exp_rate", 6000 );
+	atcommand "@reloadmobdb";	
+}
+end;
+}
+
+
+
+//ANNOUNCES
+
+-	script	FloatingAnn	-1,{
+
+OnMinute01:
+	if(gettime(4)==6  || gettime(4)==0 )
+	{
+	announce "Weekend double exp is active!!",bc_all,0xFF6060;
+	}
+
+end;
+}
+
+
+
+-	script	FloatingAnn2	-1,{
+
+OnClock0000:
+
+if(GetTime(4) == 1)
+	{
+	announce "Weekend double exp is finished",bc_all,0xFF6060;
+	}
+
+end;
+}
+
+
+-	script	resetrate	-1,{
+
+OnClock0000:
+
+if(GetTime(4) == 1)
+	{
+	atcommand "@reloadbattleconf";
+	atcommand "@reloadmobdb";
+	}
+
+end;
+}
