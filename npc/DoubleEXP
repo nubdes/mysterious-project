@@ -1,58 +1,57 @@
-//SCRIPT BY SNORKY - WEEKEND DOUBLE EXP WITH ANNOUNCES - FINAL VERSION 03/10/2011
-//YOU CAN EDIT EXP / DAYS / ANNOUNCES AS YOU WANT !
-
-
-//FLOAT EXP RATES
-
+//===== eAthena/rAthena Script ===============================
+//= Floating Rates
+//===== By: ================================================== 
+//= Mysterious
+//===== Current Version: =====================================
+//= 1.3
+//===== Compatible With: =====================================
+//= eAthena or rAthena SVN 
+//===== Description: =========================================
+//= EXP Doubles on Weekends
+//===== Other Information: ===================================
+// Every weekend, starting on Fridays, players will gain
+// double EXP. The script will announce when Double EXP has
+// begun so that players know.
+//===== TODO: ================================================
+// 1) Optimize script a little more
+// 2) Make script more friendly
+//===== Additional Comments: =================================
+//= v1.0 - Intitial Re-release [Mysterious]
+//= v1.1 - Made it so that it starts on Friday, ends on Sunday [Mysterious]
+//= v1.2 - Optimized entire script [Mysterious]
+//= v1.3 - Made it more friendly [Mysterious]
+//============================================================
 -	script	FloatingRates	-1,{
 	
 
 OnInit:
 OnClock0000:
-	if(gettime(4)==6  || gettime(4)==0 ) {
-	setbattleflag("base_exp_rate", 6000 );
-	setbattleflag("job_exp_rate", 6000 );
+	if(gettime(4)==4  || gettime(4)==5  || gettime(4)==6 ) { // Friday, Saturday, Sunday
+	setbattleflag("base_exp_rate", 6000 ); // Change 6,000 to the rates you want
+	setbattleflag("job_exp_rate", 6000 ); // Change 6,000 to the rates you want
 	atcommand "@reloadmobdb";	
 }
 end;
 }
 
-
-
-//ANNOUNCES
-
+// When the event has begun, we shall announce it
 -	script	FloatingAnn	-1,{
 
 OnMinute01:
-	if(gettime(4)==6  || gettime(4)==0 )
-	{
-	announce "Weekend double exp is active!!",bc_all,0xFF6060;
+	if(gettime(4)==4  || gettime(4)==5  || gettime(4)==6 ) { // Friday, Saturday, Sunday
+	announce "Double EXP Weekend has begun!",bc_all,0xFF6060;
 	}
 
 end;
 }
 
+-	script	FloatingAnn#1	-1,{
 
-
--	script	FloatingAnn2	-1,{
-
-OnClock0000:
-
-if(GetTime(4) == 1)
-	{
+OnClock1159:
+if(gettime(4) == 0) { // On Sunday at 11:59pm server time, Double EXP event will end
 	announce "Weekend double exp is finished",bc_all,0xFF6060;
-	}
-
-end;
-}
-
-
--	script	resetrate	-1,{
-
-OnClock0000:
-
-if(GetTime(4) == 1)
-	{
+	setbattleflag("base_exp_rate", 6000 ); // Set this rates back to your regular server's rates
+	setbattleflag("job_exp_rate", 6000 ); // Set this rates back to your regular server's rates
 	atcommand "@reloadbattleconf";
 	atcommand "@reloadmobdb";
 	}
