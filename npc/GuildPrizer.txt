@@ -1,271 +1,50 @@
 //===== eAthena/rAthena Script ===============================
 //= Guild Prize Giveaway
 //===== By: ================================================== 
-//= AnnieRuru
-//===== Modified By: =========================================
-// = Mysterious
+//= AnnieRuru / Mysterious
 //===== Current Version: =====================================
-//= 1.2
-//===== Compatible With: =====================================
-//= eAthena or rAthena SVN 
+//= 1.4
 //===== Description: =========================================
-//= Gives the Castle's owner a prize for destroying the Emperium.
-//===== Other Information: ===================================
-// Please note that Yuno and Rachel castle sections have not been
-// created. If you wish to create them, follow the template that has
-// been done for the other castles.
+//= Rewards guild masters of castle owners after each
+//= War of Emperium session.
 //===== Additional Comments: =================================
 //= v1.0 - Intitial Re-release [Mysterious]
 //= v1.1 - Language structures [Mysterious]
 //= v1.2 - Added divisions [Mysterious]
 //= v1.3 - Added proper information [Mysterious]
+//= v1.4 - Optimized! [Euphy]
 //============================================================
-xxxxx,xxx,xxx,xxx script	xxxxx	xxxxx,{
 
-// Checks to see if WoE is on.
-	if ( agitcheck() ) goto L_woeon;
-	menu 
-// Uncomment the Castles you wish to use.
-	//	"Neuschwanstein",L_aldeg_cas01,
-	//	"Hohenschwangau",L_aldeg_cas02,
-	//	"Nuenberg",L_aldeg_cas03,
-	//	"Wuerzburg",L_aldeg_cas04,
-		"Rothenburg",L_aldeg_cas05,
-	//	"Repherion",L_gefg_cas01,
-	//	"Eeyolbriggar",L_gefg_cas02,
-	//	"Yesnelph",L_gefg_cas03,
-	//	"Bergel",L_gefg_cas04,
-		"Mersetzdeitz",L_gefg_cas05,
-	//	"Bright Arbor",L_payg_cas01,
-	//	"Scarlet Palace",L_payg_cas02,
-	//	"Holy Shadow",L_payg_cas03,
-	//	"Sacred Altar",L_payg_cas04,
-		"Bamboo Grove Hill",L_payg_cas05,
-		"Kriemhild",L_prtg_cas01,
-		"Swanhild",L_prtg_cas02,
-		"Fadhgridh",L_prtg_cas03,
-		"Skoegul",L_prtg_cas04;
-	//	"Gondul",L_prtg_cas05;
-
-// ====== Aldebaran Castles =======
-L_aldeg_cas01:
-	if ( getcastledata( "aldeg_cas01", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[1] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300; // Change to your prize
-	set $castle_claimed[1], 1;
+prontera,163,166,4	script	Castle Rewards	871,{
+	mes "[Castle Rewards]";
+	if (agitcheck() || agitcheck2()) {
+		mes "WOE is still ongoing."; close; }
+	mes "Select a castle.";
+	next;
+	for(set .@i,0; .@i<30; set .@i,.@i+1)
+		set .@menu$, .@menu$+getcastlename(.Castles$[.@i])+":";
+	set .@i, select(.@menu$);
+	mes "[Castle Rewards]";
+	if (getcastledata(.Castles$[.@i],1) != getcharid(2)) {
+		mes "You aren't the owner of this castle."; close; }
+	if (getguildmasterid(getcharid(2)) != getcharid(0)) {
+		mes "Only the guild master can claim the reward."; close; }
+	if ($castle_claimed&(1<<.@i)) {
+		mes "You've already claimed this castle's reward!"; close; }
+	mes "Here's your reward for conquering "+getcastlename(.Castles$[.@i])+".";
+	set $castle_claimed, $castle_claimed | (1<<.@i);
+	getitem 7539, 300;	// Set your prize here!
 	close;
-
-L_aldeg_cas02:
-	if ( getcastledata( "aldeg_cas02", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[2] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300; // Change to your prize
-	set $castle_claimed[2], 1;
-	close;
-
-L_aldeg_cas03:
-	if ( getcastledata( "aldeg_cas03", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[3] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300; // Change to your prize
-	set $castle_claimed[3], 1;
-	close;
-
-L_aldeg_cas04:
-	if ( getcastledata( "aldeg_cas04", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[4] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300; // Change to your prize
-	set $castle_claimed[4], 1;
-	close;
-
-L_aldeg_cas05:
-	if ( getcastledata( "aldeg_cas05", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[5] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300; // Change to your prize
-	set $castle_claimed[5], 1;
-	close;
-
-// ====== Geffen Castles =======
-L_gefg_cas01:
-	if ( getcastledata( "gefg_cas01", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[6] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300; // Change to your prize
-	set $castle_claimed[6], 1;
-	close;
-
-L_gefg_cas02:
-	if ( getcastledata( "gefg_cas02", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[7] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300;
-	set $castle_claimed[7], 1;
-	close;
-L_gefg_cas03:
-	if ( getcastledata( "gefg_cas03", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[8] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300; // Change to your prize
-	set $castle_claimed[8], 1;
-	close;
-
-L_gefg_cas04:
-	if ( getcastledata( "gefg_cas04", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[9] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300; // Change to your prize
-	set $castle_claimed[9], 1;
-	close;
-
-L_gefg_cas05:
-	if ( getcastledata( "gefg_cas05", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[10] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300;
-	set $castle_claimed[10], 1;
-	close;
-
-// ====== Payon Castles =======
-L_payg_cas01:
-	if ( getcastledata( "payg_cas01", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[11] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300;
-	set $castle_claimed[11], 1;
-	close;
-L_payg_cas02:
-	if ( getcastledata( "payg_cas02", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[12] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300; // Change to your prize
-	set $castle_claimed[12], 1;
-	close;
-
-L_payg_cas03:
-	if ( getcastledata( "payg_cas03", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[13] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300;
-	set $castle_claimed[13], 1;
-	close;
-
-L_payg_cas04:
-	if ( getcastledata( "payg_cas04", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[14] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300; // Change to your prize
-	set $castle_claimed[14], 1;
-	close;
-
-L_payg_cas05:
-	if ( getcastledata( "payg_cas05", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[15] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300;
-	set $castle_claimed[15], 1;
-	close;
-
-// ====== Prontera Castles =======
-L_prtg_cas01:
-	if ( getcastledata( "prtg_cas01", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[16] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300; // Change to your prize
-	set $castle_claimed[16], 1;
-	close;
-
-L_prtg_cas02:
-	if ( getcastledata( "prtg_cas02", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[17] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300;
-	set $castle_claimed[17], 1;
-	close;
-
-L_prtg_cas03:
-	if ( getcastledata( "prtg_cas03", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[18] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300; // Change to your prize
-	set $castle_claimed[18], 1;
-	close;
-
-L_prtg_cas04:
-	if ( getcastledata( "prtg_cas04", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[19] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300;
-	set $castle_claimed[19], 1;
-	close;
-
-L_prtg_cas05:
-	if ( getcastledata( "prtg_cas05", 1) != getcharid(2) ) goto L_not_owner;
-	if ( $castle_claimed[20] ) goto L_claimed;
-	if ( getguildmasterid( getcharid(2) ) != getcharid(0) ) goto L_not_gm;
-	mes "receiving the reward for this castle";
-	getitem 7539, 300; // Change to your prize
-	set $castle_claimed[20], 1;
-	close;
-
-L_woeon:
-	mes "War of Emperium is currently in progress.";
-	mes "Please come back to visit me once it's over.";
-	close;
-
-L_not_owner:
-	mes "It seems to me that you are not the Guild Owner of your current guild.";
-	close;
-
-L_claimed:
-	mes "Sorry, but it seems your guild has already recieved their prize.";
-	close;
-
-L_not_gm:
-	mes "Sorry, but you're not the Guild Owner. Tell your Guild Owner to come visit me.";
-	close;
-
 OnAgitEnd:
-	set $castle_claimed[1], 0; // Everytime WoE ends, the variables will reset
-	set $castle_claimed[2], 0;
-	set $castle_claimed[3], 0;
-	set $castle_claimed[4], 0;
-	set $castle_claimed[5], 0;
-	set $castle_claimed[6], 0;
-	set $castle_claimed[7], 0;
-	set $castle_claimed[8], 0;
-	set $castle_claimed[9], 0;
-	set $castle_claimed[10], 0;
-	set $castle_claimed[11], 0;
-	set $castle_claimed[12], 0;
-	set $castle_claimed[13], 0;
-	set $castle_claimed[14], 0;
-	set $castle_claimed[15], 0;
-	set $castle_claimed[16], 0;
-	set $castle_claimed[17], 0;
-	set $castle_claimed[18], 0;
-	set $castle_claimed[19], 0;
-	set $castle_claimed[20], 0;
+	set $castle_claimed, 0;
+	end;
+OnInit:
+	setarray .Castles$[0],
+		"prtg_cas01","prtg_cas02","prtg_cas03","prtg_cas04","prtg_cas05",
+		"payg_cas01","payg_cas02","payg_cas03","payg_cas04","payg_cas05",
+		"gefg_cas01","gefg_cas02","gefg_cas03","gefg_cas04","gefg_cas05",
+		"aldeg_cas01","aldeg_cas02","aldeg_cas03","aldeg_cas04","aldeg_cas05",
+		"arug_cas01","arug_cas02","arug_cas03","arug_cas04","arug_cas05",
+		"schg_cas01","schg_cas02","schg_cas03","schg_cas04","schg_cas05";
 	end;
 }
