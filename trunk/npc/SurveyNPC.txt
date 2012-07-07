@@ -161,6 +161,7 @@ switch ( select ( "- Survey Result","- Delete Survey" ) ) {
 end;
 // GM Settings End
 } else {
+// Player view
 	if ( !$survey_running ) { mes @np$; mes "There is no survey currently running."; close; }
 	if ( !getd("##survey_id_"+$vote_id) ) {
 		mes @np$;
@@ -202,4 +203,4 @@ end;
 		close;
 		}
 	}
-}
+}// Ending bracket
