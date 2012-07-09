@@ -6,7 +6,7 @@
 //===== By: ================================================== 
 //= Mysterious
 //===== Current Version: =====================================
-//= 1.3
+//= 1.4
 //===== Compatible With: =====================================
 //= eAthena or rAthena SVN 
 //===== Description: =========================================
@@ -23,15 +23,23 @@
 //= v1.1 - Made it so that it starts on Friday, ends on Sunday [Mysterious]
 //= v1.2 - Optimized entire script [Mysterious]
 //= v1.3 - Made it more friendly [Mysterious]
+//= v1.4 - Optimized [Mysterious]
 //============================================================
 -	script	FloatingRates	-1,{
 	
 
 OnInit:
+	// Note: You can always set a standard exp. rate or set it as a rand
+	set $@brate,rand(100,150); // Change the value here for your Base Experience
+	set $@jrate,rand(100,150); // Change the value here for your Job Experience
+// =========================
 OnClock0000:
 	if(gettime(4)==4  || gettime(4)==5  || gettime(4)==6 ) { // Friday, Saturday, Sunday
-	setbattleflag("base_exp_rate", 6000 ); // Change 6,000 to the rates you want
-	setbattleflag("job_exp_rate", 6000 ); // Change 6,000 to the rates you want
+	//Base Experience
+	setbattleflag("base_exp_rate",$@brate);
+	//Job Experience
+	setbattleflag("job_exp_rate",$@jrate);
+  // Reload the database
 	atcommand "@reloadmobdb";	
 }
 end;
@@ -42,7 +50,7 @@ end;
 
 OnMinute01:
 	if(gettime(4)==4  || gettime(4)==5  || gettime(4)==6 ) { // Friday, Saturday, Sunday
-	announce "Double EXP Weekend has begun!",bc_all,0xFF6060;
+	announce "Double EXP is currently in affect with 1."+($@brate-100)+"x/1."+($@jrate-100)+"x rates!",bc_all,0xFF6060;
 	}
 
 end;
@@ -52,10 +60,9 @@ end;
 
 OnClock1159:
 if(gettime(4) == 0) { // On Sunday at 11:59pm server time, Double EXP event will end
-	announce "Weekend double exp is finished",bc_all,0xFF6060;
-	setbattleflag("base_exp_rate", 6000 ); // Set this rates back to your regular server's rates
-	setbattleflag("job_exp_rate", 6000 ); // Set this rates back to your regular server's rates
-	atcommand "@reloadbattleconf";
+	announce "Weekend Double EXP has finished!",bc_all,0xFF6060;
+	setbattleflag("base_exp_rate", 100 ); // Set this rates back to your regular server's rates
+	setbattleflag("job_exp_rate", 100 ); // Set this rates back to your regular server's rates
 	atcommand "@reloadmobdb";
 	}
 
