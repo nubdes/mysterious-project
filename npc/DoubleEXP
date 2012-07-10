@@ -45,7 +45,7 @@ OnClock0000:
 end;
 }
 
-// When the event has begun, we shall announce it
+// We will announce about the EXP rates every 01 Minute of every Hour so that player's know what's going on
 -	script	FloatingAnn	-1,{
 
 OnMinute01:
