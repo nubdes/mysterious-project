@@ -6,7 +6,7 @@
 //===== By: ================================================== 
 //= Mysterious
 //===== Current Version: =====================================
-//= 1.4
+//= 1.5
 //===== Compatible With: =====================================
 //= eAthena or rAthena SVN 
 //===== Description: =========================================
@@ -24,6 +24,7 @@
 //= v1.2 - Optimized entire script [Mysterious]
 //= v1.3 - Made it more friendly [Mysterious]
 //= v1.4 - Optimized [Mysterious]
+//= v1.5 - Adjusted a few things [Mysterious]
 //============================================================
 -	script	FloatingRates	-1,{
 	
@@ -35,13 +36,13 @@ OnInit:
 // =========================
 OnClock0000:
 	if(gettime(4)==4  || gettime(4)==5  || gettime(4)==6 ) { // Friday, Saturday, Sunday
-	//Base Experience
-	setbattleflag("base_exp_rate",$@brate);
-	//Job Experience
-	setbattleflag("job_exp_rate",$@jrate);
-  // Reload the database
-	atcommand "@reloadmobdb";	
-}
+		//Base Experience
+		setbattleflag("base_exp_rate",$@brate);
+		//Job Experience
+		setbattleflag("job_exp_rate",$@jrate);
+		// Reload the database
+		atcommand "@reloadmobdb";	
+	}
 end;
 }
 
@@ -49,7 +50,7 @@ end;
 -	script	FloatingAnn	-1,{
 
 OnMinute01:
-	if(gettime(4)==4  || gettime(4)==5  || gettime(4)==6 ) { // Friday, Saturday, Sunday
+	if(gettime(4)==4 || gettime(4)==5 || gettime(4)==6 ) { // Friday, Saturday, Sunday
 	announce "Double EXP is currently in affect with 1."+($@brate-100)+"x/1."+($@jrate-100)+"x rates!",bc_all,0xFF6060;
 	}
 
