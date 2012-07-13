@@ -9,6 +9,8 @@
 //===== Description: ========================================= 
 //= Find the Mushroom - random amount of Mushrooms spawns in random maps.
 //= Players need to find these mushrooms and kill them to gain prizes!
+//===== Other Information: ===================================
+//= Currently in rAthena's SVN: http://trac.rathena.org/changeset/16421/rathena
 //===== Additional Comments: =================================
 //= 3.0 Fully Functional with Rewritten script. [Mysterious]
 //= 3.6a Slightly edited. [Euphy]
