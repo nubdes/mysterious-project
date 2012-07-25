@@ -1,4 +1,4 @@
-//===== eAthena/rAthena Script ===============================
+//===== rAthena Script =======================================
 //= Guild Prize Giveaway
 //===== By: ================================================== 
 //= AnnieRuru / Mysterious

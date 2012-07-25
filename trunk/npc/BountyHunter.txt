@@ -1,4 +1,4 @@
-//===== eAthena/rAthena Script ===============================
+//===== rAthena Script =======================================
 //= Bounty Hunter
 //===== By: ==================================================
 //= Forgot who now.. =/ | Being revised by Mysterious

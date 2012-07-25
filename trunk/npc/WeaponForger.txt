@@ -1,4 +1,4 @@
-//===== eAthena/rAthena Script =======================================
+//===== rAthena Script =======================================
 //= Weapon Forger
 //===== Template by: =========================================
 //= Pang Cake
@@ -11,7 +11,7 @@
 //===== Description: =========================================
 //= This NPC forges NAMELESS weapons, and can incorporate element stones and star crumbs.
 //= The forge chance is adjustable by changing the formula below.
-//===== Additional Comments: ========================================
+//===== Additional Comments: =================================
 //= v1.0 - Initial release [Pang Cake]
 //= v1.1 - Fixed a couple of things [Mysterious]
 //= v1.2 - Proper disclaimer [Mysterious]
