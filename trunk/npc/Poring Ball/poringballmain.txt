@@ -1,50 +1,28 @@
-//===== eAthena Script =======================================
-//= Poring Ball Script
-//===== By: ==================================================
-//= Saruka.usagi@gmail.com
-//= For ArcadyaOnline with Agora-online
-//= Translated to English by diedlikeahero & GM Team
+//===== rAthena Script =======================================
+//= Poring Ball
+//===== Template By: =========================================
+//= Saruka
+//===== Revised By: ==========================================
+//= Mysterious
 //===== Current Version: =====================================
-//= 1.3
+//= 1.2
 //===== Compatible With: =====================================
-//= Any eAthena Version
+//= rAthena SVN 
 //===== Description: =========================================
 //= Football game made for Ragnarok Online, with a poring
 //= as a ball.
 //= The red team is on the east of the field
 //= The blue team is on the west of the field
-//===== Variables ============================================
-//=
-//= Variables temporary servers (?) :
-//= $@state_match = 0 -> is free, writting possible
-//= $@state_match = 1 -> confirmation of writtings
-//= $@state_match = 2 -> a match is currently launching
-//= $@state_match = 3 -> a match is in play
-//= $@state_match = 4 -> delay after match
-//=
-//= $@score_blue_match
-//= $@score_red_match
-//=
-//= $@isballonfield = 0 -> yes, 1 -> no
-//= $@Activeplayers$ = name of the last player who hit the ball
-//= $@ActiveteamID = id of the last team that hit the ball
-//=
-//= $@teampossessingballID = id of the red team or the blue team
-//=
-//= $@blueteamID = id of blue team
-//= $@redteamID = id of red team
-//=
-//=$@redconfirmation -> 0 : not confirmed, 1 : confirmed, 2 : request to cancel
-//=$@blueconfirmation
-//=
-//===== Prerequisite ==========================================
-//= A football field : ball2
-//= 2 palettes (one for the red team and one for the blue team) here the palettes 78 and 79.
-//= (see OnInit method of the organizer)
+//===== Additional Comments: =================================
+//= v1.0 - First release [Saruka]
+//= v1.1 - Just fixed credits [Mysterious]
+//= v1.2 - Revised a little bit [Mysterious]
+//===== Prerequisites: =======================================
+//= The Football Field: ball2
+//= Red and Blue palettes: 78 & 79
 //= red palette : $paletteRed
 //= blue palette : $paletteBlue
-//=============================================================
-
+//============================================================
 quiz_02,349,390,4	script	Organizer#orga_ball	869,{
 
 	//cutin "lhz_diguts02",2;
@@ -53,21 +31,21 @@ quiz_02,349,390,4	script	Organizer#orga_ball	869,{
 	if ($@state_match >= 2) goto OnMatchinplay;
 
 Showgamerules:
-	mes "[Organizer]";
-	mes "Poring Ball is quite a simple game,";
-	mes "you have to send the poring in the adversary's goal.";
+	mes "[ ^BF0073Organizer^000000 ]";
+	mes "Poring Ball is quite a simple game.";
+	mes "You have to send the poring into your adversary's goal.";
 	mes "The team that makes the most goals will win the match.";
 	next;
-	mes "[Organizer]";
-	mes "But before going on the field, 2 teams must be made.";
+	mes "[ ^BF0073Organizer^000000 ]";
+	mes "However, before going onto the field, 2 teams must be made.";
 	mes "All the members of one team have to be in the same group.";
 	mes "Then a person of each group will go subscribe to one of the assistants.";
-	mes "When 2 teams are subscribed, you will have to give me your confirmation.";
+	mes "When 2 teams are subscribed, you will have to give them your confirmation.";
 	mes "Once the teams are confirmed, all the players must come see me to be sent to the trainers.";
 	mes "The trainers will send you on the field, the match will not wait for you so hurry!";
 	next;
-	mes "[Organizer]";
-	mes "If the subscriptions slack off too much they will be cancelled to open their place to more active teams...";
+	mes "[ ^BF0073Organizer^000000 ]";
+	mes "If no teams subscribe, room will be made for new teams.";
 	goto OnClose;
 
 // OnSubscriptionteam called by the assistants during the subscription of each team
@@ -92,8 +70,8 @@ OnConfirmation:
 	}
 
 	if (getcharid(1)==$@redteamID) {
-		// confirm if the player is part of the red team
-		mes "[Organizer]";
+		// Confirm if the player is part of the Red Team
+		mes "[ ^BF0073Organizer^000000 ]";
 		mes "Thank you for confirming with the Red Team.";
 		if ($@redconfirmation==1) goto OnClose; // if we have already confirmed, no need to go further.
 		set $@redconfirmation, 1;
@@ -101,8 +79,8 @@ OnConfirmation:
 	}
 	// else
 	if (getcharid(1)==$@blueteamID) {
-		// confirm if player is part of the blue team
-		mes "[Organizer]";
+		// Confirm if player is part of the Blue Team
+		mes "[ ^BF0073Organizer^000000 ]";
 		mes "Thank you for confirming with the Blue Team.";
 		if ($@blueconfirmation==1) goto OnClose; // if we have already confirmed, no need to go further.
 		set $@blueconfirmation, 1;
@@ -111,7 +89,7 @@ OnConfirmation:
 
 	// verify that the groups haven't been sorted
 	if ((getpartyname($@redteamID)=="null") || (getpartyname($@blueteamID)=="null")) {
-		announce "Organizer : The teams are not valid anymore, the match is cancelled...",bc_yellow|bc_map;
+		announce "Organizer : The teams are not valid anymore, the match has been cancelled.",bc_yellow|bc_map;
 		stopnpctimer;
 		callsub OnMatchcancellation;
 		goto OnClose;
@@ -144,7 +122,7 @@ OnMatchcancellation:
 
 OnMatchinplay:
 	if (getcharid(1)==$@redteamID) { // if the player is from the red team
-		mes "[Organizer]";
+		mes "[ ^BF0073Organizer^000000 ]";
 		mes "Ready to play?";
 		switch (select("I want to go on the field.","I want to cancel the match.")) {
 			case 1:
@@ -168,9 +146,9 @@ OnMatchinplay:
 				announce "Organizer : "+strcharinfo(0)+" of the Red Team asks for a match cancellation.",bc_npc|bc_map;
 		}
 	} else if (getcharid(1)==$@blueteamID) { // if the player is from the blue team
-		mes "[Organizer]";
+		mes "[ ^BF0073Organizer^000000 ]";
 		mes "Ready to play?";
-		switch (select("I want to go on the field.","I want to cancel the match.")) {
+		switch (select("- Go to field","- Cancel the Match")) {
 			case 1:
 				// Test actual palette
 				if (@palette != $paletteBlue) {
@@ -196,7 +174,7 @@ OnMatchinplay:
 		goto Showgamerules;
 	}
 	if (($@blueconfirmation==2) && ($@redconfirmation==2)) {
-		announce "Organizer : Like the 2 teams wish, the match is cancelled!",bc_npc|bc_map;
+		announce "Organizer : Match has been cancelled.",bc_npc|bc_map;
 		callsub OnMatchcancellation;
 		donpcevent "TimerMatchcancellation::OnMatchcancellation";
 		end;
