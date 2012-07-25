@@ -1,36 +1,48 @@
-// ---            ARTHistic's Property            ---
-// ---    Please visit http://thdesigns.co.nr     ---
-// ---           Scripted By: ARTHistic           ---
-// ---         Do Not Revomed the Credits         ---
+//===== rAthena Script =======================================
+//= Treasure Hunter
+//===== By: ==================================================
+//= ARTHistic
+//===== Revised By: ==========================================
+//= Mysterious
+//===== Current Version: =====================================
+//= 1.2
+//===== Compatible With: =====================================
+//= rAthena SVN 
+//===== Description: =========================================
+//= NPC summons a treasure box and players will have to find it
+//= and kill it.
+//===== Additional Comments: =================================
+//= v1.0 - First release [ARTHistic]
+//= v1.1 - Just fixed credits [Mysterious]
+//= v1.2 - Little bit more information [Mysterious]
+//===== TODO: ================================================
+// OPTIMIZE MORE
+//============================================================
 
 prontera,130,205,5	script	Treasure Box Summoner	856,{
 	mes "[ Treasure Box Event ]";
-	mes "Hello, I'm a new mage here in Midgard. Every hour, I tried to cast my summoning spells and there a chance that i can summon a Treasure Box that will give you items once you destroy it. I only cast my spell on main city and I immediately announce to everyone once I perfectly cast my spells. Anyways, I will give you a little hint...";
+	mes "Hello! I'm trying to improve my ability to summon monsters.. and by doing so, I've been refining on how to summon Treasure Boxes.";
         if( $@tboxevent == 0 ){
-        	mes "I ^ff0000failed^000000 to summoned the Treasure Box last time.^000000";
+        	mes "Sadly, I've ^ff0000failed^000000 to summon last time.";
 	}else {
-        	mes "^I successfully summoned the Treasure Box last time.";
+        	mes "I was able to successfully summon last time!";
 	}
-	mes " ";
-	mes "Scripted by: ^777777ARTHistic^000000";
 	close;
 
-OnMinute00:
+OnMinute00: // Change to whatever you want the event to start
 	set $@tboxevent, rand(2);
 	if ( $@tboxevent != 0 ){
-		announce "Treasure Box Summoner: I perfectly cast my summoning skills.",0;
-		sleep2 5000;
-		announce "A rare Treasure Box will be spawned in 30 seconds at Prontera.",0;
+		announce "A rare Treasure Box will be spawned in 30 seconds in Prontera.",0;
 		sleep2 30000;
-		monster "prontera.gat",0,0,"Treasure Box",1845,1,"Treasure Box Summoner::OnTBoxKilled";
+		monster "prontera",0,0,"Treasure Box",1845,1,"Treasure Box Summoner::OnTBoxKilled";
 		end;
-	}else {
+	} else {
 		end;
 	}
 	end;
 
 OnTBoxKilled:
-	announce "The rare Treasure Box has been founded and destroyed by "+strcharinfo(0)+"!", bc_all;
-	getitem 7539, 5;
+	announce "The rare Treasure Box has been found and destroyed by "+strcharinfo(0)+"!", bc_all;
+	getitem 7539,5; // Change your prize here
 	end;
 }
