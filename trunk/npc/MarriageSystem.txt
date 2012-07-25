@@ -1,0 +1,70 @@
+prontera,202,170,4	script	Marriage System	916,{
+
+if((gettimetick(0)-timetick)<100000&&!getgmlevel()){
+	mes "You can't use me right now. Please wait";
+	close;
+	}
+set .@n$,"[ Marriage System ]";
+	mes .@n$;
+	mes "Hi there! What can I do for you?";
+	menu "[ Marriage ]",Marriaage,"[ Divorce ]",Divorcee;
+
+Marriaage:
+	next;
+	mes .@n$;
+	mes "You have to join a party with your partner.";
+	mes "Then you have to pay me 10,000,000m.";
+	next;
+	mes .@n$;
+	mes "Do you want to proceed?";
+	if(select("[ Yes ]","[ No ]")==2){close;}
+	if(Zeny<10000000){
+		mes "You don't have enough zeny.";
+		close;
+	}
+	getpartymember getcharid(1),0;
+	if(getarraysize($@partymembername$)!=2){
+		next;
+		mes .@n$;
+		mes "Only one Teammate can be your partner.";
+		close;
+	}
+	setarray .@matename$[0],$@partymembername$[0],$@partymembername$[1];
+	next;
+	mes .@n$;
+	mes "Who is husband or Wife?";
+	if(select("[ "+.@matename$[0]+" ]","[ "+.@matename$[1]+" ]","End")==3){close;}
+	atcommand "@marry "+.@matename$[(@menu==1?0:1)]+","+.@matename$[(@menu==1?1:0)];
+	set .@ADI,getcharid(3);
+	set .@AID,getcharid(3,(strcharinfo(0)==.@matename$[0]?.@matename$[1]:.@matename$[0]));
+	announce "[Congratulations]: "+.@matename$[(@menu==1?0:1)]+" and "+.@matename$[(@menu==1?1:0)]+" got married!",bc_all;
+	set timetick,gettimetick(0);
+	changebase 22;
+	atcommand "@nuke "+.@matename$[0]+"";
+	atcommand "@nuke "+.@matename$[1]+"";
+	set Zeny,Zeny-10000000;
+	attachrid (.@AID);
+	changebase 4021;
+	changebase 22;
+	set timetick,gettimetick(0);
+	attachrid (.@ADI);
+	close;
+
+Divorcee:
+	next;
+	mes .@n$;
+	mes "Are you sure?";
+	if(select("[No]","[Yes]")==1){close;}
+	next;
+	mes .@n$;
+	mes "You need to pay me 10,000,000m.";
+	if(select("[ No ]","[ Yes ]")==1){close;}
+	if(Zeny<10000000){
+		mes "You do not have enough zeny.";
+		close;
+	}
+	set Zeny,Zeny-10000000;
+	atcommand "@divorce "+strcharinfo(0);
+	close;
+
+}
