@@ -1,5 +1,5 @@
 //===== rAthena Script =======================================
-//= Find the Mushroom
+//= Find the Mushroom (Automatic and Manual)
 //===== By: ==================================================
 //= Mysterious
 //===== Current Version: =====================================
