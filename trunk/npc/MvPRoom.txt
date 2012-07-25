@@ -4,11 +4,11 @@
 //= Soul
 //===== Script Overhaul By: ==================================
 //= Mysterious
-//===== Current Version: ===================================== 
+//===== Current Version: =====================================
 //= 2.2
-//===== Compatible With: ===================================== 
-//= eAthena or rAthena SVN 
-//===== Description: ========================================= 
+//===== Compatible With: =====================================
+//= rAthena SVN 
+//===== Description: =========================================
 //= A MvP Room with a Tool Dealer, Healer, and NPC that summons
 //= MvPs, Mini Bosses, and Dungeon Monsters
 //===== TODO: ================================================

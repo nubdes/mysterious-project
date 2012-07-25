@@ -5,7 +5,7 @@
 //===== Current Version: =====================================
 //= 1.9
 //===== Compatible With: =====================================
-//= eAthena or rAthena SVN 
+//= rAthena SVN 
 //===== Description: =========================================
 //= Exchange Coins (Mythril, Bronze, Gold, Platinum) into
 //= Zeny and vice versa
@@ -15,8 +15,6 @@
 // Core code is the NPC itself.
 // Note: Must have knowledge in scripting if you wish to change
 // the code around
-//===== TODO: ================================================
-// - Nothing
 //===== Additional Comments: =================================
 //= v1.0 - First release [Mysterious]
 //= v1.1 - Fixed a bug [Mysterious]
