@@ -1,0 +1,119 @@
+//===== rAthena Script =======================================
+//= Poring Ball
+//===== Template By: =========================================
+//= Saruka
+//===== Revised By: ==========================================
+//= Mysterious
+//===== Compatible With: =====================================
+//= rAthena SVN 
+//===== Description: =========================================
+//= This script is part of Ball_Main. (Must have both)!
+//===== Prerequisites: =======================================
+//= The Football Field: ball2
+//= Red and Blue palettes: 78 & 79
+//= red palette : $paletteRed
+//= blue palette : $paletteBlue
+//============================================================
+
+malangdo,142,158,4	script	 Game Hoster#hj1	69,{
+	callfunc "F_Game_Hoster";
+	close;
+}
+
+function	script	F_Game_Hoster	{
+	cutin "god_kukur02",2;
+	mes "[ ^BF0073Game Hoster^000000 ]";
+	mes "Hello there! I can describe to you how Poring Ball works or warp you straight to the field!";
+
+OnMenu:
+	next;
+	menu "- Poring Ball Information",OnPoringBall,"- Cancel",-;
+	close2;
+	cutin "",255;
+	end;
+
+OnPoringBall:
+	cutin "",255;
+	cutin "god_kukur01",2;
+	mes "[ ^BF0073Game Hoster^000000 ]";
+
+	if ($@state_match>=2)
+		mes "There is a match in progress. ["+getmapusers("ball2")+" Players]";
+	else
+		mes "There is no match in progress.";
+		mes "There are currently "+getareausers("quiz_02",321,333,378,394)+" Players in the Waiting Room.";
+		next;
+
+	set @accessPoring, 1;
+
+	if (@accessPoring==1) {
+		menu "Play Poring Ball",-,"Cancel",OnCancel;
+		cutin "",255;
+		cutin "god_kukur02",2;
+		mes "[ ^BF0073Game Hoster^000000 ]";
+		mes "To return here, you must talk to the Game Hoster in the Waiting Room.";
+		close2;
+		cutin "",255;
+		warp "quiz_02",350,374;
+	} else  {
+		mes "[ ^BF0073Game Hoster^000000 ]";
+		mes "Poring Ball is not open to the General Public.";
+		goto OnMenu;
+	}
+	close;
+
+OnCancel:
+	cutin "",255;
+	cutin "god_kukur02",2;
+	mes "[ ^BF0073Game Hoster^000000 ]";
+	mes "See you soon!";
+	close2;
+	cutin "",255;
+	end;
+}
+
+
+quiz_02,335,384,5	script	 Game Hoster#hjPb1	69,{
+
+	cutin "god_kukur01",2;
+	mes "[ ^BF0073Game Hoster^000000 ]";
+	mes "Do you wish to leave or stay in the Waiting Room?";
+	next;
+	set @palette, getlook(7);
+	menu "- I want my clothes back.",OnReturnShirt,"- Return to Town",OnLeaveRoom,"- I'm staying",-;
+	close2;
+	cutin "",255;
+	end;
+
+OnReturnShirt:
+	cutin "",255;
+	cutin "god_kukur03",2;
+	mes "[ ^BF0073Game Hoster^000000 ]";
+
+	if ((@palette == $paletteRed) ||(@palette == $paletteBlue)) {
+		mes "Here are your clothes back.";
+		setlook 7, savePalette;
+	} else {
+		mes "Uh sorry..";
+		emotion e_omg;
+	}
+	close2;
+	cutin "",255;
+	end;
+
+OnLeaveRoom:
+	cutin "",255;
+
+	if ((@palette == $paletteRed) ||(@palette == $paletteBlue)) {
+		cutin "god_kukur03",2;
+		mes "[ ^BF0073Game Hoster^000000 ]";
+		mes "Before you leave, I will give back your clothes.";
+		setlook 7, savePalette;
+		next;
+		cutin "",255;
+	}
+
+	savepoint "splendide",196,140; // Change this to your desired map (main town)
+	warp "splendide",196,140; // Change this to your desired map (main town)
+	end;
+}
