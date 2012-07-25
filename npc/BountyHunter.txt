@@ -5,7 +5,7 @@
 //===== Current Version: =====================================
 //= 1.9
 //===== Compatible With: =====================================
-//= eAthena or rAthena SVN 
+//= rAthena SVN 
 //===== Description: =========================================
 //= Place a bounty on a Player while using a SQL Table
 //===== Other Information: ===================================

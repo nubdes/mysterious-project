@@ -2,10 +2,10 @@
 //= Find the Mushroom (Manual)
 //===== By: ==================================================
 //= Mysterious
-//===== Current Version: ===================================== 
+//===== Current Version: =====================================
 //= 3.6
-//===== Compatible With: ===================================== 
-//= eAthena / rAthena SVN
+//===== Compatible With: =====================================
+//= rAthena SVN
 //===== Description: =========================================
 //= Find the Mushroom - random amount of Mushrooms spawns in random maps.
 //= Players need to find these mushrooms and kill them to gain prizes!

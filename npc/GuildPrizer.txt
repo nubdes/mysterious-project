@@ -1,9 +1,11 @@
 //===== rAthena Script =======================================
 //= Guild Prize Giveaway
-//===== By: ================================================== 
+//===== By: ==================================================
 //= AnnieRuru / Mysterious
 //===== Current Version: =====================================
 //= 1.5
+//===== Compatible With: =====================================
+//= rAthena SVN
 //===== Description: =========================================
 //= Rewards guild masters of castle owners after each
 //= War of Emperium session.
