@@ -1,0 +1,237 @@
+Index: src/char/char.c
+===================================================================
+--- src/char/char.c	(revision 16502)
++++ src/char/char.c	(working copy)
+@@ -727,7 +727,7 @@
+ 	// it significantly reduces cpu load on the database server.
+ 
+ 	StringBuf_Init(&buf);
+-	StringBuf_AppendStr(&buf, "SELECT `id`, `nameid`, `amount`, `equip`, `identify`, `refine`, `attribute`, `expire_time`");
++	StringBuf_AppendStr(&buf, "SELECT `id`, `nameid`, `amount`, `equip`, `identify`, `refine`, `attribute`, `expire_time`, `favorite`");
+ 	for( j = 0; j < MAX_SLOTS; ++j )
+ 		StringBuf_Printf(&buf, ", `card%d`", j);
+ 	StringBuf_Printf(&buf, " FROM `%s` WHERE `%s`='%d'", tablename, selectoption, id);
+@@ -750,8 +750,9 @@
+ 	SqlStmt_BindColumn(stmt, 5, SQLDT_CHAR,      &item.refine,      0, NULL, NULL);
+ 	SqlStmt_BindColumn(stmt, 6, SQLDT_CHAR,      &item.attribute,   0, NULL, NULL);
+ 	SqlStmt_BindColumn(stmt, 7, SQLDT_UINT,      &item.expire_time, 0, NULL, NULL);
++	SqlStmt_BindColumn(stmt, 8, SQLDT_CHAR,      &item.favorite,    0, NULL, NULL);
+ 	for( j = 0; j < MAX_SLOTS; ++j )
+-		SqlStmt_BindColumn(stmt, 8+j, SQLDT_SHORT, &item.card[j], 0, NULL, NULL);
++		SqlStmt_BindColumn(stmt, 9+j, SQLDT_SHORT, &item.card[j], 0, NULL, NULL);
+ 
+ 	// bit array indicating which inventory items have already been matched
+ 	flag = (bool*) aCalloc(max, sizeof(bool));
+@@ -778,14 +779,15 @@
+ 				    items[i].identify == item.identify &&
+ 				    items[i].refine == item.refine &&
+ 				    items[i].attribute == item.attribute &&
+-				    items[i].expire_time == item.expire_time )
++				    items[i].expire_time == item.expire_time &&
++				    items[i].favorite == item.favorite )
+ 				;	//Do nothing.
+ 				else
+ 				{
+ 					// update all fields.
+ 					StringBuf_Clear(&buf);
+-					StringBuf_Printf(&buf, "UPDATE `%s` SET `amount`='%d', `equip`='%d', `identify`='%d', `refine`='%d',`attribute`='%d', `expire_time`='%u'",
+-						tablename, items[i].amount, items[i].equip, items[i].identify, items[i].refine, items[i].attribute, items[i].expire_time);
++					StringBuf_Printf(&buf, "UPDATE `%s` SET `amount`='%d', `equip`='%d', `identify`='%d', `refine`='%d',`attribute`='%d', `expire_time`='%u',`favorite`='%d'",
++						tablename, items[i].amount, items[i].equip, items[i].identify, items[i].refine, items[i].attribute, items[i].expire_time, items[i].favorite);
+ 					for( j = 0; j < MAX_SLOTS; ++j )
+ 						StringBuf_Printf(&buf, ", `card%d`=%d", j, items[i].card[j]);
+ 					StringBuf_Printf(&buf, " WHERE `id`='%d' LIMIT 1", item.id);
+@@ -813,7 +815,7 @@
+ 	SqlStmt_Free(stmt);
+ 
+ 	StringBuf_Clear(&buf);
+-	StringBuf_Printf(&buf, "INSERT INTO `%s`(`%s`, `nameid`, `amount`, `equip`, `identify`, `refine`, `attribute`, `expire_time`", tablename, selectoption);
++	StringBuf_Printf(&buf, "INSERT INTO `%s`(`%s`, `nameid`, `amount`, `equip`, `identify`, `refine`, `attribute`, `expire_time`, `favorite`", tablename, selectoption);
+ 	for( j = 0; j < MAX_SLOTS; ++j )
+ 		StringBuf_Printf(&buf, ", `card%d`", j);
+ 	StringBuf_AppendStr(&buf, ") VALUES ");
+@@ -831,8 +833,8 @@
+ 		else
+ 			found = true;
+ 
+-		StringBuf_Printf(&buf, "('%d', '%d', '%d', '%d', '%d', '%d', '%d', '%u'",
+-			id, items[i].nameid, items[i].amount, items[i].equip, items[i].identify, items[i].refine, items[i].attribute, items[i].expire_time);
++		StringBuf_Printf(&buf, "('%d', '%d', '%d', '%d', '%d', '%d', '%d', '%u', '%d'",
++			id, items[i].nameid, items[i].amount, items[i].equip, items[i].identify, items[i].refine, items[i].attribute, items[i].expire_time, items[i].favorite);
+ 		for( j = 0; j < MAX_SLOTS; ++j )
+ 			StringBuf_Printf(&buf, ", '%d'", items[i].card[j]);
+ 		StringBuf_AppendStr(&buf, ")");
+@@ -1071,7 +1073,7 @@
+ 	//read inventory
+ 	//`inventory` (`id`,`char_id`, `nameid`, `amount`, `equip`, `identify`, `refine`, `attribute`, `card0`, `card1`, `card2`, `card3`)
+ 	StringBuf_Init(&buf);
+-	StringBuf_AppendStr(&buf, "SELECT `id`, `nameid`, `amount`, `equip`, `identify`, `refine`, `attribute`, `expire_time`");
++	StringBuf_AppendStr(&buf, "SELECT `id`, `nameid`, `amount`, `equip`, `identify`, `refine`, `attribute`, `expire_time`, `favorite`");
+ 	for( i = 0; i < MAX_SLOTS; ++i )
+ 		StringBuf_Printf(&buf, ", `card%d`", i);
+ 	StringBuf_Printf(&buf, " FROM `%s` WHERE `char_id`=? LIMIT %d", inventory_db, MAX_INVENTORY);
+@@ -1086,10 +1088,11 @@
+ 	||	SQL_ERROR == SqlStmt_BindColumn(stmt, 4, SQLDT_CHAR,      &tmp_item.identify, 0, NULL, NULL)
+ 	||	SQL_ERROR == SqlStmt_BindColumn(stmt, 5, SQLDT_CHAR,      &tmp_item.refine, 0, NULL, NULL)
+ 	||	SQL_ERROR == SqlStmt_BindColumn(stmt, 6, SQLDT_CHAR,      &tmp_item.attribute, 0, NULL, NULL)
+-	||	SQL_ERROR == SqlStmt_BindColumn(stmt, 7, SQLDT_UINT,      &tmp_item.expire_time, 0, NULL, NULL) )
++	||	SQL_ERROR == SqlStmt_BindColumn(stmt, 7, SQLDT_UINT,      &tmp_item.expire_time, 0, NULL, NULL) 
++	||	SQL_ERROR == SqlStmt_BindColumn(stmt, 8, SQLDT_UINT,      &tmp_item.favorite, 0, NULL, NULL))
+ 		SqlStmt_ShowDebug(stmt);
+ 	for( i = 0; i < MAX_SLOTS; ++i )
+-		if( SQL_ERROR == SqlStmt_BindColumn(stmt, 8+i, SQLDT_SHORT, &tmp_item.card[i], 0, NULL, NULL) )
++		if( SQL_ERROR == SqlStmt_BindColumn(stmt, 9+i, SQLDT_SHORT, &tmp_item.card[i], 0, NULL, NULL) )
+ 			SqlStmt_ShowDebug(stmt);
+ 
+ 	for( i = 0; i < MAX_INVENTORY && SQL_SUCCESS == SqlStmt_NextRow(stmt); ++i )
+@@ -1100,7 +1103,7 @@
+ 	//read cart
+ 	//`cart_inventory` (`id`,`char_id`, `nameid`, `amount`, `equip`, `identify`, `refine`, `attribute`, `card0`, `card1`, `card2`, `card3`)
+ 	StringBuf_Clear(&buf);
+-	StringBuf_AppendStr(&buf, "SELECT `id`, `nameid`, `amount`, `equip`, `identify`, `refine`, `attribute`, `expire_time`");
++	StringBuf_AppendStr(&buf, "SELECT `id`, `nameid`, `amount`, `equip`, `identify`, `refine`, `attribute`, `expire_time`, `favorite`");
+ 	for( j = 0; j < MAX_SLOTS; ++j )
+ 		StringBuf_Printf(&buf, ", `card%d`", j);
+ 	StringBuf_Printf(&buf, " FROM `%s` WHERE `char_id`=? LIMIT %d", cart_db, MAX_CART);
+@@ -1115,10 +1118,11 @@
+ 	||	SQL_ERROR == SqlStmt_BindColumn(stmt, 4, SQLDT_CHAR,        &tmp_item.identify, 0, NULL, NULL)
+ 	||	SQL_ERROR == SqlStmt_BindColumn(stmt, 5, SQLDT_CHAR,        &tmp_item.refine, 0, NULL, NULL)
+ 	||	SQL_ERROR == SqlStmt_BindColumn(stmt, 6, SQLDT_CHAR,        &tmp_item.attribute, 0, NULL, NULL)
+-	||	SQL_ERROR == SqlStmt_BindColumn(stmt, 7, SQLDT_UINT,        &tmp_item.expire_time, 0, NULL, NULL) )
++	||	SQL_ERROR == SqlStmt_BindColumn(stmt, 7, SQLDT_UINT,        &tmp_item.expire_time, 0, NULL, NULL)
++	||	SQL_ERROR == SqlStmt_BindColumn(stmt, 8, SQLDT_UINT,        &tmp_item.favorite, 0, NULL, NULL) )
+ 		SqlStmt_ShowDebug(stmt);
+ 	for( i = 0; i < MAX_SLOTS; ++i )
+-		if( SQL_ERROR == SqlStmt_BindColumn(stmt, 8+i, SQLDT_SHORT, &tmp_item.card[i], 0, NULL, NULL) )
++		if( SQL_ERROR == SqlStmt_BindColumn(stmt, 9+i, SQLDT_SHORT, &tmp_item.card[i], 0, NULL, NULL) )
+ 			SqlStmt_ShowDebug(stmt);
+ 
+ 	for( i = 0; i < MAX_CART && SQL_SUCCESS == SqlStmt_NextRow(stmt); ++i )
+
+Index: src/common/mmo.h
+===================================================================
+--- src/common/mmo.h	(revision 16502)
++++ src/common/mmo.h	(working copy)
+@@ -200,6 +200,7 @@
+ 	char attribute;
+ 	short card[MAX_SLOTS];
+ 	unsigned int expire_time;
++	char favorite;
+ };
+
+Index: src/map/clif.c
+===================================================================
+--- src/map/clif.c	(revision 16502)
++++ src/map/clif.c	(working copy)
+@@ -2202,9 +2204,12 @@
+ 	}
+ 
+ 	WFIFOSET(fd,packet_len(cmd));
++#if PACKETVER >= 20111122
++	if ( sd->status.inventory[n].favorite )
++		clif_favorite_item(sd, n);
++#endif
+ }
+
+@@ -2367,7 +2371,16 @@
+ 		WBUFW(bufe,2)=4+ne*se;
+ 		clif_send(bufe, WBUFW(bufe,2), &sd->bl, SELF);
+ 	}
++#if PACKETVER >= 20111122
++	for( i = 0, n = 0, ne = 0; i < MAX_INVENTORY; i++ )
++	{
++		if( sd->status.inventory[i].nameid <=0 || sd->inventory_data[i] == NULL )
++			continue;
+ 
++		if (sd->status.inventory[i].favorite)
++			clif_favorite_item(sd, i);
++	}
++#endif
+ 	if( buf ) aFree(buf);
+ 	if( bufe ) aFree(bufe);
+ }
+@@ -2576,12 +2589,53 @@
+ 		WBUFW(bufe,2)=4+ne*cmd;
+ 		clif_send(bufe, WBUFW(bufe,2), &sd->bl, SELF);
+ 	}
+-
+ 	if( buf ) aFree(buf);
+ 	if( bufe ) aFree(bufe);
+ }
+ 
++/// Move Item from or to Personal Tab (CZ_WHATSOEVER) [FE]
++/// 0907 <index>.W
++///
++/// R 0908 <index>.w <type>.b
++/// type:
++/// 	0 = move item to personal tab
++/// 	1 = move item to normal tab
++void clif_parse_MoveItem(int fd, struct map_session_data *sd)
++{
++#if PACKETVER >= 20111122
++	int index;
+ 
++	if(pc_isdead(sd)) {
++		clif_clearunit_area(&sd->bl,CLR_DEAD);
++		return;
++	}
++
++	index = RFIFOW(fd,2)-2; 
++	if (index < 0 || index >= MAX_INVENTORY)
++		return;
++
++	if (sd->status.inventory[index].favorite && sd->status.inventory[index].favorite == 1)
++		sd->status.inventory[index].favorite = 0;
++	else
++		sd->status.inventory[index].favorite = 1;
++
++	clif_favorite_item(sd, index);
++#endif
++}
++
++/// Items that are in favorite tab of inventory (ZC_ITEM_FAVORITE).
++/// 0900 <index>.W <favorite>.B
++void clif_favorite_item(struct map_session_data* sd, unsigned short index)
++{
++	int fd = sd->fd;
++
++	WFIFOHEAD(fd,packet_len(0x908));
++	WFIFOW(fd,0) = 0x908;
++	WFIFOW(fd,2) = index+2;
++	WFIFOL(fd,4) = (sd->status.inventory[index].favorite == 1) ? 0 : 1;
++	WFIFOSET(fd,packet_len(0x908));
++}
++
+ /// Removes cart (ZC_CARTOFF).
+ /// 012b
+ /// Client behaviour:
+@@ -10197,7 +10251,6 @@
+ 	pc_unequipitem(sd,index,1);
+ }
+ 
+-
+ /// Request to start a conversation with an NPC (CZ_CONTACTNPC).
+ /// 0090 <id>.L <type>.B
+ /// type:
+
+@@ -16537,6 +16631,7 @@
+ 		{clif_parse_UseItem,"useitem"},
+ 		{clif_parse_EquipItem,"equipitem"},
+ 		{clif_parse_UnequipItem,"unequipitem"},
++		{clif_parse_MoveItem,"moveitem"},
+ 		{clif_parse_NpcClicked,"npcclicked"},
+ 		{clif_parse_NpcBuySellSelected,"npcbuysellselected"},
+ 		{clif_parse_NpcBuyListSend,"npcbuylistsend"},
+
+Index: src/map/clif.h
+===================================================================
+--- src/map/clif.h	(revision 16502)
++++ src/map/clif.h	(working copy)
+@@ -460,6 +460,7 @@
+ 
+ void clif_inventorylist(struct map_session_data *sd);
+ void clif_equiplist(struct map_session_data *sd);
++void clif_favorite_item(struct map_session_data* sd, unsigned short index);
+ 
+ void clif_cart_additem(struct map_session_data *sd,int n,int amount,int fail);
+ void clif_cart_delitem(struct map_session_data *sd,int n,int amount);
