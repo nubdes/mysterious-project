@@ -26,7 +26,7 @@ prontera,163,166,4	script	Castle Rewards	871,{
 	next;
 	for(set .@i,0; .@i<30; set .@i,.@i+1)
 		set .@menu$, .@menu$+getcastlename(.Castles$[.@i])+":";
-	set .@i, select(.@menu$);
+	set .@i, select(.@menu$)-1;
 	mes "[Castle Rewards]";
 	if (getcastledata(.Castles$[.@i],1) != getcharid(2)) { mes "You aren't the owner of this castle."; close; }
 	if (getguildmasterid(getcharid(2)) != getcharid(0)) { mes "Only the guild master can claim the reward."; close; }
