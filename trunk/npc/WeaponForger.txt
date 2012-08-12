@@ -5,7 +5,7 @@
 //===== Modified by: =========================================
 //= Mysterious
 //===== Current Version: =====================================
-//= 1.3
+//= 1.5
 //===== Compatible With: =====================================
 //= rAthena SVN 
 //===== Description: =========================================
@@ -16,6 +16,8 @@
 //= v1.1 - Fixed a couple of things [Mysterious]
 //= v1.2 - Proper disclaimer [Mysterious]
 //= v1.3 - Made it more optimized [Mysterious]
+//= v1.4 - Fixed Tabs and few closes [Mysterious]
+//= v1.5 - Added some nexts and setting to change the NPC's name [Mysterious]
 //===== Things to do: ========================================
 //= Add more optimization
 //= Make it so that players can create elemental stones
@@ -24,6 +26,8 @@
 prontera,155,172,4	script	Odis	813,{
 
 // ============= Configuration Settings ==================
+// NPC Name
+set .@n$,"[ ^99CC99Odis^000000 ]";
 // Based on following forge success-rate formula:
 // ( 5 * Skill Level ) + ( Job Level / 5 ) + ( DEX / 10 ) + ( LUK / 10 ) + 50.
 	set .ForgeSkLvl, 3; // Level of Forge Skill(s) ( Forge Sword, Forge Mace, etc ). Recommended: 3 max.
@@ -37,22 +41,25 @@ prontera,155,172,4	script	Odis	813,{
 
 // Misc. Configuration.
 	set .GMBypassLv, 50; // Minimum GM level to ignore requirements
-	set .NameSet, 0; // Weapons will be forged with: 0 = Nameless | 1 = Invoking player's name
+	set .NameSet, 1; // Weapons will be forged with: 0 = Nameless | 1 = Invoking player's name
 	set .PerfectChance, 0; // Set to 1 to enable 100% forge chance
 // ============== End Configurations ================	
 	
-	mes "[ ^FF6600Odis^000000 ]";
+	mes .@n$;
 	mes "Why hello there! I'm an excellent forger.";
 	mes "Want me to forge you a weapon?";
 	switch( select( "- Yes:- Information:- No" ) ) {
 		case 1:
 			break;
 		case 2:
+		Main:
 			next;
-			mes "[ ^FF6600Odis^000000 ]";
+			mes .@n$;
 			mes "What weapons would you like to know about?";
 			switch( select( "- Daggers:- 1H Swords:- 2H Swords:- Maces:- Spears:- Knuckles:- Axes:- Nothing" ) ) {
 				case 1:
+				next;
+					mes .@n$;
 					mes "DAGGERS";
 					mes "^FF0099LEVEL ONE^000000:";
 					mes "Knife - ^FF00001x Iron, 10x Jellopies^000000.";
@@ -65,8 +72,10 @@ prontera,155,172,4	script	Odis	813,{
 					mes "^FF0099LEVEL THREE^000000:";
 					mes "Gladius - ^FF00004x Oridecon, 40x Steel, 1x Sapphire^000000.";
 					mes "Damascus - ^FF00004x Oridecon, 60x Steel, 1x Zircon^000000.";
-					close;
+					goto Main;
 				case 2:
+				next;
+					mes .@n$;
 					mes "1H SWORDS.";
 					mes "^FF0099LEVEL ONE^000000:";
 					mes "Sword - ^FF00002x Iron^000000.";
@@ -81,8 +90,10 @@ prontera,155,172,4	script	Odis	813,{
 					mes "Haedongum - ^FF00008x Oridecon, 10x Steel, 1x Topaz^000000.";
 					mes "Tsurugi - ^FF00008x Oridecon, 15x Steel, 1x Garnet^000000.";
 					mes "Flamberge - ^FF000016x Oridecon, 1x Cursed Ruby^000000.";
-					close;
+					goto Main;
 				case 3:
+				next;
+					mes .@n$;
 					mes "2H SWORDS.";
 					mes "^FF0099LEVEL ONE^000000:";
 					mes "Katana - ^FF000035x Iron, 15x Horrendous Mouth^000000.";
@@ -93,8 +104,10 @@ prontera,155,172,4	script	Odis	813,{
 					mes "Two-Handed Sword - ^FF000012x Oridecon, 10x Steel^000000.";
 					mes "Broad Sword - ^FF000012x Oridecon, 10x Steel^000000.";
 					mes "Claymore - ^FF000016x Oridecon, 20x Steel, 1x Cracked Diamond^000000.";
-					close;
+					goto Main;
 				case 4:
+				next;
+					mes .@n$;
 					mes "MACES.";
 					mes "^FF0099LEVEL ONE^000000:";
 					mes "Club - ^FF00003x Iron^000000.";
@@ -107,8 +120,10 @@ prontera,155,172,4	script	Odis	813,{
 					mes "Morning Star - ^FF000085x Steel, 1x 1 Carat Diamond^000000.";
 					mes "Sword Mace - ^FF0000100x Steel, 20x Sharp Scale^000000.";
 					mes "Stunner - ^FF0000120x Steel, 1x Heroic Emblem^000000.";
-					close;
+					goto Main;
 				case 5:
+				next;
+					mes .@n$;
 					mes "SPEARS.";
 					mes "^FF0099LEVEL ONE^000000:";
 					mes "Javelin - ^FF00003x Iron^000000.";
@@ -122,8 +137,10 @@ prontera,155,172,4	script	Odis	813,{
 					mes "Trident - ^FF00008x Oridecon, 10x Steel, 1x Aquamarine^000000.";
 					mes "Halberd - ^FF000012x Oridecon, 10x Steel^000000.";
 					mes "Lance - ^FF000012x Oridecon, 3x Ruby, 2x Evil Horn^000000.";
-					close;
+					goto Main;
 				case 6:
+				next;
+					mes .@n$;
 					mes "KNUCKLES.";
 					mes "^FF0099LEVEL ONE^000000:";
 					mes "Waghnak - ^FF0000160x Iron, 1x Pearl^000000.";
@@ -134,8 +151,10 @@ prontera,155,172,4	script	Odis	813,{
 					mes "Fist - ^FF00004x Oridecon, 10x Ruby^000000.";
 					mes "Claw - ^FF00008x Oridecon, 10x Topaz^000000.";
 					mes "Finger - ^FF00004x Oridecon, 10x Opal^000000.";
-					close;
+					goto Main;
 				case 7:
+				next;
+					mes .@n$;
 					mes "AXES.";
 					mes "^FF0099LEVEL ONE^000000:";
 					mes "Axe - ^FF000010x Iron^000000.";
@@ -145,265 +164,389 @@ prontera,155,172,4	script	Odis	813,{
 					mes "^FF0099LEVEL THREE^000000:";
 					mes "Buster - ^FF00004x Oridecon, 20x Steel, 30x Orcish Fang^000000.";
 					mes "Two-Handed Axe - ^FF00008x Oridecon, 10x Steel, 1x Amethyst^000000.";
-					close;
+					goto Main;
 				case 8:
-				mes "Come back when you would like to forge.";
-				close;
+				next;
+					mes .@n$;
+					mes "Come back when you would like to forge.";
+					close;
 			}
 		case 3:
+		next;
+			mes .@n$;
 			mes "Alright, come back when you'd like me to forge.";
 			close;
 	}
 	
 	next;
-	mes "[ ^FF6600Odis^000000 ]";
+	mes .@n$;
 	mes "What weapons would you like to forge?";
 	switch( select( "- Daggers:- 1H Swords:- 2H Swords:- Maces:- Spears:- Knuckles:- Axes:- Nothing" ) ) {
 		case 1:
+		next;
+			mes .@n$;
 			mes "Which ^FF0099DAGGER^000000 would you like me to produce?";
 			switch( select( "- Knife:- Cutter:- Main Gauche:- Dirk:- Dagger:- Stiletto:- Gladius:- Damascus" ) ) {
 				case 1:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000KNIFE^000000.";
 					set .ForgeID, 1201;
 					break;
 				case 2:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000CUTTER^000000.";
 					set .ForgeID, 1204;
 					break;
 				case 3:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000MAIN GAUCHE^000000.";
 					set .ForgeID, 1207;
 					break;
 				case 4:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000DIRK^000000.";
 					set .ForgeID, 1210;
 					break;
 				case 5:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000DAGGER^000000.";
 					set .ForgeID, 1213;
 					break;
 				case 6:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000STILETTO^000000.";
 					set .ForgeID, 1216;
 					break;
 				case 7:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000GLADIUS^000000.";
 					set .ForgeID, 1219;
 					break;
 				case 8:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000DAMASCUS^000000.";
 					set .ForgeID, 1222;
 					break;
 			}
 			break;
 		case 2:
+		next;
+			mes .@n$;
 			mes "Which ^FF00991H SWORD^000000 would you like me to produce?";
 			switch( select( "Sword.:Falchion.:Blade.:Rapier.:Scimitar.:Ring Pommel Saber.:Saber.:Haedongum.:Tsurugi.:Flamberge." ) ) {
 				case 1:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000SWORD^000000.";
 					set .ForgeID, 1101;
 					break;
 				case 2:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000FALCHION^000000.";
 					set .ForgeID, 1104;
 					break;
 				case 3:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000BLADE^000000.";
 					set .ForgeID, 1107;
 					break;
 				case 4:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000RAPIER^000000.";
 					set .ForgeID, 1110;
 					break;
 				case 5:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000SCIMITAR^000000.";
 					set .ForgeID, 1113;
 					break;
 				case 6:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000RING POMMEL SABER^000000.";
 					set .ForgeID, 1122;
 					break;
 				case 7:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000SABER^000000.";
 					set .ForgeID, 1126;
 					break;
 				case 8:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000HAEDONGUM^000000.";
 					set .ForgeID, 1123;
 					break;
 				case 9:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000TSURUGI^000000.";
 					set .ForgeID, 1119;
 					break;
 				case 10:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000FLAMBERGE^000000.";
 					set .ForgeID, 1129;
 					break;
 			}
 			break;
 		case 3:
+		next;
+			mes .@n$;
 			mes "Which ^FF00992H SWORD^000000 would you like me to produce?";
 			switch( select( "- Katana:- Slayer:- Bastard Sword:- Two-Handed Sword:- Broad Sword:- Claymore" ) ) {
 				case 1:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000KATANA^000000.";
 					set .ForgeID, 1116;
 					break;
 				case 2:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000SLAYER^000000.";
 					set .ForgeID, 1151;
 					break;
 				case 3:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000BASTARD SWORD^000000.";
 					set .ForgeID, 1154;
 					break;
 				case 4:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000TWO-HANDED SWORD^000000.";
 					set .ForgeID, 1157;
 					break;
 				case 5:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000BROAD SWORD^000000.";
 					set .ForgeID, 1160;
 					break;
 				case 6:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000CLAYMORE^000000.";
 					set .ForgeID, 1163;
 					break;
 			}
 			break;
 		case 4:
+		next;
+			mes .@n$;
 			mes "Which ^FF0099MACE^000000 would you like me to produce?";
 			switch( select( "- Club:- Mace:- Smasher:- Flail:- Chain:- Morning Star:- Sword Mace:- Stunner" ) ) {
 				case 1:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000CLUB^000000.";
 					set .ForgeID, 1501;
 					break;
 				case 2:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000MACE^000000.";
 					set .ForgeID, 1504;
 					break;
 				case 3:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000SMASHER^000000.";
 					set .ForgeID, 1507;
 					break;
 				case 4:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000FLAIL^000000.";
 					set .ForgeID, 1510;
 					break;
 				case 5:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000CHAIN^000000.";
 					set .ForgeID, 1519;
 					break;
 				case 6:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000MORNING STAR^000000.";
 					set .ForgeID, 1513;
 					break;
 				case 7:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000SWORD MACE^000000.";
 					set .ForgeID, 1516;
 					break;
 				case 8:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000STUNNER^000000.";
 					set .ForgeID, 1522;
 					break;
 			}
 			break;
 		case 5:
+		next;
+			mes .@n$;
 			mes "Which ^FF0099SPEAR^000000 would you like me to produce?";
 			switch( select( "- Javelin:- Spear:- Pike:- Guisarme:- Glaive:- Partizan:- Trident:- Halberd:- Lance" ) ) {
 				case 1:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000JAVELIN^000000.";
 					set .ForgeID, 1401;
 					break;
 				case 2:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000SPEAR^000000.";
 					set .ForgeID, 1404;
 					break;
 				case 3:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000PIKE^000000.";
 					set .ForgeID, 1407;
 					break;
 				case 4:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000GUISARME^000000.";
 					set .ForgeID, 1451;
 					break;
 				case 5:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000GLAIVE^000000.";
 					set .ForgeID, 1454;
 					break;
 				case 6:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000PARTIZAN^000000.";
 					set .ForgeID, 1457;
 					break;
 				case 7:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000TRIDENT^000000.";
 					set .ForgeID, 1460;
 					break;
 				case 8:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000HALBERD^000000.";
 					set .ForgeID, 1463;
 					break;
 				case 9:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000LANCE^000000.";
 					set .ForgeID, 1410;
 					break;
 			}
 			break;
 		case 6:
+		next;
+			mes .@n$;
 			mes "Which ^FF0099KNUCKLE^000000 would you like me to produce?";
 			switch( select( "- Waghnakh:- Knuckle Duster:- Studded Knuckles:- Fist:- Claw:- Finger" ) ) {
 				case 1:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000WAGHNAKH^000000.";
 					set .ForgeID, 1801;
 					break;
 				case 2:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000KNUCKLE DUSTER^000000.";
 					set .ForgeID, 1803;
 					break;
 				case 3:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000STUDDED KNUCKLES^000000.";
 					set .ForgeID, 1805;
 					break;
 				case 4:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000FIST^000000.";
 					set .ForgeID, 1807;
 					break;
 				case 5:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000CLAW^000000.";
 					set .ForgeID, 1809;
 					break;
 				case 6:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000FINGER^000000.";
 					set .ForgeID, 1811;
 					break;
 			}
 			break;
 		case 7:
+		next;
+			mes .@n$;
 			mes "Which ^FF0099AXE^000000 would you like me to produce?";
 			switch( select( "Axe.:Battle Axe.:Hammer.:Buster.:Two-Handed Axe." ) ) {
 				case 1:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000AXE^000000.";
 					set .ForgeID, 1301;
 					break;
 				case 2:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000BATTLE AXE^000000.";
 					set .ForgeID, 1351;
 					break;
 				case 3:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000HAMMER^000000.";
 					set .ForgeID, 1354;
 					break;
 				case 4:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000BUSTER^000000.";
 					set .ForgeID, 1357;
 					break;
 				case 5:
+				next;
+					mes .@n$;
 					mes "You have selected ^FF0000TWO-HANDED AXE^000000.";
 					set .ForgeID, 1360;
 					break;
 			}
 			break;
 		case 8:
-		mes "Okay, see you next time.";
+		next;
+			mes .@n$;
+			mes "Okay, see you next time.";
 		close;
 	}
 	
@@ -412,7 +555,7 @@ prontera,155,172,4	script	Odis	813,{
 	}
 	
 	next;
-	mes "[ ^FF6600Odis^000000 ]";
+	mes .@n$;
 	mes "How many ^FF0099Star Crumbs^000000 would you like to put in your weapon?";
 	switch( select( "- 1:- 2:- 3:- None" ) ) {
 	case 1:
@@ -438,7 +581,7 @@ prontera,155,172,4	script	Odis	813,{
 	
 	if( .SCFor < 3 ) {
 		next;
-		mes "[ ^FF6600Odis^000000 ]";
+		mes .@n$;
 		mes "What ^FF0099element^000000 would you like to put into your weapon?";
 		switch( select( "^0000FFICE^000000.:^993300EARTH^000000.:^FF0000FIRE^000000.:^33CC00WIND^000000.:None." ) ) {
 			case 1:
@@ -473,7 +616,7 @@ prontera,155,172,4	script	Odis	813,{
 		set .forgeable, callfunc ( "LOL_Chk" + .ForgeItem + "i", .SCFor );
 		if ( .forgeable == 0 ) {
 			next;
-			mes "[ ^FF6600Odis^000000 ]";
+			mes .@n$;
 			mes "You do not have all the required materials. Please come back when you do.";
 			close;
 		}
@@ -503,7 +646,7 @@ prontera,155,172,4	script	Odis	813,{
 	if( .PerfectChance == 1 ) {
 		set .ForgeChance, 100;
 	}
-	mes "[ ^FF6600Odis^000000 ]";
+	mes .@n$;
 	mes "We are now ready to forge your ^FF0000" + .StarCrumb$ + .Element$ + getitemname( .ForgeID ) + "^000000, at a ^FF0000" + .ForgeChance + "^000000% chance.";
 	mes "^009900ALL ITEMS WILL BE CONSUMED UPON EITHER FAILURE OR SUCCESS^000000. Continue?";
 	switch( select( "Yes.:No." ) ) {
@@ -521,19 +664,19 @@ prontera,155,172,4	script	Odis	813,{
 				getitem2 .ForgeID, 1, 1, 0, 0, 255, .lolface, .name3, .name4;
 				specialeffect 154;
 				next;
-				mes "[ ^FF6600Odis^000000 ]";
+				mes .@n$;
 				mes "There you go! Enjoy your new weapon!";
 				close;
 			}
 			else {
 				specialeffect 155;
 				next;
-				mes "[ ^FF6600Odis^000000 ]";
+				mes .@n$;
 				mes "I am very sorry, item creation has ^FF0000failed^000000. Better luck next time.";
 				close;
 			}
 		case 2:
-			mes "[ ^FF6600Odis^000000 ]";
+			mes .@n$;
 			mes "Well alright, come back if you change your mind.";
 			close;
 		
@@ -545,22 +688,22 @@ prontera,155,172,4	script	Odis	813,{
 //STAR CRUMBS AND ELE.
 function	script	LOL_ChkSCEle	{
 	if( getarg( 0 ) == 1 && countitem( 995 ) < 1 ) {
-		mes "[ ^FF6600Odis^000000 ]";
+		mes .@n$;
 		mes "You do not have the required ^0000FFMystic Frozen^000000. Come back when you do.";
 		close;
 	}
 	if( getarg( 0 ) == 2 && countitem( 997 ) < 1 ) {
-		mes "[ ^FF6600Odis^000000 ]";
+		mes .@n$;
 		mes "You do not have the required ^993300Great Nature^000000. Come back when you do.";
 		close;
 	}
 	if( getarg( 0 ) == 3 && countitem( 994 ) < 1 ) {
-		mes "[ ^FF6600Odis^000000 ]";
+		mes .@n$;
 		mes "You do not have the required ^FF0000Flame Heart^000000. Come back when you do.";
 		close;
 	}
 	if( getarg( 0 ) == 4 && countitem( 996 ) < 1 ) {
-		mes "[ ^FF6600Odis^000000 ]";
+		mes .@n$;
 		mes "You do not have the required ^33CC00Rough Wind^000000. Come back when you do.";
 		close;
 	}
