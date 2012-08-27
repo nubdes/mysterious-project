@@ -1,9 +1,9 @@
 //===== rAthena Script =======================================
 //= Guild Prize Giveaway
 //===== By: ==================================================
-//= AnnieRuru / Mysterious
+//= AnnieRuru / Mysterious / Joseph
 //===== Current Version: =====================================
-//= 1.5
+//= 1.6
 //===== Compatible With: =====================================
 //= rAthena SVN
 //===== Description: =========================================
@@ -16,32 +16,49 @@
 //= v1.3 - Added proper information [Mysterious]
 //= v1.4 - Optimized! [Euphy]
 //= v1.5 - Little bit of cleaning [Mysterious]
+//= v1.6 - Fixed Agit on/off corruption. [Joseph]
 //============================================================
 
 prontera,163,166,4	script	Castle Rewards	871,{
+  set .@reward,671,1;	//<Item_ID>,<Amount>{,...}
+	set .@n$,"["+strnpcinfo(0)+"]";
 
-	mes "[Castle Rewards]";
-	if (agitcheck() || agitcheck2()) { mes "WoE is currently still in progress."; close; }
-	mes "Please select a castle:";
+	mes "Your guild [^0000FF"+getguildname(getcharid(2))+"^000000] has conquered:";
+	for(set .@i,0;.@i<getarraysize(.Castles$);set .@i,.@i+1)
+		if (getcastledata(.Castles$[.@i],1) == getcharid(2)) { 
+			mes " > "+getcastlename(.Castles$[.@i])+""; set .@c,1;
+			setarray .@uh$[getarraysize(.@uh$)],.Castles$[.@i],.@i;
+		}
+	if (!.@c) { mes " > No castles."; close; }
 	next;
-	for(set .@i,0; .@i<30; set .@i,.@i+1)
-		set .@menu$, .@menu$+getcastlename(.Castles$[.@i])+":";
-	set .@i, select(.@menu$)-1;
-	mes "[Castle Rewards]";
-	if (getcastledata(.Castles$[.@i],1) != getcharid(2)) { mes "You aren't the owner of this castle."; close; }
-	if (getguildmasterid(getcharid(2)) != getcharid(0)) { mes "Only the guild master can claim the reward."; close; }
-	if ($castle_claimed&(1<<.@i)) { mes "You've already claimed this castle's reward!"; close; }
-	mes "Here's your reward for conquering "+getcastlename(.Castles$[.@i])+".";
-	set $castle_claimed, $castle_claimed | (1<<.@i);
-	getitem 7539,300;  //Set your prize here!
+	if (select(((getguildmasterid(getcharid(2))==getcharid(0))?((agitcheck()||agitcheck2())?"":"Redeem Reward"):"")+":Close")==2) close;
+	mes .@n$;
+	mes "Please select a castle to redeem your guild reward.";
+	for (set .@i,0;.@i<getarraysize(.@uh$);set .@i,.@i+2) set .@m$,.@m$+($castle_reward&(1<<atoi(.@uh$[.@i+1]))?"^0000FF":"^FF0000")+getcastlename(.@uh$[.@i])+"^000000:";
+	next;
+	set .@m,select(.@m$)-1;
+	if ($castle_reward&(1<<atoi(.@uh$[.@m+1]))) {
+		mes .@n$;
+		mes "Here's your reward for conquering ^0000FF"+getcastlename(.@uh$[.@m])+"^000000.";
+		mes "You should divide these among your guild members.";
+		for (set .@i,0;.@i<getarraysize(.@reward);set .@i,.@i + 1) getitem .@reward[.@i],.@reward[.@i+1];
+		set $castle_reward,$castle_reward^(1<<atoi(.@uh$[.@m+1]));
+		close;
+	}
+	mes .@n$;
+	mes "It seems like you've redeemed the reward.";
 	close;
 
 OnAgitEnd:
-	set $castle_claimed, 0;
+OnAgitEnd2:
+	for(set .@i,0;.@i<getarraysize($WOE_CONTROL);set .@i,.@i+4) {
+		if (gettime(4)==$WOE_CONTROL[.@c] && gettime(3)==$WOE_CONTROL[.@c+2]) 
+			if (!$castle_reward&(1<<$WOE_CONTROL[.@c+3])) set $castle_reward,$castle_reward|(1<<$WOE_CONTROL[.@c+3]);
+	}
 	end;
-
+	
 OnInit:
-	setarray .Castles$[0],
+	setarray .Castles$,
 		"prtg_cas01","prtg_cas02","prtg_cas03","prtg_cas04","prtg_cas05",
 		"payg_cas01","payg_cas02","payg_cas03","payg_cas04","payg_cas05",
 		"gefg_cas01","gefg_cas02","gefg_cas03","gefg_cas04","gefg_cas05",
