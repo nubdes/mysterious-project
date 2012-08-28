@@ -21,10 +21,9 @@
 //============================================================
 
 prontera,163,166,4	script	Castle Rewards	871,{
-  function	GetCastle;
+	function	GetCastle;
 	set .@reward,671,1;	//<Item_ID>,<Amount>{,...}
 	set .@n$,"["+strnpcinfo(0)+"]";
-
 	mes "Your guild [^0000FF"+getguildname(getcharid(2))+"^000000] has conquered:";
 	for(set .@i,0;.@i<getarraysize(.Castles$);set .@i,.@i+1)
 		if (getcastledata(.Castles$[.@i],1) == getcharid(2)) { 
@@ -51,8 +50,7 @@ prontera,163,166,4	script	Castle Rewards	871,{
 	mes .@n$;
 	mes "It seems like you've redeemed the reward.";
 	close;
-	function	GetWeight	{
-		getarg(0)
+
 	function	GetCastle	{
 		for(set .@j,0;.@j<getarraysize(.Castles$);set .@j,.@j+1) {
 			set .@c1,.@c2|(1<<.@j);
