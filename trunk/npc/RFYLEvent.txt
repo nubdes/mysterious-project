@@ -3,7 +3,7 @@
 //===== By: ==================================================
 //= Mysterious
 //===== Current Version: =====================================
-//= 2.6
+//= 2.8
 //===== Compatible With: =====================================
 //= rAthena SVN 
 //===== Description: =========================================
@@ -19,73 +19,68 @@
 //= v2.4 - Fixed an issue where the prize giver was showing up when not supposed to [Mysterious]
 //= v2.5 - Added Friendly Messages [Mysterious]
 //= v2.6 - Removed duplicated OnInIt labels [Mysterious]
+//= v2.7 - Cleaning and organizing [Mysterious]
+//= v2.8 - Optimized a little better [Mysterious]
 //============================================================ 
-
-// Mapflags for the Map
-quiz_01	mapflag	nowarpto
-quiz_01	mapflag	nowarp
-quiz_01	mapflag	noteleport
-quiz_01	mapflag	nomemo
-quiz_01	mapflag	nosave	SavePoint
-quiz_01	mapflag	nobranch
-quiz_01	mapflag	noicewall
-quiz_01	mapflag	nopenalty
-quiz_01	mapflag	nobranch
-quiz_01	mapflag	noexp
-quiz_01	mapflag	noreturn
-quiz_01	mapflag	pvp_noparty
-quiz_01	mapflag	restricted	1
 
 -	script	RFYL#disable	-1,{
 
 OnInit:
 	disablenpc "Zombie Master";
-	disablenpc "Present For You";
+	disablenpc "Present#RFYL";
 }
 
 xxx,xxx,xxx,xxx	script	Zombie Minion	1015,{
 
 if (getgmlevel() >= 40) goto LMS_Admin;
 	mes "[Minion]";
-	mes "Hello " + strcharinfo(0) + ", my master is busy.";
-	mes "*sigh*";
+	if (!.Status)
+		mes "My master seems to be slacking..";
+	else {
+		mes "My master is currently busy! He has an invasion scheduled!";
+	}
 	close;
 
 LMS_Admin:
-	mes "[Minion]";
-	mes "Hello " + strcharinfo(0) + ", would you like me to call my Boss?";
-	mes "He is the only one who can start it!";
-	menu "- Start Event",M_RFYL,"- Spectate",M_warp,"- End Event",M_EndEvent,"- No Thanks",M_Leave;
+	next;
+	if (!.Status)
+		mes "[Minion]";
+		mes "My master has no invasion planned at the moment. Do you wish to schedule an invasion?";
+		menu "- Start Event",M_RFYL,"- Spectate",M_warp,"- End Event",M_EndEvent,"- No Thanks",M_Leave;
+	else {
+		mes "[Minion]";
+		mes "Sorry! But there's already an invasion scheduled! Come back later.";
+	}
+	close;
 
 	M_RFYL:
-                next;
+		next;
 		mes "[Minion]";
 		mes "Hold on while I call my master.";
 		close2;
-		set $@offvar,1;
 		goto StartEvent;
 
 	M_warp:
-                next;
+		next;
 		mes "[Minion]";
 		mes "Very well, I will warp you to the map!";
 		warp "quiz_01",42,369;
 		close;
 
 	M_Leave:
-                next;
+		next;
 		mes "[Minion]";
 		mes "Ok " + strcharinfo(0) +"! Please come back after.";
 		close;
 		
 	M_EndEvent:
-                next;
+		next;
 		mes "[Minion]";
 		mes "Ok master, I will stop the event for you right away!";
 		next;
-		set $@offvar,1;
+		set .Status,0;
 		disablenpc "Zombie Master";
-		disablenpc "Present For You";
+		disablenpc "Present#RFYL";
 		killmonsterall "quiz_01";
 		areawarp "quiz_01",10,10,450,450,"rachel",120,135;
 		stopnpctimer;
@@ -94,7 +89,10 @@ LMS_Admin:
 		sleep 180000;
 		enablenpc "Zombie Minion";
 
-StartEvent: // Announcement to notify all players
+// =========================
+StartEvent: //Announcement to notify all players
+// =========================
+	set .Status,1;
 	announce "Zombie Vs. Novice event Will begin in 3 minutes. Head East/North",0;
 	killmonsterall "quiz_01";
 	sleep 55000;
@@ -118,29 +116,39 @@ StartEvent: // Announcement to notify all players
 	announce "Zombie Vs. Novice event will begin in ~1~",0;
 	sleep 1000;
 	announce "Zombie Vs. Novice event has now begun!",0,0x00FF00;
-
 	disablenpc "Zombie Master";
-	//disablenpc "Present For You"; <-- Not sure why this was needed?
-       //Round 1
+
+// =========================
+// Round 1
+// =========================
 	sleep 10000;
 	monster "quiz_01",42,369,"Zombie",1015,1;
 	sleep 10000;
-	monster "quiz_01",42,369,"Zombie-2",1015,1;
+	monster "quiz_01",42,369,"Zombie",1015,1;
 	sleep 10000;
-	monster "quiz_01",42,369,"Zombie-3",1015,1;
+	monster "quiz_01",42,369,"Zombie",1015,1;
 	sleep 10000;
-	monster "quiz_01",42,369,"Zombie-4",1015,1;
+	monster "quiz_01",42,369,"Zombie",1015,1;
 	sleep 55000;
+// =========================
+// Round 2
+// =========================
 	mapannounce "quiz_01","Round 2!",0;
 	sleep 10000;
-	monster "quiz_01",42,369,"Zombie-4",1015,1;
+	monster "quiz_01",42,369,"Zombie-2",1015,1;
 	sleep 55000;
-	monster "quiz_01",42,369,"Zombie-4",1015,1;
+	monster "quiz_01",42,369,"Zombie-2",1015,1;
+// =========================
+// Round 3
+// =========================
 	mapannounce "quiz_01","Round 3!",0;
 	sleep 10000;
-	monster "quiz_01",42,369,"Zombie-4",1015,1;
+	monster "quiz_01",42,369,"Zombie-3",1015,1;
 	sleep 55000;
-	monster "quiz_01",42,369,"Zombie-4",1015,1;
+	monster "quiz_01",42,369,"Zombie-3",1015,1;
+// =========================
+// Round 4
+// =========================
 	mapannounce "quiz_01","Round 4!",0;
 	sleep 10000;
 	monster "quiz_01",42,369,"Zombie-4",1015,1;
@@ -148,72 +156,84 @@ StartEvent: // Announcement to notify all players
 	monster "quiz_01",42,369,"Zombie-4",1015,1;
 	sleep 55000;
 	monster "quiz_01",42,369,"Zombie-4",1015,1;
+// =========================
+// Round 5
+// =========================
 	mapannounce "quiz_01","Round 5!",0;
 	sleep 10000;
-	monster "quiz_01",42,369,"Zombie-4",1015,1;
+	monster "quiz_01",42,369,"Zombie-5",1015,1;
 	sleep 55000;
-	monster "quiz_01",42,369,"Zombie-4",1015,1;
+	monster "quiz_01",42,369,"Zombie-5",1015,1;
+// =========================
+// Round 6
+// =========================
 	mapannounce "quiz_01","Round 6!",0;
 	sleep 10000;
-	monster "quiz_01",42,369,"Zombie-4",1015,1;
+	monster "quiz_01",42,369,"Zombie-6",1015,1;
 	sleep 55000;
-	monster "quiz_01",42,369,"Zombie-4",1015,1;
+	monster "quiz_01",42,369,"Zombie-6",1015,1;
+// =========================
+// Round 7
+// =========================
 	mapannounce "quiz_01","Round 7! Final Round!",0;
 	sleep 10000;
-	monster "quiz_01",42,369,"Zombie-4",1015,1;
+	monster "quiz_01",42,369,"Zombie-7",1015,1;
 	sleep 20000;
-	monster "quiz_01",42,369,"Zombie-4",1015,1;
+	monster "quiz_01",42,369,"Zombie-7",1015,1;
 	sleep 30000;
-	monster "quiz_01",42,369,"Zombie-4",1015,1;
+	monster "quiz_01",42,369,"Zombie-7",1015,1;
 	sleep 40000;
-	monster "quiz_01",42,369,"Zombie-4",1036,1;
+	monster "quiz_01",42,369,"Zombie-7",1036,1;
 	sleep 50000;
-	monster "quiz_01",42,369,"Zombie-4",1036,1;
+	monster "quiz_01",42,369,"Zombie-7",1036,1;
 	sleep 60000;
-	monster "quiz_01",42,369,"Zombie-4",1015,1;
+	monster "quiz_01",42,369,"Zombie-7",1015,1;
+	initnpctimer;
+	end;
+// =========================
+// End of Rounds
+// =========================
+
+OnTimer0500: 
+	if ( getmapusers("quiz_01") == 0 ) {
+		killmonsterall "quiz_01";
+		announce "RFYL Event: Event has ended. No one has joined.",0;
+		stopnpctimer;
+		end;
+	} else if ( getmapusers("quiz_01") > 1 ) {
+		mapannounce "quiz_01",getmapusers("quiz_01") +" has survived the event.",0,0x00FF00;;
+		initnpctimer;
+		end;
+	}
 	initnpctimer;
 	end;
 
-	OnTimer0500: 
-	if ( getmapusers("quiz_01") == 0 )
-{
-	killmonsterall "quiz_01";
-	announce "RFYL Event: Event has ended. No one has joined.",0;
-	stopnpctimer;
-	end;
-}
-	else if ( getmapusers("quiz_01") > 1 )
-{
-	mapannounce "quiz_01",getmapusers("quiz_01") +" has survived the event.",0,0x00FF00;;
-	initnpctimer;
-	end;
-}
-	initnpctimer;
-	end;
-
-	OnPCDieEvent:
+// =========================
+// When players die
+// =========================	
+OnPCDieEvent:
 	getmapxy .@mapnvz$,.@xnvz,.@ynvz,0;
 	if ( .@mapnvz$ == "quiz_01") {
-	sleep2 1;
-	warp "rachel",120,135;
-	atcommand "@alive "+ strcharinfo(0);
-	dispbottom "Sorry, but you were killed.";
-}
-	sleep2 0500;
-	if ( .@mapnvz$ == "quiz_01" && getmapusers("quiz_01") == 1 ) {
-	killmonsterall "quiz_01";
-	mapannounce "quiz_01","You have won, approach the Present For You NPC please.",0;
-	enablenpc "Present For You";
-	stopnpctimer;
-	end;
-}
+		sleep2 100;
+		warp "rachel",120,135;
+		atcommand "@alive "+ strcharinfo(0);
+		dispbottom "Sorry, but you were killed.";
+	}
+	sleep2 500;
+	if (.@mapnvz$ == "quiz_01" && getmapusers("quiz_01") == 1 ) {
+		killmonsterall "quiz_01";
+		mapannounce "quiz_01","You have won, approach the Present NPC please.",0;
+		enablenpc "Present#RFYL";
+		stopnpctimer;
+		end;
+	}
 	end;
 }
 
-quiz_01,42,378,3	script	Present For You	72,{
+quiz_01,42,378,3	script	Present#RFYL	72,{
 
 	mes "[Present For You]";
-	mes "Please tell me your name.";
+	mes "Please tell me your name:";
 	next;
 	input .@name$;
 	if(.@name$ != strcharinfo(0)) {
@@ -227,7 +247,8 @@ quiz_01,42,378,3	script	Present For You	72,{
 	announce "Present For You: We have a winner! "+.@name$+" has won the Novice vs Zombie event!",0;
 	getitem 674, 3; // Change This item id to what ever you want
 	warp "rachel",120,135;
-	disablenpc "Present For You";
+	disablenpc "Present#RFYL";
+	set .Status,0;
 	end;
 }
 
@@ -259,3 +280,20 @@ xxxx,xxx,xxx,xxx	script	Zombie Master	1298,{
 	mes "Sorry, but it seems you are not a Novice and Level 1.";
 	close;
 }
+
+// =========================
+// Mapflags
+// =========================
+quiz_01	mapflag	nowarpto
+quiz_01	mapflag	nowarp
+quiz_01	mapflag	noteleport
+quiz_01	mapflag	nomemo
+quiz_01	mapflag	nosave	SavePoint
+quiz_01	mapflag	nobranch
+quiz_01	mapflag	noicewall
+quiz_01	mapflag	nopenalty
+quiz_01	mapflag	nobranch
+quiz_01	mapflag	noexp
+quiz_01	mapflag	noreturn
+quiz_01	mapflag	pvp_noparty
+quiz_01	mapflag	restricted	1
