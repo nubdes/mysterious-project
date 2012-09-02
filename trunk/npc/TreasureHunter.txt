@@ -24,7 +24,7 @@ prontera,130,205,5	script	Treasure Box Summoner	856,{
 	mes "Hello! I'm trying to improve my ability to summon monsters.. and by doing so, I've been refining on how to summon Treasure Boxes.";
         if( $@tboxevent == 0 ){
         	mes "Sadly, I've ^ff0000failed^000000 to summon last time.";
-	}else {
+	} else {
         	mes "I was able to successfully summon last time!";
 	}
 	close;
