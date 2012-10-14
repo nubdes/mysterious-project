@@ -3,7 +3,7 @@
 //===== By: ==================================================
 //= Mysterious
 //===== Current Version: =====================================
-//= 1.6
+//= 1.7
 //===== Compatible With: =====================================
 //= rAthena SVN
 //===== Description: =========================================
@@ -19,6 +19,7 @@
 //= v1.4 - Made it obvious on what players have to change [Mysterious]
 //= v1.5 - Proper Sentence Structures and Typos fixed [Mysterious]
 //= v1.6 - Fixed mobs not counting down properly [Mysterious]
+//= v1.7 - Maybe fixed some outstanding issues people had? [Mysterious]
 //============================================================
 
 xxx,xxx,xxx,xxx	script	Goblin Invasion  459,{
@@ -35,10 +36,8 @@ set .gm,40;//GM Level to access the GM Menu. Default: 40
 			mes " ";
 			mes "Would you like to Stop the invasion?";
 			if(select("- No:- Yes")==1) close;
-			donpcevent "Invasion NPC::OnTimer1805000";
-			mes "Invasion stopped";
 			announce "The Invasion has been stopped by "+strcharinfo(0),bc_all;
-			close;
+			goto OnStop;
 		}
 		mes "[Invasion]";
 		mes "Please customize the Invasion event before starting it.";
@@ -68,7 +67,7 @@ set .gm,40;//GM Level to access the GM Menu. Default: 40
 			/////////////////////////
 OnMinute50: // Change this to your liking (When you want the event to start)
 OnStart:
-	set .mobs_left, 1;
+	set .mobs_left, 0;
 	sleep2 1000;
 	set $@ran, rand(1,6);
 	if ($@ran == 6) set .Map$,"splendide";
@@ -84,12 +83,7 @@ OnStart:
 	monster .Map$,0,0,"Goblin",1258,250,"Goblin Invasion::OnMyMobDead";
 	set .mobs_left, 250;
 	end;
-	
-	
-OnTimer1805000:	// 30 minutes later, kills all the mobs.
-	killmonster .Map$,"Goblin Invasion::OnMyMobDead";
-	set .mobs_left, 0;
-
+ 
 OnStop://When the event is stopped by a GM, or all monsters dead.
 	killmonster .Map$,"Goblin Invasion::OnMyMobDead";
 	killmonster .Map$,"Goblin Invasion::OnSpecialMobDead";
@@ -97,7 +91,7 @@ OnStop://When the event is stopped by a GM, or all monsters dead.
 	end;
 
 OnMyMobDead: //When a Goblin is killed
-	set .mobs_left, .mobs_left-1;
+	set .mobs_left,.mobs_left - 1;
 	if (.mobs_left==0) {
 		announce "[ Rune-Midgard Guard ]: The Goblin Leader has spawned in " + .Map$ + "!", bc_all;
 		monster .Map$,0,0,"Goblin Leader",1299,1,"Goblin Invasion::OnSpecialMobDead";
